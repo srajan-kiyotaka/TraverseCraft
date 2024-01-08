@@ -11,6 +11,12 @@ class IconHashMap:
             self.image_dict[self.next_id] = image_name
             self.next_id += 1
 
+    def getId(self, imageName):
+        for imageId, name in self._iconMap.items():
+            if name == imageName:
+                return imageId
+        return None
+    
     def getName(self, image_id):
         return self.image_dict.get(image_id, None)
 
