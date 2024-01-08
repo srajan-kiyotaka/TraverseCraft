@@ -27,7 +27,7 @@ class CreateGridWorld:
         self._root.title(self._worldName)
         self._root.geometry(f"{self._rows * (self._cellSize + 2*self._cellPadding)}x{self._cols * (self._cellSize + 2*self._cellPadding)}")
         self._world = [[0 for i in range(self._cols)] for j in range(self._rows)]
-        self._cells = [[Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._pathColor, borderwidth=self._borderWidth) for j in range(self._cols)] for i in range(self._rows)]
+        self._cells = [[None for j in range(self._cols)] for i in range(self._rows)]
 
     def __str__(self):
         return f"World Name: {self._worldName}\nRows: {self._rows}\nCols: {self._cols}\nWindow Size: {self._rows * (self._cellSize + self._cellPadding)}x{self._cols * (self._cellSize + self._cellPadding)}"
@@ -35,28 +35,40 @@ class CreateGridWorld:
     def constructWorld(self):
         """
         """
-        # for i in range(self._rows):
-        #     for j in range(self._cols):
-        #         if(self._cells[i][j] is None):
-        #             self._cells[i][j] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._pathColor, borderwidth=self._borderWidth)
-
-        # Add cells to the grid using the Grid geometry manager
         for i in range(self._rows):
             for j in range(self._cols):
-                self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
+                if(self._cells[i][j] is None):
+                    self._cells[i][j] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._pathColor, borderwidth=self._borderWidth)
+                    self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
+                    self._root.update()
+
 
     def blockPath(self, blockCells:list):
         """
         """
         self._blockCells = blockCells
-        for i in range(len(self._blockCells)):
-            self._cells[self._blockCells[i][0]][self._blockCells[i][1]] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._blockColor, borderwidth=self._borderWidth)
-            self._world[self._blockCells[i][0]][self._blockCells[i][1]] = -1
+        for i, j in self._blockCells:
+            self._cells[i][j] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._blockColor, borderwidth=self._borderWidth)
+            self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
+            self._root.update()
+            self._world[i][j] = -1
 
+    def updateWorld(self):
+        """
+        """
+        for i in range(self._rows):
+            for j in range(self._cols):
+                self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
+                self._root.update()
+    
     def showWorld(self):
+        """
+        """
         self._root.mainloop()
 
     def printWorld(self):
+        """
+        """
         print(self._worldName)
         print(self._world)
 
