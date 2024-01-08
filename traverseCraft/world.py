@@ -40,6 +40,7 @@ class CreateGridWorld:
                 if(self._cells[i][j] is None):
                     self._cells[i][j] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._pathColor, borderwidth=self._borderWidth)
                     self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
+                    self._cells[i][j].bind("<Button-1>", lambda event, i=i, j=j: self.toggleCell(event, i, j))  # Bind left-click event
                     self._root.update()
 
 
@@ -50,6 +51,7 @@ class CreateGridWorld:
         for i, j in self._blockCells:
             self._cells[i][j] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._blockColor, borderwidth=self._borderWidth)
             self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
+            self._cells[i][j].bind("<Button-1>", lambda event, i=i, j=j: self.toggleCell(event, i, j))  # Bind left-click event
             self._root.update()
             self._world[i][j] = -1
 
@@ -61,6 +63,20 @@ class CreateGridWorld:
                 self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
                 self._root.update()
     
+    def toggleCell(self, event, i, j):
+        """
+        """
+        # print(f"Cell: {i}, {j}: {self._world[i][j]}")
+        if self._world[i][j] == 0:
+            self._cells[i][j].configure(bg=self._blockColor)
+            self._root.update()
+            self._world[i][j] = -1
+        else:
+            self._cells[i][j].configure(bg=self._pathColor)
+            self._root.update()
+            self._world[i][j] = 0
+
+
     def showWorld(self):
         """
         """
@@ -78,9 +94,9 @@ class CreateGridWorld:
 # class CreateGraphWorld:
 
 
-world = CreateGridWorld("Grid Test Run", rows = 20, cols = 20, cellSize = 40)
+world = CreateGridWorld("Grid Test Run", rows = 30, cols = 30, cellSize = 20)
 world.blockPath([[0,0],[1,1],[4,2],[7,3],[8,4],[2,5],[9,6],[2,7]])
 world.constructWorld()
-world.printWorld()
+# world.printWorld()
 print(world)
 world.showWorld()
