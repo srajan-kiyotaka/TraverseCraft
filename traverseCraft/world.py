@@ -110,66 +110,106 @@ class CreateGridWorld:
         print(self._worldName)
         print(self._world)
 
-# class CreateTreeWorld:
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Tree World ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+class TreeNode:
+    def __init__(self, nodeName:str, x:int, y:int, parent=None, isGoalState:bool=False):
+        self.nodeName = nodeName
+        self.x = x
+        self.y = y
+        self.parent = parent
+        self.children = []
+        self.isGoalState = False
+
 class CreateTreeWorld:
-    def __init__(self, worldName: str, rows: int, cols: int, cellSize: int = 10, cellColor: str = "white", cellPadding: int = 2, borderWidth: int = 1):
+    def __init__(self, worldName: str, treeRoot, radius: int = 36, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = 600, height: int = 400):
         # ~~~~~ World Attributes ~~~~~ #
         self._worldName = worldName
-        self._rows = rows
-        self._cols = cols
-        self._world = None
-        self._treeCells = None
-        # ~~~~~ Cell Attributes ~~~~~ #
-        self._cellSize = cellSize
-        self._cellColor = cellColor
-        self._cellPadding = cellPadding
-        self._borderWidth = borderWidth
-        self.cells = None
+        self._treeRoot = treeRoot
+        self._width = width
+        self._height = height
+        self.currentNode = self._treeRoot
+        # ~~~~~ Node Attributes ~~~~~ #
+        self._radius = radius
+        self._nodeColor = nodeColor
+        self._rootColor = rootColor
+        self._goalColor = goalColor
+        self._fontSize = fontSize
+        self._fontBold = fontBold
+        self._fontItalic = fontItalic
         # ~~~~~ Cell Styles ~~~~~ #
-        # Add any additional cell styles specific to trees if needed
-        # self._cellStyles = ttk.Style()
-        # self._cellStyles.configure("Tree.TFrame", background="brown") #, borderwidth=self._borderWidth)
+
         # ~~~~~ World Construction ~~~~~ #
         self._root = Tk()
         self._root.title(self._worldName)
-        self._root.geometry(f"{self._rows * (self._cellSize + 2*self._cellPadding)}x{self._cols * (self._cellSize + 2*self._cellPadding)}")
-        self._world = [[0 for i in range(self._cols)] for j in range(self._rows)]
-        self._cells = [[None for j in range(self._cols)] for i in range(self._rows)]
+        self._canvas = Canvas(self._root, width=600, height=400)
+        self._canvas.pack()
 
     def __str__(self):
-        return f"World Name: {self._worldName}\nRows: {self._rows}\nCols: {self._cols}\nWindow Size: {self._rows * (self._cellSize + self._cellPadding)}x{self._cols * (self._cellSize + self._cellPadding)}"
+        return f"World Name: {self._worldName}\nNode Radius: {self._radius}\nWindow Size: {self._height}x{self._width}"
 
     def constructWorld(self):
-        for i in range(self._rows):
-            for j in range(self._cols):
-                if self._cells[i][j] is None:
-                    # Modify cell creation as needed for trees
-                    self._cells[i][j] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg="brown", borderwidth=self._borderWidth)
+        """
+        """
+        self._constructWorld(self._treeRoot)
 
-        for i in range(self._rows):
-            for j in range(self._cols):
-                self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
+    def _constructWorld(self, root):
+        if root.parent is not None:
+            parentX, parentY = root.parent.x, root.parent.y
+            rootX, rootY = root.x, root.y
+            self._canvas.create_line(parentX, parentY, rootX, rootY, arrow=LAST)
+        if root.isGoalState:
+            self._canvas.create_oval(root.x - self._radius, root.y - self._radius, root.x + self._radius, root.y + self._radius, fill=self._goalColor)
+        elif root.parent is None:
+            self._canvas.create_oval(root.x - self._radius, root.y - self._radius, root.x + self._radius, root.y + self._radius, fill=self._rootColor)
+        else:
+            self._canvas.create_oval(root.x - self._radius, root.y - self._radius, root.x + self._radius, root.y + self._radius, fill=self._nodeColor)
+        if self._fontBold and self._fontItalic:
+            self._canvas.create_text(root.x, root.y, text=root.nodeName, font=("Helvetica", self._fontSize, "bold", "italic"))
+        elif self._fontBold:
+            self._canvas.create_text(root.x, root.y, text=root.nodeName, font=("Helvetica", self._fontSize, "bold"))
+        elif self._fontItalic:
+            self._canvas.create_text(root.x, root.y, text=root.nodeName, font=("Helvetica", self._fontSize, "italic"))
+        else:
+            self._canvas.create_text(root.x, root.y, text=root.nodeName, font=("Helvetica", self._fontSize))
 
-    def blockPath(self, blockCells: list):
-        self._blockCells = blockCells
-        for i in range(len(self._blockCells)):
-            row, col = self._blockCells[i]
-            self._cells[row][col] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg="green", borderwidth=self._borderWidth)
-            self._world[row][col] = -1
+        for child in root.children:
+            self._constructWorld(child)
+
     def showWorld(self):
         self._root.mainloop()
     
     def printWorld(self):
         print(self._worldName)
-        print(self._world)
+        # print(self._world)
     
+
+
 
 # class CreateGraphWorld:
 
 
-world = CreateGridWorld("Grid Test Run", rows = 30, cols = 30, cellSize = 20)
-world.addBlockPath([[0,0],[1,1],[4,2],[7,3],[8,4],[2,5],[9,6],[2,7]])
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Test Code ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~ Grid World ~~~~~ #
+# world = CreateGridWorld("Grid Test Run", rows = 30, cols = 30, cellSize = 20)
+# world.addBlockPath([[0,0],[1,1],[4,2],[7,3],[8,4],[2,5],[9,6],[2,7]])
+# world.constructWorld()
+# # world.printWorld()
+# print(world)
+# world.showWorld()
+        
+# ~~~~~ Tree World ~~~~~ #
+# Example tree structure
+tree_root = TreeNode("Root", 300, 50)
+child1 = TreeNode("Child 1", 200, 150, tree_root)
+child2 = TreeNode("Child 2", 400, 150, tree_root)
+child3 = TreeNode("Child 3", 150, 250, child1)
+child4 = TreeNode("Child 4", 250, 250, child1, True)
+
+tree_root.children.extend([child1, child2])
+child1.children.extend([child3, child4])
+world = CreateTreeWorld("Tree Test Run", tree_root)
 world.constructWorld()
-# world.printWorld()
-print(world)
 world.showWorld()
