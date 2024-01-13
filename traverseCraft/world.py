@@ -2,6 +2,7 @@ import math
 from tkinter import *
 from tkinter import ttk
 from typing import List
+from dataStructures import TreeNode
 
 class CreateGridWorld:
     """
@@ -115,16 +116,9 @@ class CreateGridWorld:
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~ Tree World ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-class TreeNode:
-    def __init__(self, nodeName:str, x:int, y:int, parent=None, isGoalState:bool=False):
-        self.nodeName = nodeName
-        self.x = x
-        self.y = y
-        self.parent = parent
-        self.children = []
-        self.isGoalState = isGoalState
-
 class CreateTreeWorld:
+    """
+    """
     worldID = "TREEWORLD"
     def __init__(self, worldName: str, treeRoot, radius: int = 36, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = 600, height: int = 400, lineThickness: int =2, arrowShape: tuple = (15, 17, 8)):
         # ~~~~~ World Attributes ~~~~~ #
