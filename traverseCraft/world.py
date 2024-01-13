@@ -1,12 +1,15 @@
+import math
 from tkinter import *
 from tkinter import ttk
 from typing import List
+from dataStructures import TreeNode
 
 class CreateGridWorld:
     """
     """
     setOfCoordinates = List[List[int]]
     coordinate = List[int]
+    worldID = "GRIDWORLD"
     def __init__(self, worldName:str, rows:int, cols:int, cellSize:int=10, pathColor:str="gray", blockColor:str="red", goalColor:str="green", cellPadding:int=2, borderWidth:int=1):
         # ~~~~~ World Attributes ~~~~~ #
         self._worldName = worldName
@@ -88,7 +91,6 @@ class CreateGridWorld:
     def toggleCell(self, event, i, j):
         """
         """
-        # print(f"Cell: {i}, {j}: {self._world[i][j]}")
         if self._world[i][j] == 0:
             self._cells[i][j].configure(bg=self._blockColor)
             self._root.update()
@@ -114,17 +116,11 @@ class CreateGridWorld:
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~ Tree World ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-class TreeNode:
-    def __init__(self, nodeName:str, x:int, y:int, parent=None, isGoalState:bool=False):
-        self.nodeName = nodeName
-        self.x = x
-        self.y = y
-        self.parent = parent
-        self.children = []
-        self.isGoalState = False
-
 class CreateTreeWorld:
-    def __init__(self, worldName: str, treeRoot, radius: int = 36, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = 600, height: int = 400):
+    """
+    """
+    worldID = "TREEWORLD"
+    def __init__(self, worldName: str, treeRoot, radius: int = 36, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = 600, height: int = 400, lineThickness: int =2, arrowShape: tuple = (15, 17, 8)):
         # ~~~~~ World Attributes ~~~~~ #
         self._worldName = worldName
         self._treeRoot = treeRoot
@@ -140,7 +136,8 @@ class CreateTreeWorld:
         self._fontBold = fontBold
         self._fontItalic = fontItalic
         # ~~~~~ Cell Styles ~~~~~ #
-
+        self._lineThickness = lineThickness
+        self._arrowShape = arrowShape
         # ~~~~~ World Construction ~~~~~ #
         self._root = Tk()
         self._root.title(self._worldName)
@@ -159,13 +156,13 @@ class CreateTreeWorld:
         if root.parent is not None:
             parentX, parentY = root.parent.x, root.parent.y
             rootX, rootY = root.x, root.y
-            self._canvas.create_line(parentX, parentY, rootX, rootY, arrow=LAST)
+            self._canvas.create_line(parentX , (parentY + self._radius), rootX, (rootY - self._radius), width=self._lineThickness, arrow=LAST, arrowshape=self._arrowShape)
         if root.isGoalState:
-            self._canvas.create_oval(root.x - self._radius, root.y - self._radius, root.x + self._radius, root.y + self._radius, fill=self._goalColor)
+            self._canvas.create_oval(root.x - self._radius, root.y - self._radius, root.x + self._radius, root.y + self._radius, width=self._lineThickness, fill=self._goalColor)
         elif root.parent is None:
-            self._canvas.create_oval(root.x - self._radius, root.y - self._radius, root.x + self._radius, root.y + self._radius, fill=self._rootColor)
+            self._canvas.create_oval(root.x - self._radius, root.y - self._radius, root.x + self._radius, root.y + self._radius, width=self._lineThickness, fill=self._rootColor)
         else:
-            self._canvas.create_oval(root.x - self._radius, root.y - self._radius, root.x + self._radius, root.y + self._radius, fill=self._nodeColor)
+            self._canvas.create_oval(root.x - self._radius, root.y - self._radius, root.x + self._radius, root.y + self._radius, width=self._lineThickness, fill=self._nodeColor)
         if self._fontBold and self._fontItalic:
             self._canvas.create_text(root.x, root.y, text=root.nodeName, font=("Helvetica", self._fontSize, "bold", "italic"))
         elif self._fontBold:
