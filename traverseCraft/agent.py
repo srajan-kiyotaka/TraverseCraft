@@ -9,7 +9,7 @@ import colorsys
 class GridAgent():
     """
     """
-    def __init__(self, world, agentName:str, agentColor:str="blue", heatMapView:bool=True, heatMapBaseColor:str="#3D3B40", agentPos:tuple=(0,0), heatGradient:int=7):
+    def __init__(self, world, agentName:str, agentColor:str="blue", heatMapView:bool=True, heatMapColor:str="#FFA732", agentPos:tuple=(0,0), heatGradient:float=0.05):
         """
         """
         if not isinstance(world, CreateGridWorld):
@@ -20,7 +20,8 @@ class GridAgent():
         self._agentName = agentName
         self._agentColor = agentColor
         self._heatMapView = heatMapView
-        self._heatMapBaseColor = heatMapBaseColor
+        self._heatMapColor = heatMapColor
+        self._heatMapBaseColor = heatMapColor
         self._heatMapValueGrid = [[0.0 for _ in range(self._worldObj._cols)] for _ in range(self._worldObj._rows)]
         self._heatGradient = heatGradient
         # ~~~~~~~~~~ Agent Position ~~~~~~~~~~ #
@@ -28,6 +29,16 @@ class GridAgent():
         self._worldObj._cells[self._currentPosition[0]][self._currentPosition[1]].configure(bg=self._agentColor)
         self._worldObj._cells[self._currentPosition[0]][self._currentPosition[1]].unbind("<Button-1>")
         self._root.update()
+        # ~~~~~~~~~~ Base Heat Map Color ~~~~~~~~~~ #
+        if self._heatMapView:
+            BR, BG, BB = int(self._heatMapColor[1:3], 16), int(self._heatMapColor[3:5], 16), int(self._heatMapColor[5:7], 16)
+            hue, saturation, value = colorsys.rgb_to_hsv(BR/255, BG/255, BB/255)
+            saturation = 0.1
+            BR, BG, BB = colorsys.hsv_to_rgb(hue, saturation, value)
+            BR = int(BR*255)
+            BG = int(BG*255)
+            BB = int(BB*255)
+            self._heatMapBaseColor = f"#{BR:02x}{BG:02x}{BB:02x}"
     
     def __str__(self):
         return f"Agent Name: {self._agentName}\nAgent Color: {self._agentColor}\nWorld Name: {self._world._worldName}\nWorld ID: {self._worldID}"
@@ -45,27 +56,27 @@ class GridAgent():
         else:
             raise ValueError("Invalid start state!")
     
+    def _warmerColor(self, color:str, sValue):
+        # Convert the mapped value to a color
+        BR, BG, BB = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+        # print(f"BR: {BR}, BG: {BG}, BB: {BB}")
+        hue, saturation, value = colorsys.rgb_to_hsv(BR/255, BG/255, BB/255)
+        print(f"HSV: {hue}, {saturation}, {value}. sValue {sValue}")
+        saturation += sValue
+        print(f"HSV: {hue}, {saturation}, {value}. sValue {sValue}")
+        if saturation > 1:
+            saturation = 1
+        R, G, B = colorsys.hsv_to_rgb(hue, saturation, value)
+        R = int(R*255)
+        G = int(G*255)
+        B = int(B*255)
+        return f"#{R:02x}{G:02x}{B:02x}"
+
     def getHeatMapColor(self, value:float):
         # Use exponential decay function to map value to [0, 1]
-        mappedValue = math.exp((-1 * self._heatGradient) * value)  # Adjust the decay constant to change the color gradient
-
-        # Convert the mapped value to a color
-        BR, BG, BB = int(self._heatMapBaseColor[1:3], 16), int(self._heatMapBaseColor[3:5], 16), int(self._heatMapBaseColor[5:7], 16)
-        print(f"BR: {BR}, BG: {BG}, BB: {BB}")
-        hue, saturation, value = colorsys.rgb_to_hsv(BR, BG, BB)
-        hue += value
-        if hue > 360:
-            hue = 360
-        R, G, B = colorsys.hsv_to_rgb(hue, saturation, value)
-        R = int(R)
-        G = int(G)
-        B = int(B)
-        print(f"R: {R}, G: {G}, B: {B}")
-        # R = int(baseColorRGB[0] * (1 - mappedValue))
-        # G = int(baseColorRGB[1] * (1 - mappedValue))
-        # B = int(baseColorRGB[2] * (mappedValue))
-
-        return f"#{R:02x}{G:02x}{B:02x}"
+        mappedValue = 0.9*(1 - math.exp((-1 * self._heatGradient) * value))  # Adjust the decay constant to change the color gradient
+        print(mappedValue)
+        return self._warmerColor(self._heatMapBaseColor, mappedValue)
 
     def _updateHeatMap(self, i, j):
         """
@@ -103,7 +114,7 @@ class GridAgent():
         else:
             return False
 
-    def moveAgent(self, i, j, delay:int=2):
+    def moveAgent(self, i, j, delay:int=1):
         """
         """
         if(self._canMove(i, j)):
