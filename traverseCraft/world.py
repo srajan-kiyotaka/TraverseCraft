@@ -53,7 +53,7 @@ class CreateGridWorld:
                 if(self._cells[i][j] is None):
                     self._cells[i][j] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._pathColor, borderwidth=self._borderWidth)
                     self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
-                    self._cells[i][j].bind("<Button-1>", lambda event, i=i, j=j: self.toggleCell(event, i, j))  # Bind left-click event
+                    self._cells[i][j].bind("<Button-1>", lambda event, i=i, j=j: self._toggleCell(event, i, j))  # Bind left-click event
                     self._root.update()
 
 
@@ -64,7 +64,7 @@ class CreateGridWorld:
         for i, j in self._blockCells:
             self._cells[i][j] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._blockColor, borderwidth=self._borderWidth)
             self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
-            self._cells[i][j].bind("<Button-1>", lambda event, i=i, j=j: self.toggleCell(event, i, j))  # Bind left-click event
+            self._cells[i][j].bind("<Button-1>", lambda event, i=i, j=j: self._toggleCell(event, i, j))  # Bind left-click event
             self._root.update()
             self._world[i][j] = -1
 
@@ -88,7 +88,7 @@ class CreateGridWorld:
                 self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
                 self._root.update()
     
-    def toggleCell(self, event, i, j):
+    def _toggleCell(self, event, i, j):
         """
         """
         if self._world[i][j] == 0:
@@ -121,8 +121,8 @@ class CreateTreeWorld:
     """
     worldID = "TREEWORLD"
     def __init__(self, worldName: str, treeRoot, radius: int = 36, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = 600, height: int = 400, lineThickness: int =2, arrowShape: tuple = (15, 17, 8)):
-        # ~~~~~ World Attributes ~~~~~ #
         self._worldName = worldName
+        # ~~~~~ World Attributes ~~~~~ #
         self._treeRoot = treeRoot
         self._width = width
         self._height = height
@@ -199,14 +199,14 @@ class CreateTreeWorld:
         
 # ~~~~~ Tree World ~~~~~ #
 # Example tree structure
-tree_root = TreeNode("Root", 300, 50)
-child1 = TreeNode("Child 1", 200, 150, tree_root)
-child2 = TreeNode("Child 2", 400, 150, tree_root)
-child3 = TreeNode("Child 3", 150, 250, child1)
-child4 = TreeNode("Child 4", 250, 250, child1, True)
+# tree_root = TreeNode("Root", 300, 50)
+# child1 = TreeNode("Child 1", 200, 150, tree_root)
+# child2 = TreeNode("Child 2", 400, 150, tree_root)
+# child3 = TreeNode("Child 3", 150, 250, child1)
+# child4 = TreeNode("Child 4", 250, 250, child1, True)
 
-tree_root.children.extend([child1, child2])
-child1.children.extend([child3, child4])
-world = CreateTreeWorld("Tree Test Run", tree_root)
-world.constructWorld()
-world.showWorld()
+# tree_root.children.extend([child1, child2])
+# child1.children.extend([child3, child4])
+# world = CreateTreeWorld("Tree Test Run", tree_root)
+# world.constructWorld()
+# world.showWorld()
