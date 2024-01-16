@@ -1,8 +1,9 @@
-import math
 from tkinter import *
 from tkinter import ttk
 from typing import List
+import tkinter.font as font
 from dataStructures import TreeNode
+import threading
 
 class CreateGridWorld:
     """
@@ -10,7 +11,7 @@ class CreateGridWorld:
     setOfCoordinates = List[List[int]]
     coordinate = List[int]
     worldID = "GRIDWORLD"
-    def __init__(self, worldName:str, rows:int, cols:int, cellSize:int=10, pathColor:str="gray", blockColor:str="red", goalColor:str="green", cellPadding:int=2, borderWidth:int=1):
+    def __init__(self, worldName:str, rows:int, cols:int, cellSize:int=10, pathColor:str="gray", blockColor:str="red", goalColor:str="green", cellPadding:int=2, borderWidth:int=1, buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent"):
         # ~~~~~ World Attributes ~~~~~ #
         self._worldName = worldName
         self._rows = rows
@@ -25,6 +26,15 @@ class CreateGridWorld:
         self._borderWidth = borderWidth
         self._goalColor = goalColor
         self._goalCells = None
+        # ~~~~~ Button Attributes ~~~~~ #
+        self._buttonBgColor = buttonBgColor
+        self._buttonFgColor = buttonFgColor
+        self._buttonText = buttonText
+        self._textFont = textFont
+        self._textSize = textSize
+        self._textWeight = textWeight
+        # ~~~~~ Agent Info ~~~~~ #
+        self._agent = None
         # ~~~~~ Cell Styles ~~~~~ #
         # self._cellStyles = ttk.Style()
         # self._cellStyles.configure("Path.TFrame", background="green") #, borderwidth=self._borderWidth)
@@ -32,12 +42,12 @@ class CreateGridWorld:
         # ~~~~~ World Construction ~~~~~ #
         self._root = Tk()
         self._root.title(self._worldName)
-        self._root.geometry(f"{self._rows * (self._cellSize + 2*self._cellPadding)}x{self._cols * (self._cellSize + 2*self._cellPadding)}")
+        self._root.geometry(f"{(self._rows) * (self._cellSize + 2*self._cellPadding)}x{(self._cols + 1) * (self._cellSize + 2*self._cellPadding)}")
         self._world = [[0 for i in range(self._cols)] for j in range(self._rows)]
         self._cells = [[None for j in range(self._cols)] for i in range(self._rows)]
 
     def __str__(self):
-        return f"World Name: {self._worldName}\nRows: {self._rows}\nCols: {self._cols}\nWindow Size: {self._rows * (self._cellSize + 2*self._cellPadding)}x{self._cols * (self._cellSize + 2*self._cellPadding)}"
+        return f"World Name: {self._worldName}\nRows: {self._rows}\nCols: {self._cols}\nWindow Size: {(self._rows) * (self._cellSize + 2*self._cellPadding)}x{(self._cols + 1) * (self._cellSize + 2*self._cellPadding)}"
 
     def constructWorld(self):
         """
@@ -55,7 +65,28 @@ class CreateGridWorld:
                     self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
                     self._cells[i][j].bind("<Button-1>", lambda event, i=i, j=j: self._toggleCell(event, i, j))  # Bind left-click event
                     self._root.update()
+        
+        # Create a "Start Agent" button
+        self._startButton = Button(self._root, text=self._buttonText, command=self._startAgent, bg=self._buttonBgColor, fg=self._buttonFgColor)
+        self._startButton['font'] = font.Font(family=self._textFont, size=self._textSize, weight=self._textWeight)
+        # self.start_button.pack()
+        self._startButton.grid(row=self._rows, column=0, columnspan=self._cols, padx=self._cellPadding, pady=self._cellPadding, sticky="n")
+        self._root.update()
 
+    def _startAgent(self):
+        """
+        """
+        self._startButton.configure(state=DISABLED)
+        self._root.update()
+        if(self._agent is None):
+            raise ValueError("Agent not set!")
+        agentThread = threading.Thread(target=self._agent.runAlgorithm, args=())
+        agentThread.start()
+
+    # def GridAgentRun(self, agent):
+    #     """
+    #     """
+    #     raise NotImplementedError("GridAgentRun() must be implemented in the agent class!")
 
     def addBlockPath(self, blockCells:setOfCoordinates):
         """
@@ -79,6 +110,10 @@ class CreateGridWorld:
             self._root.update()
             self._world[i][j] = 1
 
+    def setAgent(self, agent):
+        """
+        """
+        self._agent = agent
  
     def updateWorld(self):
         """
@@ -190,7 +225,7 @@ class CreateTreeWorld:
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~ Test Code ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~ Grid World ~~~~~ #
-# world = CreateGridWorld("Grid Test Run", rows = 30, cols = 30, cellSize = 20)
+# world = CreateGridWorld("Grid Test Run", rows = 20, cols = 20, cellSize = 40)
 # world.addBlockPath([[0,0],[1,1],[4,2],[7,3],[8,4],[2,5],[9,6],[2,7]])
 # world.constructWorld()
 # # world.printWorld()
