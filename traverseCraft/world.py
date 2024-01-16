@@ -1,9 +1,9 @@
-import math
 from tkinter import *
 from tkinter import ttk
 from typing import List
 import tkinter.font as font
 from dataStructures import TreeNode
+import threading
 
 class CreateGridWorld:
     """
@@ -33,6 +33,8 @@ class CreateGridWorld:
         self._textFont = textFont
         self._textSize = textSize
         self._textWeight = textWeight
+        # ~~~~~ Agent Info ~~~~~ #
+        self._agent = None
         # ~~~~~ Cell Styles ~~~~~ #
         # self._cellStyles = ttk.Style()
         # self._cellStyles.configure("Path.TFrame", background="green") #, borderwidth=self._borderWidth)
@@ -75,8 +77,16 @@ class CreateGridWorld:
         """
         """
         self._startButton.configure(state=DISABLED)
-        # self.start_button.destroy()
         self._root.update()
+        if(self._agent is None):
+            raise ValueError("Agent not set!")
+        agentThread = threading.Thread(target=self._agent.runAlgorithm, args=())
+        agentThread.start()
+
+    # def GridAgentRun(self, agent):
+    #     """
+    #     """
+    #     raise NotImplementedError("GridAgentRun() must be implemented in the agent class!")
 
     def addBlockPath(self, blockCells:setOfCoordinates):
         """
@@ -100,6 +110,10 @@ class CreateGridWorld:
             self._root.update()
             self._world[i][j] = 1
 
+    def setAgent(self, agent):
+        """
+        """
+        self._agent = agent
  
     def updateWorld(self):
         """
@@ -211,12 +225,12 @@ class CreateTreeWorld:
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~ Test Code ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~ Grid World ~~~~~ #
-world = CreateGridWorld("Grid Test Run", rows = 20, cols = 20, cellSize = 40)
-world.addBlockPath([[0,0],[1,1],[4,2],[7,3],[8,4],[2,5],[9,6],[2,7]])
-world.constructWorld()
-# world.printWorld()
-print(world)
-world.showWorld()
+# world = CreateGridWorld("Grid Test Run", rows = 20, cols = 20, cellSize = 40)
+# world.addBlockPath([[0,0],[1,1],[4,2],[7,3],[8,4],[2,5],[9,6],[2,7]])
+# world.constructWorld()
+# # world.printWorld()
+# print(world)
+# world.showWorld()
         
 # ~~~~~ Tree World ~~~~~ #
 # Example tree structure

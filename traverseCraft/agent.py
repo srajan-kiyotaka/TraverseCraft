@@ -39,9 +39,11 @@ class GridAgent():
             BG = int(BG*255)
             BB = int(BB*255)
             self._heatMapBaseColor = f"#{BR:02x}{BG:02x}{BB:02x}"
+        # ~~~~~~~~~~ Algorithm Call Back Function ~~~~~~~~~~ #
+        self.algorithmCallBack = None
     
     def __str__(self):
-        return f"Agent Name: {self._agentName}\nAgent Color: {self._agentColor}\nWorld Name: {self._world._worldName}\nWorld ID: {self._worldID}"
+        return f"Agent Name: {self._agentName}\nAgent Color: {self._agentColor}\nWorld Name: {self._worldObj._worldName}\nWorld ID: {self._worldID}"
 
     def startState(self, i:int, j:int):
         """
@@ -56,7 +58,21 @@ class GridAgent():
         else:
             raise ValueError("Invalid start state!")
     
+    def setAlgorithmCallBack(self, algorithmCallBack):
+        """
+        """
+        self.algorithmCallBack = algorithmCallBack
+    
+    def runAlgorithm(self):
+        """
+        """
+        if self.algorithmCallBack is None:
+            raise ValueError("Algorithm Call Back Function not set!")
+        self.algorithmCallBack()
+    
     def _warmerColor(self, color:str, sValue):
+        """
+        """
         # Convert the mapped value to a color
         BR, BG, BB = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
         # print(f"BR: {BR}, BG: {BG}, BB: {BB}")
@@ -73,6 +89,8 @@ class GridAgent():
         return f"#{R:02x}{G:02x}{B:02x}"
 
     def getHeatMapColor(self, value:float):
+        """
+        """
         # Use exponential decay function to map value to [0, 1]
         mappedValue = 0.9*(1 - math.exp((-1 * self._heatGradient) * value))  # Adjust the decay constant to change the color gradient
         print(mappedValue)
@@ -86,6 +104,8 @@ class GridAgent():
             self._modifyCellColor(i, j, self.getHeatMapColor(self._heatMapValueGrid[i][j]))
 
     def _modifyCellColor(self, i, j, color):
+        """
+        """
         print(f"({i}, {j}): {color}, value: {self._heatMapValueGrid[i][j]}")
         self._worldObj._cells[i][j].configure(bg=color)
         self._root.update()
@@ -126,18 +146,3 @@ class GridAgent():
             return True
         else:
             return False
-
-
-
-
-
-# agent_world = Agent("Agent Test Run", rows=30, cols=30, cellSize=20,agentPos=[2,2])
-# agent_world.constructWorld()
-# agent_world.addBlockPath([[0, 0], [1, 1], [4, 2], [7, 3], [8, 4], [2, 5], [9, 6], [2, 7]])
-# agent_world.modifyCellColor(*agent_world._currentPosition, "blue")
-# agent_world.animateMove(agent_world.moveRight, steps=12)
-# agent_world.animateMove(agent_world.moveDown, steps=12)
-# agent_world.animateMove(agent_world.moveUp, steps=12)
-# agent_world.animateMove(agent_world.moveLeft, steps=12)
-# agent_world.showWorld()
-
