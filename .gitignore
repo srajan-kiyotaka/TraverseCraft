@@ -1,3 +1,4 @@
 venv
 *.ipynb
 test.py
+traverseCraft/__pycache__
