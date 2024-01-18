@@ -12,7 +12,7 @@ class CreateGridWorld:
     setOfCoordinates = List[List[int]]
     coordinate = List[int]
     worldID = "mcWORLD"
-    def __init__(self, worldName:str, rows:int, cols:int, cellSize:int=12, pathColor:str="green", blockCode:int=36, blockColor:str="red", goalCode:int=14, goalColor:str="green",cellPadding:int=2, borderWidth:int=2, buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent"):
+    def __init__(self, worldName:str, rows:int, cols:int, cellSize:int=12, pathColor:str="green", blockCode:int=36, blockColor:str="red", goalCode:int=14, goalColor:str="green",cellPadding:int=2, borderWidth:int=2, buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent",fullscreen: bool=False):
         # ~~~~~ World Attributes ~~~~~ #
         self._worldName = worldName
         self._rows = rows
@@ -52,10 +52,12 @@ class CreateGridWorld:
         # ~~~~~ World Construction ~~~~~ #
         self._root = Tk()
         self._root.title(self._worldName)
-        # self._root.geometry(f"{self._rows * (self._cellSize + 2*self._cellPadding + 2*self._borderWidth)}x{self._cols * (self._cellSize + 2*self._cellPadding + 2*self._borderWidth)}")
-        width= self._root.winfo_screenwidth() 
-        height= self._root.winfo_screenheight()
-        self._root.geometry("%dx%d" % (width, height))
+        if fullscreen:
+            width= self._root.winfo_screenwidth() 
+            height= self._root.winfo_screenheight()
+            self._root.geometry("%dx%d" % (width, height))
+        else:
+            self._root.geometry(f"{self._rows * (self._cellSize + 2*self._cellPadding + 2*self._borderWidth)}x{self._cols * (self._cellSize + 2*self._cellPadding + 2*self._borderWidth)}")
         self._world = [[0 for i in range(self._cols)] for j in range(self._rows)]
         self._cells = [[None for j in range(self._cols)] for i in range(self._rows)]
         self._labelCells = [[None for j in range(self._cols)] for i in range(self._rows)]
