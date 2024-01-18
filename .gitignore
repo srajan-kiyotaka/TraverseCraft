@@ -1,4 +1,8 @@
 venv
 *.ipynb
 test.py
+<<<<<<< HEAD
 /traverseCraft/__pycache__
+=======
+traverseCraft/__pycache__
+>>>>>>> e5fe8d58937c19240e20607cc9fabffd9d097cdb
