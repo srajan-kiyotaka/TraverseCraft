@@ -3,6 +3,7 @@ from tkinter import ttk
 from PIL import  ImageTk, Image
 from iconHashInfo import IconHashMap
 from typing import List
+import os
 
 class CreateGridWorld:
     """
@@ -30,11 +31,14 @@ class CreateGridWorld:
         # Create an instance of ImageHashMap
         iconHashMap = IconHashMap()
         # Load the image hash map from a file
-        iconHashMap.loadFromFile()
-        self._blockIconPath = f"./icons/{iconHashMap.getName(self._blockCode)}"
+        path = os.getcwd()
+        # /media/srajan/Data/Project/TraverseCraft/traverseCraft/image_hash_map.pkl
+        print(path)
+        iconHashMap.loadFromFile(file_path=f"{path}/traverseCraft/image_hash_map.pkl")
+        self._blockIconPath = f"{path}/traverseCraft/icons/{iconHashMap.getName(self._blockCode)}"
         self._blockIcon = Image.open(self._blockIconPath)
         self._blockIcon = self._blockIcon.resize((self._cellSize - self._cellPadding, self._cellSize - self._cellPadding), Image.Resampling.LANCZOS)
-        self._goalIconPath = f"./icons/{iconHashMap.getName(self._goalCode)}"
+        self._goalIconPath = f"{path}/traverseCraft/icons/{iconHashMap.getName(self._goalCode)}"
         self._goalIcon = Image.open(self._goalIconPath)
         self._goalIcon = self._goalIcon.resize((self._cellSize - self._cellPadding, self._cellSize - self._cellPadding), Image.Resampling.LANCZOS)
         # ~~~~~ World Construction ~~~~~ #

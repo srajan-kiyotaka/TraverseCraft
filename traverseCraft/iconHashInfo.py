@@ -27,7 +27,7 @@ class IconHashMap:
         with open(file_path, 'wb') as file:
             pickle.dump(self.image_dict, file)
 
-    def loadFromFile(self, file_path="./image_hash_map.pkl"):
+    def loadFromFile(self, file_path="image_hash_map.pkl"):
         with open(file_path, 'rb') as file:
             self.image_dict = pickle.load(file)
 
