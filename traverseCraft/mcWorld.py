@@ -5,7 +5,7 @@ from iconHashInfo import IconHashMap
 import tkinter.font as font
 from typing import List
 import threading
-
+import os
 class CreateGridWorld:
     """
     """
@@ -43,10 +43,12 @@ class CreateGridWorld:
         iconHashMap = IconHashMap()
         # Load the image hash map from a file
         iconHashMap.loadFromFile()
-        self._blockIconPath = f"./icons/{iconHashMap.getName(self._blockCode)}"
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        full_path = os.path.join(script_dir, "icons")
+        self._blockIconPath = f"{full_path}/{iconHashMap.getName(self._blockCode)}"
         self._blockIcon = Image.open(self._blockIconPath)
         self._blockIcon = self._blockIcon.resize((self._cellSize - self._cellPadding, self._cellSize - self._cellPadding), Image.Resampling.LANCZOS)
-        self._goalIconPath = f"./icons/{iconHashMap.getName(self._goalCode)}"
+        self._goalIconPath = f"{full_path}/{iconHashMap.getName(self._goalCode)}"
         self._goalIcon = Image.open(self._goalIconPath)
         self._goalIcon = self._goalIcon.resize((self._cellSize - self._cellPadding, self._cellSize - self._cellPadding), Image.Resampling.LANCZOS)
         # ~~~~~ World Construction ~~~~~ #
