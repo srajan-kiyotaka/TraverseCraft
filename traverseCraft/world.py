@@ -290,14 +290,8 @@ class CreateTreeWorld:
         
 # ~~~~~ Tree World ~~~~~ #
 # Example tree structure
-# tree_root = TreeNode("Root", 300, 50)
-# child1 = TreeNode("Child 1", 200, 150, tree_root)
-# child2 = TreeNode("Child 2", 400, 150, tree_root)
-# child3 = TreeNode("Child 3", 150, 250, child1)
-# child4 = TreeNode("Child 4", 250, 250, child1, True)
+arr = [[1], [2,3], [4,5,6], [7,8,9,10],[None,1,2,3,4,5]]
 
-# tree_root.children.extend([child1, child2])
-# child1.children.extend([child3, child4])
-# world = CreateTreeWorld("Tree Test Run", tree_root)
-# world.constructWorld()
-# world.showWorld()
+tree_world = CreateTreeWorld("Binary Tree Visualization", arr)
+tree_world.constructWorld()
+tree_world.showWorld()
