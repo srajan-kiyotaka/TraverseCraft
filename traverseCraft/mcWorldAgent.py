@@ -1,11 +1,10 @@
-from world import CreateGridWorld, CreateTreeWorld, TreeNode
-# from hundred import CreateGridWorld
+from mcWorld import CreateGridWorld
 from tkinter import Frame, Tk
 import time
 import math
 import colorsys
 
-# Note: we have to make different agents for different worlds.
+# Note: different agent for mcWorld 
 
 class GridAgent():
     """

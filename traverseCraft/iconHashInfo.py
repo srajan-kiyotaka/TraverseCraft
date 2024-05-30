@@ -28,12 +28,15 @@ class IconHashMap:
             pickle.dump(self.image_dict, file)
 
     def loadFromFile(self, file_path="image_hash_map.pkl"):
-        with open(file_path, 'rb') as file:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        full_path = os.path.join(script_dir, file_path)
+        with open(full_path, 'rb') as file:
             self.image_dict = pickle.load(file)
 
     def _getIconNames(self, folder_path):
         try:
             # Get all files in the folder
+            
             files = os.listdir(folder_path)
             # Filter only image files (you can customize the extensions)
             image_files = [file for file in files if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]

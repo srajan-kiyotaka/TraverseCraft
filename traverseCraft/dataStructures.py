@@ -1,9 +1,7 @@
 class TreeNode:
-    def __init__(self, nodeName:str, x:int, y:int, parent=None, isGoalState:bool=False):
-        self.nodeName = nodeName
-        self.x = x
-        self.y = y
-        self.parent = parent
-        self.children = []
+    def __init__(self, val: int, isGoalState:bool=False):
+        self.val = val
+        self.left = None
+        self.right = None
         self.isGoalState = isGoalState
         self._heatMapValue = 0.0
