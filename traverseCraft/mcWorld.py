@@ -4,13 +4,9 @@ from PIL import  ImageTk, Image
 from iconHashInfo import IconHashMap
 import tkinter.font as font
 from typing import List
-<<<<<<< HEAD
-import os
-
-=======
 import threading
 import os
->>>>>>> main
+
 class CreateGridWorld:
     """
     """
