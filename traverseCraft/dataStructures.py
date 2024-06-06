@@ -1,6 +1,9 @@
 class TreeNode:
-    def __init__(self, val: int, children: list, isGoalState:bool=False, edges: list=[]):
+    def __init__(self, label, children: list, val = None, isGoalState:bool=False, edges: list=[]):
+        self.id = label
         self.val = val
+        if val is None:
+            self.val = label
         self.children = children
         if((len(children) > 0) and (edges == [] or edges is None)):
             edges = [1] * len(children)

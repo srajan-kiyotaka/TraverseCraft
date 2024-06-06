@@ -2,49 +2,32 @@ from tkinter import *
 from tkinter import ttk
 from typing import List
 import tkinter.font as font
-from dataStructures import TreeNode
+from .dataStructures import TreeNode
 import threading
 import platform
-import Quartz
+import math
 import subprocess
-import ctypes
 
 
-def get_screen_size():
-    os_type = platform.system()
-    if os_type == 'Windows':
-        return get_screen_size_windows()
-    elif os_type == 'Linux':
-        return get_screen_size_linux()
-    elif os_type == 'Darwin':
-        return get_screen_size_mac()
-    else:
+def getScreenSize():
+    try:
+        os_type = platform.system()
+        print(f"OS Type: {os_type}")
+        return _getScreenSizeWindow()
+    except:
         raise NotImplementedError(f"Unsupported OS: {os_type}")
 
-def get_screen_size_windows():
-    user32 = ctypes.windll.user32
-    user32.SetProcessDPIAware()
-    width = user32.GetSystemMetrics(0)
-    height = user32.GetSystemMetrics(1)
-    return width, height
-
-def get_screen_size_linux():
-    output = subprocess.check_output(['xrandr']).decode('utf-8')
-    for line in output.split('\n'):
-        if '*' in line:
-            resolution = line.split()[0]
-            width, height = map(int, resolution.split('x'))
-            return width, height
-
-def get_screen_size_mac():
-    main_display_id = Quartz.CGMainDisplayID()
-    width = Quartz.CGDisplayPixelsWide(main_display_id)
-    height = Quartz.CGDisplayPixelsHigh(main_display_id)
+def _getScreenSizeWindow():
+    root = Tk()
+    root.withdraw()  # Hide the root window
+    width = root.winfo_screenwidth()
+    height = root.winfo_screenheight()
+    root.destroy()
     return width, height
 
 
 global SCREEN_WIDTH, SCREEN_HEIGHT
-SCREEN_WIDTH, SCREEN_HEIGHT = get_screen_size()
+SCREEN_WIDTH, SCREEN_HEIGHT = getScreenSize()
 
 
 class CreateGridWorld:
@@ -277,7 +260,7 @@ class CreateGridWorld:
 
 class CreateTreeWorld:
     worldID = "TREEWORLD"
-    def __init__(self, worldName: str, worldInfo: dict, radius: int = 36, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (15, 17, 8)):
+    def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5)):
         self._worldName = worldName
         # check important parameters in world info #
         if "root" not in worldInfo:
@@ -295,7 +278,7 @@ class CreateTreeWorld:
         self._position = worldInfo["position"]
         self._width = width
         self._height = height
-        self.currentNode = self._treeRoot
+        # self.currentNode = self._treeRoot
         self._radius = radius
         self._nodeColor = nodeColor
         self._rootColor = rootColor
@@ -309,14 +292,18 @@ class CreateTreeWorld:
         self._root.title(self._worldName)
         self._canvas = Canvas(self._root, width=self._width, height=self._height, bg="white")
         self._canvas.pack()
+        self.root = None
         ## Construct Tree Data Structure ##
-        if("edges" in self._worldInfo):
-            self._treeRoot = self._generate_tree_struct(self._worldInfo["adj"], self._treeRootId, self._worldInfo["edges"])
-        else:
-            self._treeRoot = self._generate_tree_struct(self._worldInfo["adj"], self._treeRootId)
+        if("edges" not in self._worldInfo):
+            self._worldInfo['edges'] = None
+        if("vals" not in self._worldInfo):
+            self._worldInfo['vals'] = None
+        self.root = self._generateTreeDS(self._worldInfo["adj"], self._treeRootId, self._worldInfo["edges"], self._worldInfo['vals'])
 
+    def __str__(self):
+        return f"World Name: {self._worldName}\nNode Radius: {self._radius}\nWindow Size: {self._height}x{self._width}"
 
-    def _generate_tree_struct(self, adj, rootId, edges=None):
+    def _generateTreeDS(self, adj, rootId, edges=None, values=None):
         if rootId not in adj:
             raise ValueError(f"Root ID {rootId} not found in adjacency list")
         elif adj[rootId] is None or len(adj[rootId]) == 0:
@@ -324,24 +311,63 @@ class CreateTreeWorld:
         
         children = []
         for childId in adj[rootId]:
-            children.append(self._generate_tree_struct(adj, childId))
+            children.append(self._generateTreeDS(adj, childId))
         
         if(edges is not None):
-            return TreeNode(rootId, children=children, edges=edges[rootId], isGoalState=(rootId in self._goalIds))
+            if(values is not None):
+                return TreeNode(rootId, values=[rootId], children=children, edges=edges[rootId], isGoalState=(rootId in self._goalIds))
+            else:
+                return TreeNode(rootId, children=children, edges=edges[rootId], isGoalState=(rootId in self._goalIds))
+        else:
+            if(values is not None):
+                return TreeNode(rootId, values=[rootId], children=children, edges=[], isGoalState=(rootId in self._goalIds))
                             
         return TreeNode(rootId, children=children, edges=[], isGoalState=(rootId in self._goalIds))
 
-    def create_tree(self):
-        pass
-
-    def __str__(self):
-        return f"World Name: {self._worldName}\nNode Radius: {self._radius}\nWindow Size: {self._height}x{self._width}"
-
     def constructWorld(self):
-        self._constructWorld(self._treeRoot, self._width // 2, 50, self._width // 4)
+        self._constructWorld()
 
-    def _constructWorld(self, root, x, y, dx):
-        pass
+    def _constructWorld(self):
+        self._drawNodeEdges(self.root)
+
+    def _drawNodeEdges(self, node):
+        if node is None:
+            return
+        
+        node_id = node.id
+        x, y = self._position[node_id]
+
+        # Determine the color based on the node type
+        color = self._nodeColor
+        if node_id == self._treeRootId:
+            color = self._rootColor
+        elif node_id in self._goalIds:
+            color = self._goalColor
+
+        # Draw the node
+        self._canvas.create_oval(x - self._radius, y - self._radius, x + self._radius, y + self._radius, fill=color)
+
+        # Draw the node value
+        font_style = ("Helvetica", self._fontSize, "bold italic" if self._fontBold and self._fontItalic else "bold" if self._fontBold else "italic" if self._fontItalic else "normal")
+        self._canvas.create_text(x, y, text=str(node_id), font=font_style, fill="black")
+
+        # Draw the edges and recursively draw the children nodes
+        for i, child in enumerate(node.children):
+            child_id = child.id
+            child_x, child_y = self._position[child_id]
+
+            # Calculate the angle for the line
+            angle = math.atan2(child_y - y, child_x - x)
+            start_x = x + self._radius * math.cos(angle)
+            start_y = y + self._radius * math.sin(angle)
+            end_x = child_x - self._radius * math.cos(angle)
+            end_y = child_y - self._radius * math.sin(angle)
+
+            # Draw the edge
+            self._canvas.create_line(start_x, start_y, end_x, end_y, width=self._lineThickness, arrow=LAST, arrowshape=self._arrowShape)
+
+            # Recursively draw the child node
+            self._drawNodeEdges(child)
 
     def showWorld(self):
         self._root.mainloop()
