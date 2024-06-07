@@ -166,97 +166,8 @@ class CreateGridWorld:
         """
         self._root.mainloop()
 
-    def printWorld(self):
-        """
-        """
-        print(self._worldName)
-        print(self._world)
-
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~ Tree World ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-
-# class CreateTreeWorld:
-#     worldID = "TREEWORLD"
-#     setOfCoordinates = List[List[int]]
-#     def __init__(self, worldName: str, array:setOfCoordinates, radius: int = 36, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (15, 17, 8)):
-#         self._worldName = worldName
-#         self._treeRoot = self.create_tree(array)
-#         self._width = width
-#         self._height = height
-#         self.currentNode = self._treeRoot
-#         self._radius = radius
-#         self._nodeColor = nodeColor
-#         self._rootColor = rootColor
-#         self._goalColor = goalColor
-#         self._fontSize = fontSize
-#         self._fontBold = fontBold
-#         self._fontItalic = fontItalic
-#         self._lineThickness = lineThickness
-#         self._arrowShape = arrowShape
-#         self._root = Tk()
-#         self._root.title(self._worldName)
-#         self._canvas = Canvas(self._root, width=self._width, height=self._height, bg="white")
-#         self._canvas.pack()
-#     def create_tree(self,arr:setOfCoordinates):
-#         if not arr:
-#             return None
-        
-#         root = TreeNode(arr[0][0])
-#         queue = [root]
-#         level = 1
-
-#         while queue and level < len(arr):
-#             level_nodes = queue[:]
-#             queue = []
-            
-#             for node in level_nodes:
-#                 children_values = arr[level]
-#                 left_val = children_values.pop(0) if children_values else None
-#                 right_val = children_values.pop(0) if children_values else None
-                
-#                 if left_val is not None:
-#                     node.left = TreeNode(left_val)
-#                     queue.append(node.left)
-#                 if right_val is not None:
-#                     node.right = TreeNode(right_val)
-#                     queue.append(node.right)
-            
-#             level += 1
-        
-#         return root
-
-#     def __str__(self):
-#         return f"World Name: {self._worldName}\nNode Radius: {self._radius}\nWindow Size: {self._height}x{self._width}"
-
-#     def constructWorld(self):
-#         self._constructWorld(self._treeRoot, self._width // 2, 50, self._width // 4)
-
-#     def _constructWorld(self, root, x, y, dx):
-#         if root is None:
-#             return
-        
-#         if root.left is not None:
-#             left_child_x, left_child_y = x - dx, y + 100
-#             self._canvas.create_line(x - self._radius, y, left_child_x + self._radius, left_child_y - self._radius, arrow=LAST, width=self._lineThickness)
-#             self._constructWorld(root.left, left_child_x, left_child_y, dx // 2)
-        
-#         if root.right is not None:
-#             right_child_x, right_child_y = x + dx, y + 100
-#             self._canvas.create_line(x + self._radius, y, right_child_x - self._radius, right_child_y - self._radius, arrow=LAST, width=self._lineThickness)
-#             self._constructWorld(root.right, right_child_x, right_child_y, dx // 2)
-
-#         node_color = self._rootColor if root == self._treeRoot else self._nodeColor
-#         self._canvas.create_oval(x - self._radius, y - self._radius, x + self._radius, y + self._radius, fill=node_color, outline="black")
-#         font_style = ("Helvetica", self._fontSize, ("bold italic" if self._fontBold and self._fontItalic else "bold" if self._fontBold else "italic" if self._fontItalic else ""))
-#         self._canvas.create_text(x, y, text=root.val, font=font_style)
-
-#     def showWorld(self):
-#         self._root.mainloop()
-    
-#     def printWorld(self):
-#         print(self._worldName)
-
 
 class CreateTreeWorld:
     worldID = "TREEWORLD"
@@ -299,6 +210,8 @@ class CreateTreeWorld:
         if("vals" not in self._worldInfo):
             self._worldInfo['vals'] = None
         self.root = self._generateTreeDS(self._worldInfo["adj"], self._treeRootId, self._worldInfo["edges"], self._worldInfo['vals'])
+        # Agent information #
+        self._agent = None
 
     def __str__(self):
         return f"World Name: {self._worldName}\nNode Radius: {self._radius}\nWindow Size: {self._height}x{self._width}"
@@ -369,13 +282,24 @@ class CreateTreeWorld:
             # Recursively draw the child node
             self._drawNodeEdges(child)
 
+    def setAgent(self, agent):
+        """
+        """
+        self._agent = agent
+    
+    def _startAgent(self):
+        """
+        """
+        self._startButton.configure(state=DISABLED)
+        self._root.update()
+        if(self._agent is None):
+            raise ValueError("Agent not set!")
+        agentThread = threading.Thread(target=self._agent.runAlgorithm, args=())
+        agentThread.start()
+
     def showWorld(self):
         self._root.mainloop()
     
-    def printWorld(self):
-        print(self._worldName)
-
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~ Test Code ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~ Grid World ~~~~~ #
 # world = CreateGridWorld("Grid Test Run", rows = 20, cols = 20, cellSize = 40)
