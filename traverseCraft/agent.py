@@ -1,18 +1,23 @@
 from .world import CreateGridWorld, CreateTreeWorld, TreeNode
-# from hundred import CreateGridWorld
 from tkinter import Frame, Tk
 import time
 import math
 import colorsys
 
-# Note: we have to make different agents for different worlds.
-
 class GridAgent():
     """
+    The Grid Agent class.
+
+    Parameters:
+    - world (CreateGridWorld): The grid world object in which the agent operates.
+    - agentName (str): The name of the agent.
+    - agentColor (str, optional): The color of the agent. Defaults to "blue".
+    - heatMapView (bool, optional): Whether to enable the heat map view. Defaults to True.
+    - heatMapColor (str, optional): The color of the heat map. Defaults to "#FFA732".
+    - agentPos (tuple, optional): The initial position of the agent. Defaults to (0, 0).
+    - heatGradient (float, optional): The gradient value for the heat map. Defaults to 0.05.
     """
     def __init__(self, world, agentName:str, agentColor:str="blue", heatMapView:bool=True, heatMapColor:str="#FFA732", agentPos:tuple=(0,0), heatGradient:float=0.05):
-        """
-        """
         if not isinstance(world, CreateGridWorld):
             raise TypeError("World must be an instance of CreateGridWorld!")
         self._worldObj = world
@@ -48,6 +53,15 @@ class GridAgent():
 
     def startState(self, i:int, j:int):
         """
+        Sets the start state of the agent to the specified position (i, j).
+
+        Args:
+            i (int): The row index of the start position.
+            j (int): The column index of the start position.
+
+        Raises:
+            ValueError: If the specified start position is invalid.
+
         """
         if((0 <= i < self._worldObj._rows) and (0 <= j < self._worldObj._cols) and (not self.checkBlockState(i, j))):
             self._worldObj._cells[self._currentPosition[0]][self._currentPosition[1]].configure(bg=self._worldObj._pathColor)
@@ -61,15 +75,26 @@ class GridAgent():
     
     def setAlgorithmCallBack(self, algorithmCallBack):
         """
+        Set the callback function for the algorithm.
+
+        Parameters:
+        algorithmCallBack (function): The callback function to be set.
+
+        Returns:
+        None
         """
         self.algorithmCallBack = algorithmCallBack
     
     def runAlgorithm(self):
-        """
-        """
-        if self.algorithmCallBack is None:
-            raise ValueError("Algorithm Call Back Function not set!")
-        self.algorithmCallBack()
+            """
+            Executes the algorithm callback function.
+
+            Raises:
+                ValueError: If the algorithm callback function is not set.
+            """
+            if self.algorithmCallBack is None:
+                raise ValueError("Algorithm Call Back Function not set!")
+            self.algorithmCallBack()
     
     def _warmerColor(self, color:str, sValue):
         """
@@ -89,12 +114,18 @@ class GridAgent():
         B = int(B*255)
         return f"#{R:02x}{G:02x}{B:02x}"
 
-    def getHeatMapColor(self, value:float):
+    def getHeatMapColor(self, value: float):
         """
+        Maps a value to a color on a heat map.
+
+        Args:
+            value (float): The value to be mapped.
+
+        Returns:
+            tuple: The RGB color tuple representing the mapped value on the heat map.
         """
         # Use exponential decay function to map value to [0, 1]
-        mappedValue = 0.9*(1 - math.exp((-1 * self._heatGradient) * value))  # Adjust the decay constant to change the color gradient
-        # print(mappedValue)
+        mappedValue = 0.9 * (1 - math.exp((-1 * self._heatGradient) * value))  # Adjust the decay constant to change the color gradient
         return self._warmerColor(self._heatMapBaseColor, mappedValue)
 
     def _updateHeatMap(self, i, j):
@@ -115,23 +146,37 @@ class GridAgent():
 
     def checkGoalState(self, i, j):
         """
+        Check if the given position (i, j) is a goal state.
+
+        Parameters:
+        i (int): The row index of the position.
+        j (int): The column index of the position.
+
+        Returns:
+        bool: True if the position is a goal state, False otherwise.
         """
-        if(self._worldObj._world[i][j] == 1):
+        if self._worldObj._world[i][j] == 1:
             return True
         else:
             return False
         
     def checkBlockState(self, i, j):
         """
+        Check the state of a block in the world.
+
+        Parameters:
+        - i (int): The row index of the block.
+        - j (int): The column index of the block.
+
+        Returns:
+        - bool: True if the block is empty (-1), False otherwise.
         """
-        if(self._worldObj._world[i][j] == -1):
+        if self._worldObj._world[i][j] == -1:
             return True
         else:
             return False
         
     def _canMove(self, i, j):
-        """
-        """
         if((0 <= i < self._worldObj._rows) and (0 <= j < self._worldObj._cols) and (not self.checkBlockState(i, j))):
             return True
         else:
@@ -139,6 +184,15 @@ class GridAgent():
 
     def moveAgent(self, i, j, delay:int=1):
         """
+        Moves the agent to the specified position (i, j) on the grid.
+
+        Args:
+            i (int): The row index of the target position.
+            j (int): The column index of the target position.
+            delay (int, optional): The delay in seconds before moving the agent. Defaults to 1.
+
+        Returns:
+            bool: True if the agent successfully moves to the target position, False otherwise.
         """
         if(self._canMove(i, j)):
             time.sleep(delay)
@@ -153,10 +207,17 @@ class GridAgent():
 
 class TreeAgent():
     """
+    The Tree Agent class.
+
+    Parameters:
+    - world (CreateTreeWorld): The world object that the agent belongs to.
+    - agentName (str): The name of the agent.
+    - agentColor (str, optional): The color of the agent. Defaults to "blue".
+    - heatMapView (bool, optional): Flag indicating whether to enable heat map view. Defaults to True.
+    - heatMapColor (str, optional): The color of the heat map. Defaults to "#FFA732".
+    - heatGradient (float, optional): The gradient of the heat map. Defaults to 0.05.
     """
     def __init__(self, world, agentName:str, agentColor:str="blue", heatMapView:bool=True, heatMapColor:str="#FFA732", heatGradient:float=0.05):
-        """
-        """
         if not isinstance(world, CreateTreeWorld):
             raise TypeError("World must be an instance of CreateTreeWorld!")
         self._worldObj = world
@@ -191,15 +252,26 @@ class TreeAgent():
 
     def setAlgorithmCallBack(self, algorithmCallBack):
         """
+        Set the callback function for the algorithm.
+
+        Parameters:
+        algorithmCallBack (function): The callback function to be set.
+
+        Returns:
+        None
         """
         self.algorithmCallBack = algorithmCallBack
     
     def runAlgorithm(self):
-        """
-        """
-        if self.algorithmCallBack is None:
-            raise ValueError("Algorithm Call Back Function not set!")
-        self.algorithmCallBack()
+            """
+            Executes the algorithm callback function.
+
+            Raises:
+                ValueError: If the algorithm callback function is not set.
+            """
+            if self.algorithmCallBack is None:
+                raise ValueError("Algorithm Call Back Function not set!")
+            self.algorithmCallBack()
     
     def _warmerColor(self, color:str, sValue):
         """
@@ -218,16 +290,22 @@ class TreeAgent():
         return f"#{R:02x}{G:02x}{B:02x}"
 
 
-    def getHeatMapColor(self, value:float):
+    def getHeatMapColor(self, value: float):
         """
+        Returns the color for a given value on a heat map.
+
+        Parameters:
+            value (float): The value to map to a color on the heat map.
+
+        Returns:
+            tuple: The RGB color value for the given value on the heat map.
+
         """
         # Use exponential decay function to map value to [0, 1]
-        mappedValue = 0.9*(1 - math.exp((-1 * self._heatGradient) * value))  # Adjust the decay constant to change the color gradient
+        mappedValue = 0.9 * (1 - math.exp((-1 * self._heatGradient) * value))  # Adjust the decay constant to change the color gradient
         return self._warmerColor(self._heatMapBaseColor, mappedValue)
 
     def _updateHeatMap(self, node):
-        """
-        """
         node._heatMapValue += 1
         if(self._heatMapView):
             self._modifyCellColor(node, self.getHeatMapColor(node._heatMapValue))
@@ -235,22 +313,35 @@ class TreeAgent():
             self._modifyCellColor(node, self._worldObj._nodeColor)
 
     def _modifyCellColor(self, node, color):
-        """
-        """
         self._worldObj.changeNodeColor(node.id, color)
         self._root.update()
 
     def checkGoalState(self, node):
-        """
-        """
-        if(node.isGoalState):
-            return True
-        else:
-            return False
+            """
+            Check if the given node is a goal state.
+
+            Parameters:
+            - node: The node to be checked.
+
+            Returns:
+            - True if the node is a goal state, False otherwise.
+            """
+            if(node.isGoalState):
+                return True
+            else:
+                return False
 
 
     def moveAgent(self, node, delay:int=1):
         """
+        Moves the agent to the specified node.
+
+        Args:
+            node: The node to which the agent should be moved.
+            delay (optional): The delay (in seconds) before moving to the next node. Default is 1 second.
+
+        Returns:
+            bool: True if the agent was successfully moved to the node, False otherwise.
         """
         if(node is not None):
             time.sleep(delay)
