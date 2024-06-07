@@ -32,6 +32,29 @@ SCREEN_WIDTH, SCREEN_HEIGHT = getScreenSize()
 
 class CreateGridWorld:
     """
+    Class representing a grid world.
+
+    Attributes:
+        setOfCoordinates (List[List[int]]): A list of coordinates.
+        coordinate (List[int]): A list representing a coordinate.
+        worldID (str): The ID of the world.
+
+    Args:
+        worldName (str): The name of the world.
+        rows (int): The number of rows in the world.
+        cols (int): The number of columns in the world.
+        cellSize (int, optional): The size of each cell in pixels. Defaults to 10.
+        pathColor (str, optional): The color of the path cells. Defaults to "gray".
+        blockColor (str, optional): The color of the block cells. Defaults to "red".
+        goalColor (str, optional): The color of the goal cells. Defaults to "green".
+        cellPadding (int, optional): The padding around each cell in pixels. Defaults to 2.
+        borderWidth (int, optional): The width of the cell borders in pixels. Defaults to 1.
+        buttonBgColor (str, optional): The background color of the button. Defaults to "#7FC7D9".
+        buttonFgColor (str, optional): The foreground color of the button. Defaults to "#332941".
+        textFont (str, optional): The font of the button text. Defaults to "Helvetica".
+        textSize (int, optional): The size of the button text. Defaults to 24.
+        textWeight (str, optional): The weight of the button text. Defaults to "bold".
+        buttonText (str, optional): The text displayed on the button. Defaults to "Start Agent".
     """
     setOfCoordinates = List[List[int]]
     coordinate = List[int]
@@ -76,6 +99,16 @@ class CreateGridWorld:
 
     def constructWorld(self):
         """
+        Constructs the world by creating and arranging cells in the GUI.
+        If the goal cells are not set, it creates a goal cell at the bottom-right corner of the grid.
+        It also creates cells for each row and column in the grid, and binds a left-click event to toggle the cells.
+        Finally, it creates a "Start Agent" button at the bottom of the grid.
+
+        Parameters:
+            None
+
+        Returns:
+            None
         """
         if(self._goalCells is None):
             self._cells[self._rows - 1][self._cols - 1] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._goalColor, borderwidth=self._borderWidth)
@@ -99,8 +132,6 @@ class CreateGridWorld:
         self._root.update()
 
     def _startAgent(self):
-        """
-        """
         self._startButton.configure(state=DISABLED)
         self._root.update()
         if(self._agent is None):
@@ -108,13 +139,17 @@ class CreateGridWorld:
         agentThread = threading.Thread(target=self._agent.runAlgorithm, args=())
         agentThread.start()
 
-    # def GridAgentRun(self, agent):
-    #     """
-    #     """
-    #     raise NotImplementedError("GridAgentRun() must be implemented in the agent class!")
 
     def addBlockPath(self, blockCells:setOfCoordinates):
         """
+        Adds block cells to the world grid.
+
+        Parameters:
+        - blockCells (setOfCoordinates): A set of coordinates representing the block cells.
+
+        Returns:
+        - None
+
         """
         self._blockCells = blockCells
         for i, j in self._blockCells:
@@ -127,6 +162,13 @@ class CreateGridWorld:
 
     def addGoalState(self, goalState:setOfCoordinates):
         """
+        Adds the goal state to the world grid.
+
+        Parameters:
+        - goalState (setOfCoordinates): A set of coordinates representing the goal state.
+
+        Returns:
+        None
         """
         self._goalCells = goalState
         for i, j in self._goalCells:
@@ -137,11 +179,30 @@ class CreateGridWorld:
 
     def setAgent(self, agent):
         """
+        Set the agent for the world.
+
+        Parameters:
+        agent (Agent): The agent object to set.
+
+        Returns:
+        None
         """
         self._agent = agent
  
     def updateWorld(self):
         """
+        Updates the world by positioning the cells in a grid layout and updating the root window.
+
+        This method iterates over each cell in the world and positions it in a grid layout using the row and column indices.
+        It also updates the root window to reflect any changes made to the world.
+
+        Note:
+        - The cells are positioned using the `grid` method with the specified row and column indices.
+        - The `sticky` parameter is set to "nsew" to make the cells stick to all sides of their respective grid cells.
+        - The `padx` and `pady` parameters specify the padding around each cell.
+
+        Returns:
+        None
         """
         for i in range(self._rows):
             for j in range(self._cols):
@@ -163,6 +224,7 @@ class CreateGridWorld:
 
     def showWorld(self):
         """
+        Displays the world.
         """
         self._root.mainloop()
 
@@ -170,6 +232,30 @@ class CreateGridWorld:
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~ Tree World ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 class CreateTreeWorld:
+    """
+        Class representing a tree world.
+
+        Parameters:
+        - worldName (str): The name of the world.
+        - worldInfo (dict): A dictionary containing information about the world.
+        - radius (int): The radius of the nodes in the world visualization. Default is 20.
+        - fontSize (int): The font size of the node labels. Default is 12.
+        - fontBold (bool): Whether to use bold font for the node labels. Default is True.
+        - fontItalic (bool): Whether to use italic font for the node labels. Default is True.
+        - nodeColor (str): The color of the nodes. Default is "gray".
+        - rootColor (str): The color of the root node. Default is "red".
+        - goalColor (str): The color of the goal nodes. Default is "green".
+        - width (int): The width of the world visualization canvas. Default is SCREEN_WIDTH.
+        - height (int): The height of the world visualization canvas. Default is SCREEN_HEIGHT.
+        - lineThickness (int): The thickness of the lines connecting the nodes. Default is 2.
+        - arrowShape (tuple): The shape of the arrows indicating the direction of the edges. Default is (10, 12, 5).
+        - buttonBgColor (str): The background color of the buttons. Default is "#7FC7D9".
+        - buttonFgColor (str): The foreground color of the buttons. Default is "#332941".
+        - textFont (str): The font family of the button text. Default is "Helvetica".
+        - textSize (int): The font size of the button text. Default is 24.
+        - textWeight (str): The font weight of the button text. Default is "bold".
+        - buttonText (str): The text displayed on the buttons. Default is "Start Agent".
+        """
     worldID = "TREEWORLD"
     def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5), buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent"):
         self._worldName = worldName
@@ -246,6 +332,15 @@ class CreateTreeWorld:
         return TreeNode(rootId, children=children, edges=[], isGoalState=(rootId in self._goalIds))
 
     def constructWorld(self):
+        """
+        Constructs the tree world.
+
+        Parameters:
+            self (World): The World instance.
+
+        Returns:
+            None
+        """
         self._constructWorld()
 
     def _constructWorld(self):
@@ -302,15 +397,32 @@ class CreateTreeWorld:
         self._startButton.place(x=button_x, y=button_y, anchor="center")
     
     def changeNodeColor(self, nodeId, color):
+        """
+        Changes the color of a node in the tree.
+
+        Args:
+            nodeId (int): The ID of the node to change the color of.
+            color (str): The new color to set for the node.
+
+        Returns:
+            None
+        """
         if nodeId in self._nodeObj:
             self._canvas.itemconfig(self._nodeObj[nodeId], fill=color)
 
-    def change_node_text(self, nodeId, newText):
+    def changeNodeText(self, nodeId, newText):
         if nodeId in self._nodeTextObj:
             self._canvas.itemconfig(self._nodeTextObj[nodeId], text=newText)
     
     def setAgent(self, agent):
         """
+        Set the agent for the world.
+
+        Parameters:
+        agent (Agent): The agent to be set.
+
+        Returns:
+        None
         """
         self._agent = agent
     
@@ -325,6 +437,9 @@ class CreateTreeWorld:
         agentThread.start()
 
     def showWorld(self):
+        """
+        Displays the world.
+        """
         self._root.mainloop()
     
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~ Test Code ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
