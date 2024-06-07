@@ -1,4 +1,4 @@
-from world import CreateGridWorld, CreateTreeWorld, TreeNode
+from .world import CreateGridWorld, CreateTreeWorld, TreeNode
 # from hundred import CreateGridWorld
 from tkinter import Frame, Tk
 import time
@@ -78,9 +78,9 @@ class GridAgent():
         BR, BG, BB = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
         # print(f"BR: {BR}, BG: {BG}, BB: {BB}")
         hue, saturation, value = colorsys.rgb_to_hsv(BR/255, BG/255, BB/255)
-        print(f"HSV: {hue}, {saturation}, {value}. sValue {sValue}")
+        # print(f"HSV: {hue}, {saturation}, {value}. sValue {sValue}")
         saturation += sValue
-        print(f"HSV: {hue}, {saturation}, {value}. sValue {sValue}")
+        # print(f"HSV: {hue}, {saturation}, {value}. sValue {sValue}")
         if saturation > 1:
             saturation = 1
         R, G, B = colorsys.hsv_to_rgb(hue, saturation, value)
@@ -94,7 +94,7 @@ class GridAgent():
         """
         # Use exponential decay function to map value to [0, 1]
         mappedValue = 0.9*(1 - math.exp((-1 * self._heatGradient) * value))  # Adjust the decay constant to change the color gradient
-        print(mappedValue)
+        # print(mappedValue)
         return self._warmerColor(self._heatMapBaseColor, mappedValue)
 
     def _updateHeatMap(self, i, j):
@@ -103,11 +103,13 @@ class GridAgent():
         if(self._heatMapView):
             self._heatMapValueGrid[i][j] += 1
             self._modifyCellColor(i, j, self.getHeatMapColor(self._heatMapValueGrid[i][j]))
+        else:
+            self._modifyCellColor(i, j, self._worldObj._pathColor)
 
     def _modifyCellColor(self, i, j, color):
         """
         """
-        print(f"({i}, {j}): {color}, value: {self._heatMapValueGrid[i][j]}")
+        # print(f"({i}, {j}): {color}, value: {self._heatMapValueGrid[i][j]}")
         self._worldObj._cells[i][j].configure(bg=color)
         self._root.update()
 
@@ -165,13 +167,11 @@ class TreeAgent():
         self._heatMapView = heatMapView
         self._heatMapColor = heatMapColor
         self._heatMapBaseColor = heatMapColor
-        self._heatMapValueGrid = [[0.0 for _ in range(self._worldObj._cols)] for _ in range(self._worldObj._rows)]
         self._heatGradient = heatGradient
         # ~~~~~~~~~~ Agent Position ~~~~~~~~~~ #
-        self._currentPosition = agentPos
-        self._worldObj._cells[self._currentPosition[0]][self._currentPosition[1]].configure(bg=self._agentColor)
-        self._worldObj._cells[self._currentPosition[0]][self._currentPosition[1]].unbind("<Button-1>")
-        self._root.update()
+        self._treeRoot = world.root
+        self._worldObj.changeNodeColor(self._treeRoot.id, self._agentColor)
+        self._currentNode = self._treeRoot
         # ~~~~~~~~~~ Base Heat Map Color ~~~~~~~~~~ #
         if self._heatMapView:
             BR, BG, BB = int(self._heatMapColor[1:3], 16), int(self._heatMapColor[3:5], 16), int(self._heatMapColor[5:7], 16)
@@ -188,19 +188,7 @@ class TreeAgent():
     def __str__(self):
         return f"Agent Name: {self._agentName}\nAgent Color: {self._agentColor}\nWorld Name: {self._worldObj._worldName}\nWorld ID: {self._worldID}"
 
-    def startState(self, i:int, j:int):
-        """
-        """
-        if((0 <= i < self._worldObj._rows) and (0 <= j < self._worldObj._cols) and (not self.checkBlockState(i, j))):
-            self._worldObj._cells[self._currentPosition[0]][self._currentPosition[1]].configure(bg=self._worldObj._pathColor)
-            self._worldObj._cells[self._currentPosition[0]][self._currentPosition[1]].bind("<Button-1>", lambda event, i=self._currentPosition[0], j=self._currentPosition[1]: self._worldObj._toggleCell(event, i, j))
-            self._currentPosition = (i, j)
-            self._worldObj._cells[i][j].configure(bg=self._agentColor)
-            self._worldObj._cells[i][j].unbind("<Button-1>")
-            self._root.update()
-        else:
-            raise ValueError("Invalid start state!")
-    
+
     def setAlgorithmCallBack(self, algorithmCallBack):
         """
         """
@@ -220,9 +208,7 @@ class TreeAgent():
         BR, BG, BB = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
         # print(f"BR: {BR}, BG: {BG}, BB: {BB}")
         hue, saturation, value = colorsys.rgb_to_hsv(BR/255, BG/255, BB/255)
-        print(f"HSV: {hue}, {saturation}, {value}. sValue {sValue}")
         saturation += sValue
-        print(f"HSV: {hue}, {saturation}, {value}. sValue {sValue}")
         if saturation > 1:
             saturation = 1
         R, G, B = colorsys.hsv_to_rgb(hue, saturation, value)
@@ -231,61 +217,47 @@ class TreeAgent():
         B = int(B*255)
         return f"#{R:02x}{G:02x}{B:02x}"
 
+
     def getHeatMapColor(self, value:float):
         """
         """
         # Use exponential decay function to map value to [0, 1]
         mappedValue = 0.9*(1 - math.exp((-1 * self._heatGradient) * value))  # Adjust the decay constant to change the color gradient
-        print(mappedValue)
         return self._warmerColor(self._heatMapBaseColor, mappedValue)
 
-    def _updateHeatMap(self, i, j):
+    def _updateHeatMap(self, node):
         """
         """
+        node._heatMapValue += 1
         if(self._heatMapView):
-            self._heatMapValueGrid[i][j] += 1
-            self._modifyCellColor(i, j, self.getHeatMapColor(self._heatMapValueGrid[i][j]))
+            self._modifyCellColor(node, self.getHeatMapColor(node._heatMapValue))
+        else:
+            self._modifyCellColor(node, self._worldObj._nodeColor)
 
-    def _modifyCellColor(self, i, j, color):
+    def _modifyCellColor(self, node, color):
         """
         """
-        print(f"({i}, {j}): {color}, value: {self._heatMapValueGrid[i][j]}")
-        self._worldObj._cells[i][j].configure(bg=color)
+        self._worldObj.changeNodeColor(node.id, color)
         self._root.update()
 
-    def checkGoalState(self, i, j):
+    def checkGoalState(self, node):
         """
         """
-        if(self._worldObj._world[i][j] == 1):
-            return True
-        else:
-            return False
-        
-    def checkBlockState(self, i, j):
-        """
-        """
-        if(self._worldObj._world[i][j] == -1):
-            return True
-        else:
-            return False
-        
-    def _canMove(self, i, j):
-        """
-        """
-        if((0 <= i < self._worldObj._rows) and (0 <= j < self._worldObj._cols) and (not self.checkBlockState(i, j))):
+        if(node.isGoalState):
             return True
         else:
             return False
 
-    def moveAgent(self, i, j, delay:int=1):
+
+    def moveAgent(self, node, delay:int=1):
         """
         """
-        if(self._canMove(i, j)):
+        if(node is not None):
             time.sleep(delay)
-            x, y = self._currentPosition
-            self._updateHeatMap(x, y)
-            self._currentPosition = (i, j)
-            self._modifyCellColor(i, j, self._agentColor)
+            parent = self._currentNode
+            self._updateHeatMap(parent)
+            self._currentNode = node
+            self._modifyCellColor(node, self._agentColor)
             return True
         else:
             return False

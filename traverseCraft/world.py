@@ -171,7 +171,7 @@ class CreateGridWorld:
 
 class CreateTreeWorld:
     worldID = "TREEWORLD"
-    def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5)):
+    def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5), buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent"):
         self._worldName = worldName
         # check important parameters in world info #
         if "root" not in worldInfo:
@@ -189,7 +189,6 @@ class CreateTreeWorld:
         self._position = worldInfo["position"]
         self._width = width
         self._height = height
-        # self.currentNode = self._treeRoot
         self._radius = radius
         self._nodeColor = nodeColor
         self._rootColor = rootColor
@@ -210,8 +209,17 @@ class CreateTreeWorld:
         if("vals" not in self._worldInfo):
             self._worldInfo['vals'] = None
         self.root = self._generateTreeDS(self._worldInfo["adj"], self._treeRootId, self._worldInfo["edges"], self._worldInfo['vals'])
-        # Agent information #
+        # ~~~~~ Agent information ~~~~~ #
         self._agent = None
+        self._nodeObj = {}
+        self._nodeTextObj = {}
+        # ~~~~~ Button Attributes ~~~~~ #
+        self._buttonBgColor = buttonBgColor
+        self._buttonFgColor = buttonFgColor
+        self._buttonText = buttonText
+        self._textFont = textFont
+        self._textSize = textSize
+        self._textWeight = textWeight
 
     def __str__(self):
         return f"World Name: {self._worldName}\nNode Radius: {self._radius}\nWindow Size: {self._height}x{self._width}"
@@ -242,27 +250,28 @@ class CreateTreeWorld:
 
     def _constructWorld(self):
         self._drawNodeEdges(self.root)
+        self._addStartButton()
 
     def _drawNodeEdges(self, node):
         if node is None:
             return
         
-        node_id = node.id
-        x, y = self._position[node_id]
+        nodeId = node.id
+        x, y = self._position[nodeId]
 
         # Determine the color based on the node type
         color = self._nodeColor
-        if node_id == self._treeRootId:
+        if nodeId == self._treeRootId:
             color = self._rootColor
-        elif node_id in self._goalIds:
+        elif nodeId in self._goalIds:
             color = self._goalColor
 
         # Draw the node
-        self._canvas.create_oval(x - self._radius, y - self._radius, x + self._radius, y + self._radius, fill=color)
+        self._nodeObj[nodeId] = self._canvas.create_oval(x - self._radius, y - self._radius, x + self._radius, y + self._radius, fill=color)
 
         # Draw the node value
         font_style = ("Helvetica", self._fontSize, "bold italic" if self._fontBold and self._fontItalic else "bold" if self._fontBold else "italic" if self._fontItalic else "normal")
-        self._canvas.create_text(x, y, text=str(node_id), font=font_style, fill="black")
+        self._nodeTextObj[nodeId] = self._canvas.create_text(x, y, text=str(nodeId), font=font_style, fill="black")
 
         # Draw the edges and recursively draw the children nodes
         for i, child in enumerate(node.children):
@@ -282,6 +291,24 @@ class CreateTreeWorld:
             # Recursively draw the child node
             self._drawNodeEdges(child)
 
+    def _addStartButton(self):
+        # Find the bottommost point of the tree
+        button_y = 100 + max(y for _, y in self._position.values())
+        button_x = (min(x for x, _ in self._position.values()) + max(x for x, _ in self._position.values())) // 2
+
+        # Create the "Start Agent" button
+        self._startButton = Button(self._root, text=self._buttonText, command=self._startAgent, bg=self._buttonBgColor, fg=self._buttonFgColor)
+        self._startButton['font'] = font.Font(family=self._textFont, size=self._textSize, weight=self._textWeight)
+        self._startButton.place(x=button_x, y=button_y, anchor="center")
+    
+    def changeNodeColor(self, nodeId, color):
+        if nodeId in self._nodeObj:
+            self._canvas.itemconfig(self._nodeObj[nodeId], fill=color)
+
+    def change_node_text(self, nodeId, newText):
+        if nodeId in self._nodeTextObj:
+            self._canvas.itemconfig(self._nodeTextObj[nodeId], text=newText)
+    
     def setAgent(self, agent):
         """
         """
