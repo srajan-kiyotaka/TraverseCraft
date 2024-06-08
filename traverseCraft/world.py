@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from typing import List
 import tkinter.font as font
-from .dataStructures import TreeNode
+from .dataStructures import TreeNode, GraphNode
 import threading
 import platform
 import math
@@ -318,16 +318,16 @@ class CreateTreeWorld:
         
         children = []
         for childId in adj[rootId]:
-            children.append(self._generateTreeDS(adj, childId))
+            children.append(self._generateTreeDS(adj, childId, edges, values))
         
         if(edges is not None):
             if(values is not None):
-                return TreeNode(rootId, values=[rootId], children=children, edges=edges[rootId], isGoalState=(rootId in self._goalIds))
+                return TreeNode(rootId, values=values[rootId], children=children, edges=edges[rootId], isGoalState=(rootId in self._goalIds))
             else:
                 return TreeNode(rootId, children=children, edges=edges[rootId], isGoalState=(rootId in self._goalIds))
         else:
             if(values is not None):
-                return TreeNode(rootId, values=[rootId], children=children, edges=[], isGoalState=(rootId in self._goalIds))
+                return TreeNode(rootId, values=values[rootId], children=children, edges=[], isGoalState=(rootId in self._goalIds))
                             
         return TreeNode(rootId, children=children, edges=[], isGoalState=(rootId in self._goalIds))
 
@@ -442,14 +442,231 @@ class CreateTreeWorld:
         """
         self._root.mainloop()
     
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Test Code ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# ~~~~~ Grid World ~~~~~ #
-# world = CreateGridWorld("Grid Test Run", rows = 20, cols = 20, cellSize = 40)
-# world.addBlockPath([[0,0],[1,1],[4,2],[7,3],[8,4],[2,5],[9,6],[2,7]])
-# world.constructWorld()
-# # world.printWorld()
-# print(world)
-# world.showWorld()
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ Graph World ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+class CreateGraphWorld:
+    """
+        Class representing a graph world.
+
+        Parameters:
+        - worldName (str): The name of the world.
+        - worldInfo (dict): A dictionary containing information about the world.
+        - radius (int): The radius of the nodes in the world visualization. Default is 20.
+        - fontSize (int): The font size of the node labels. Default is 12.
+        - fontBold (bool): Whether to use bold font for the node labels. Default is True.
+        - fontItalic (bool): Whether to use italic font for the node labels. Default is True.
+        - nodeColor (str): The color of the nodes. Default is "gray".
+        - rootColor (str): The color of the root node. Default is "red".
+        - goalColor (str): The color of the goal nodes. Default is "green".
+        - width (int): The width of the world visualization canvas. Default is SCREEN_WIDTH.
+        - height (int): The height of the world visualization canvas. Default is SCREEN_HEIGHT.
+        - lineThickness (int): The thickness of the lines connecting the nodes. Default is 2.
+        - arrowShape (tuple): The shape of the arrows indicating the direction of the edges. Default is (10, 12, 5).
+        - buttonBgColor (str): The background color of the buttons. Default is "#7FC7D9".
+        - buttonFgColor (str): The foreground color of the buttons. Default is "#332941".
+        - textFont (str): The font family of the button text. Default is "Helvetica".
+        - textSize (int): The font size of the button text. Default is 24.
+        - textWeight (str): The font weight of the button text. Default is "bold".
+        - buttonText (str): The text displayed on the buttons. Default is "Start Agent".
+        """
+    worldID = "GRAPHWORLD"
+    def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5), buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent"):
+        self._worldName = worldName
+        # check important parameters in world info #
+        if "goals" not in worldInfo:
+            raise ValueError("World info is missing 'goals' key")
+        if "adj" not in worldInfo:
+            raise ValueError("World info is missing 'adj' key")
+        if "position" not in worldInfo:
+            raise ValueError("World info is missing 'position' key")
+        ############################################
+        self._worldInfo = worldInfo
+        self._graphRootId = list(worldInfo["position"].keys())[0]
+        self._goalIds = worldInfo["goals"]
+        self._position = worldInfo["position"]
+        self._width = width
+        self._height = height
+        self._radius = radius
+        self._nodeColor = nodeColor
+        self._goalColor = goalColor
+        self._fontSize = fontSize
+        self._fontBold = fontBold
+        self._fontItalic = fontItalic
+        self._lineThickness = lineThickness
+        self._arrowShape = arrowShape
+        self._root = Tk()
+        self._root.title(self._worldName)
+        self._canvas = Canvas(self._root, width=self._width, height=self._height, bg="white")
+        self._canvas.pack()
+        self.nodeMap = {}
+        ## Construct Tree Data Structure ##
+        if("edges" not in self._worldInfo):
+            self._worldInfo['edges'] = None
+        if("vals" not in self._worldInfo):
+            self._worldInfo['vals'] = None
+        self._visited = {nodeId: False for nodeId in self._worldInfo["position"].keys()}
+        self.root = self._generateGraphDS(self._worldInfo["adj"], self._graphRootId, None, self._worldInfo["edges"], self._worldInfo['vals'], visited=self._visited)
+        # ~~~~~ Agent information ~~~~~ #
+        self._agent = None
+        self._nodeObj = {}
+        self._nodeTextObj = {}
+        # ~~~~~ Button Attributes ~~~~~ #
+        self._buttonBgColor = buttonBgColor
+        self._buttonFgColor = buttonFgColor
+        self._buttonText = buttonText
+        self._textFont = textFont
+        self._textSize = textSize
+        self._textWeight = textWeight
+
+    def __str__(self):
+        return f"World Name: {self._worldName}\nNode Radius: {self._radius}\nWindow Size: {self._height}x{self._width}"
+
+    def _generateGraphDS(self, adj, rootId, parentId=None, edges=None, values=None, visited={}):
+        if rootId not in adj:
+            raise ValueError(f"Root ID {rootId} not found in adjacency list")
         
-# ~~~~~ Tree World ~~~~~ #
-# Example tree structure
+        if visited[rootId]:
+            return None
+        
+        visited[rootId] = True
+
+        if (adj[rootId] is None or len(adj[rootId]) == 0) or (parentId is not None and len(adj[rootId]) == 1 and adj[rootId][0] == parentId):
+            self.nodeMap[rootId] = GraphNode(rootId, neighbors=[], edges=[], isGoalState=(rootId in self._goalIds))
+            return self.nodeMap[rootId]
+        
+        for neighId in adj[rootId]:
+            if visited[neighId] or (parentId is not None and neighId == parentId):
+                continue
+            else:
+                self.nodeMap[neighId] = self._generateGraphDS(adj, neighId, rootId, edges, values, visited)
+        
+        if(edges is not None):
+            if(values is not None):
+                self.nodeMap[rootId] = GraphNode(rootId, values=values[rootId], neighbors=adj[rootId], edges=edges[rootId], isGoalState=(rootId in self._goalIds))
+            else:
+                self.nodeMap[rootId] = GraphNode(rootId, neighbors=adj[rootId], edges=edges[rootId], isGoalState=(rootId in self._goalIds))
+        else:
+            if(values is not None):
+                self.nodeMap[rootId] = GraphNode(rootId, values=values[rootId], neighbors=adj[rootId], edges=[], isGoalState=(rootId in self._goalIds))
+            else:
+                self.nodeMap[rootId] = GraphNode(rootId, neighbors=adj[rootId], edges=[], isGoalState=(rootId in self._goalIds))
+
+        return self.nodeMap[rootId]
+
+    def constructWorld(self):
+        """
+        Constructs the tree world.
+
+        Parameters:
+            self (World): The World instance.
+
+        Returns:
+            None
+        """
+        self._constructWorld()
+
+    def _constructWorld(self):
+        self._drawNodeEdges(self.root)
+        self._addStartButton()
+
+    def _drawNodeEdges(self, node):
+        if node is None:
+            return
+        
+        if not self._visited[node.id]:
+            return
+        
+        nodeId = node.id
+        
+        self._visited[nodeId] = False
+
+        self.nodeMap[nodeId].neighbors = [self.nodeMap[neighId] for neighId in node.neighbors]
+
+        x, y = self._position[nodeId]
+
+        # Determine the color based on the node type
+        color = self._nodeColor
+        if nodeId in self._goalIds:
+            color = self._goalColor
+
+        # Draw the node
+        self._nodeObj[nodeId] = self._canvas.create_oval(x - self._radius, y - self._radius, x + self._radius, y + self._radius, fill=color)
+
+        # Draw the node value
+        font_style = ("Helvetica", self._fontSize, "bold italic" if self._fontBold and self._fontItalic else "bold" if self._fontBold else "italic" if self._fontItalic else "normal")
+        self._nodeTextObj[nodeId] = self._canvas.create_text(x, y, text=str(nodeId), font=font_style, fill="black")
+
+        # Draw the edges and recursively draw the children nodes
+        for i, neigh in enumerate(node.neighbors):
+            neighId = neigh.id
+            neigh_x, neigh_y = self._position[neighId]
+
+            # Calculate the angle for the line
+            angle = math.atan2(neigh_y - y, neigh_x - x)
+            start_x = x + self._radius * math.cos(angle)
+            start_y = y + self._radius * math.sin(angle)
+            end_x = neigh_x - self._radius * math.cos(angle)
+            end_y = neigh_y - self._radius * math.sin(angle)
+
+            # Draw the edge
+            self._canvas.create_line(start_x, start_y, end_x, end_y, width=self._lineThickness, arrow=LAST, arrowshape=self._arrowShape)
+
+            # Recursively draw the neigh node
+            if self._visited[neighId]:
+                self._drawNodeEdges(neigh)
+
+    def _addStartButton(self):
+        # Find the bottommost point of the tree
+        button_y = 100 + max(y for _, y in self._position.values())
+        button_x = (min(x for x, _ in self._position.values()) + max(x for x, _ in self._position.values())) // 2
+
+        # Create the "Start Agent" button
+        self._startButton = Button(self._root, text=self._buttonText, command=self._startAgent, bg=self._buttonBgColor, fg=self._buttonFgColor)
+        self._startButton['font'] = font.Font(family=self._textFont, size=self._textSize, weight=self._textWeight)
+        self._startButton.place(x=button_x, y=button_y, anchor="center")
+    
+    def changeNodeColor(self, nodeId, color):
+        """
+        Changes the color of a node in the tree.
+
+        Args:
+            nodeId (int): The ID of the node to change the color of.
+            color (str): The new color to set for the node.
+
+        Returns:
+            None
+        """
+        if nodeId in self._nodeObj:
+            self._canvas.itemconfig(self._nodeObj[nodeId], fill=color)
+
+    def changeNodeText(self, nodeId, newText):
+        if nodeId in self._nodeTextObj:
+            self._canvas.itemconfig(self._nodeTextObj[nodeId], text=newText)
+    
+    def setAgent(self, agent):
+        """
+        Set the agent for the world.
+
+        Parameters:
+        agent (Agent): The agent to be set.
+
+        Returns:
+        None
+        """
+        self._agent = agent
+    
+    def _startAgent(self):
+        """
+        """
+        self._startButton.configure(state=DISABLED)
+        self._root.update()
+        if(self._agent is None):
+            raise ValueError("Agent not set!")
+        agentThread = threading.Thread(target=self._agent.runAlgorithm, args=())
+        agentThread.start()
+
+    def showWorld(self):
+        """
+        Displays the world.
+        """
+        self._root.mainloop()
