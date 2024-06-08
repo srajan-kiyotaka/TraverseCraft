@@ -7,6 +7,7 @@ import threading
 import platform
 import math
 import subprocess
+from prettytable import PrettyTable
 
 
 def getScreenSize():
@@ -93,9 +94,54 @@ class CreateGridWorld:
         self._root.geometry(f"{(self._rows) * (self._cellSize + 2*self._cellPadding)}x{(self._cols + 1) * (self._cellSize + 2*self._cellPadding)}")
         self._world = [[0 for i in range(self._cols)] for j in range(self._rows)]
         self._cells = [[None for j in range(self._cols)] for i in range(self._rows)]
+        self._heatMapValueGrid = [[0 for _ in range(self._cols)] for _ in range(self._rows)]
 
     def __str__(self):
-        return f"World Name: {self._worldName}\nRows: {self._rows}\nCols: {self._cols}\nWindow Size: {(self._rows) * (self._cellSize + 2*self._cellPadding)}x{(self._cols + 1) * (self._cellSize + 2*self._cellPadding)}"
+        return self.aboutWorld()
+
+    def aboutWorld(self):
+        """
+        Generates a summary of the world.
+
+        Returns:
+        - str: The summary of the world.
+        """
+        about = PrettyTable()
+        about.field_names = ["Attribute", "Value"]
+        about.add_row(["World Name", self._worldName])
+        about.add_row(["Rows", self._rows])
+        about.add_row(["Columns", self._cols])
+        about.add_row(["Cell Size", self._cellSize])
+        about.add_row(["Cell Padding", self._cellPadding])
+        about.add_row(["Window Size", f"{(self._rows) * (self._cellSize + 2*self._cellPadding)}x{(self._cols + 1) * (self._cellSize + 2*self._cellPadding)}"])
+        about.add_row(["Path Color", self._pathColor])
+        about.add_row(["Block Color", self._blockColor])
+        about.add_row(["Goal Color", self._goalColor])
+        about.add_row(["Border Width", self._borderWidth])
+        about.add_row(["Button Background Color", self._buttonBgColor])
+        about.add_row(["Button Foreground Color", self._buttonFgColor])
+        about.add_row(["Button Text", self._buttonText])
+        about.add_row(["Text Font", self._textFont])
+        about.add_row(["Text Size", self._textSize])
+        about.add_row(["Text Weight", self._textWeight])
+        return str(about)
+
+    def summary(self):
+        """
+        Generates a summary of the world.
+
+        Returns:
+        - str: The summary of the world.
+        """
+        summary = PrettyTable()
+        columns = ['Cell'] + [f"{i}" for i in range(self._cols)]
+        summary.field_names = columns
+        for i in range(self._rows):
+            row = [f"{i}"]
+            for j in range(self._cols):
+                row.append(self._heatMapValueGrid[i][j])
+            summary.add_row(row)
+        return str(summary)
 
     def constructWorld(self):
         """
@@ -222,6 +268,11 @@ class CreateGridWorld:
             self._world[i][j] = 0
 
 
+    def _disableCellToggle(self):
+        for i in range(self._rows):
+            for j in range(self._cols):
+                self._cells[i][j].unbind("<Button-1>")
+    
     def showWorld(self):
         """
         Displays the world.
@@ -290,6 +341,7 @@ class CreateTreeWorld:
         self._canvas.pack()
         self.root = None
         ## Construct Tree Data Structure ##
+        self.nodeMap = {nodeId : None for nodeId in self._worldInfo["position"].keys()}
         if("edges" not in self._worldInfo):
             self._worldInfo['edges'] = None
         if("vals" not in self._worldInfo):
@@ -308,13 +360,57 @@ class CreateTreeWorld:
         self._textWeight = textWeight
 
     def __str__(self):
-        return f"World Name: {self._worldName}\nNode Radius: {self._radius}\nWindow Size: {self._height}x{self._width}"
+        return self.aboutWorld()
+
+    def aboutWorld(self):
+        """
+        Generates a summary of the world.
+
+        Returns:
+            str: The summary of the world.
+        """
+        about = PrettyTable()
+        about.field_names = ["Attribute", "Value"]
+        about.add_row(["World Name", self._worldName])
+        about.add_row(["Root Node ID", self._treeRootId])
+        about.add_row(["Goal Nodes", self._goalIds])
+        about.add_row(["Width", self._width])
+        about.add_row(["Height", self._height])
+        about.add_row(["Node Radius", self._radius])
+        about.add_row(["Font Size", self._fontSize])
+        about.add_row(["Font Bold", self._fontBold])
+        about.add_row(["Font Italic", self._fontItalic])
+        about.add_row(["Node Color", self._nodeColor])
+        about.add_row(["Goal Color", self._goalColor])
+        about.add_row(["Line Thickness", self._lineThickness])
+        about.add_row(["Arrow Shape", self._arrowShape])
+        about.add_row(["Button Background Color", self._buttonBgColor])
+        about.add_row(["Button Foreground Color", self._buttonFgColor])
+        about.add_row(["Text Font", self._textFont])
+        about.add_row(["Text Size", self._textSize])
+        about.add_row(["Text Weight", self._textWeight])
+        about.add_row(["Button Text", self._buttonText])
+        return str(about)
+
+    def summary(self):
+        """
+        Generates a summary of the world.
+
+        Returns:
+            str: The summary of the world.
+        """
+        summary = PrettyTable()
+        summary.field_names = ['Node ID', 'Number of Visits'] 
+        for nodeId, node in self.nodeMap.items():
+            summary.add_row([nodeId, node._heatMapValue])
+        return str(summary)
 
     def _generateTreeDS(self, adj, rootId, edges=None, values=None):
         if rootId not in adj:
             raise ValueError(f"Root ID {rootId} not found in adjacency list")
         elif adj[rootId] is None or len(adj[rootId]) == 0:
-            return TreeNode(rootId, children=[], edges=[], isGoalState=(rootId in self._goalIds))
+            self.nodeMap[rootId] = TreeNode(rootId, children=[], edges=[], isGoalState=(rootId in self._goalIds))
+            return self.nodeMap[rootId]
         
         children = []
         for childId in adj[rootId]:
@@ -322,15 +418,17 @@ class CreateTreeWorld:
         
         if(edges is not None):
             if(values is not None):
-                return TreeNode(rootId, values=values[rootId], children=children, edges=edges[rootId], isGoalState=(rootId in self._goalIds))
+                self.nodeMap[rootId] = TreeNode(rootId, values=values[rootId], children=children, edges=edges[rootId], isGoalState=(rootId in self._goalIds))
             else:
-                return TreeNode(rootId, children=children, edges=edges[rootId], isGoalState=(rootId in self._goalIds))
+                self.nodeMap[rootId] = TreeNode(rootId, children=children, edges=edges[rootId], isGoalState=(rootId in self._goalIds))
         else:
             if(values is not None):
-                return TreeNode(rootId, values=values[rootId], children=children, edges=[], isGoalState=(rootId in self._goalIds))
-                            
-        return TreeNode(rootId, children=children, edges=[], isGoalState=(rootId in self._goalIds))
+                self.nodeMap[rootId] = TreeNode(rootId, values=values[rootId], children=children, edges=[], isGoalState=(rootId in self._goalIds))
+            else:
+                self.nodeMap[rootId] = TreeNode(rootId, children=children, edges=[], isGoalState=(rootId in self._goalIds))
 
+        return self.nodeMap[rootId]
+    
     def constructWorld(self):
         """
         Constructs the tree world.
@@ -413,6 +511,18 @@ class CreateTreeWorld:
     def changeNodeText(self, nodeId, newText):
         if nodeId in self._nodeTextObj:
             self._canvas.itemconfig(self._nodeTextObj[nodeId], text=newText)
+    
+    def getNode(self, nodeId):
+        """
+        Returns the pointer to the node with the given nodeId.
+
+        Parameters:
+            nodeId: The ID of the node to retrieve the pointer for.
+
+        Returns:
+            Node: The pointer to the node with the given nodeId.
+        """
+        return self.nodeMap[nodeId]
     
     def setAgent(self, agent):
         """
@@ -519,7 +629,49 @@ class CreateGraphWorld:
         self._textWeight = textWeight
 
     def __str__(self):
-        return f"World Name: {self._worldName}\nNode Radius: {self._radius}\nWindow Size: {self._height}x{self._width}"
+        return self.aboutWorld()
+
+    def aboutWorld(self):
+        """
+        Generates a summary of the world.
+
+        Returns:
+            str: The summary of the world.
+        """
+        about = PrettyTable()
+        about.field_names = ["Attribute", "Value"]
+        about.add_row(["World Name", self._worldName])
+        about.add_row(["Goal Nodes", self._goalIds])
+        about.add_row(["Width", self._width])
+        about.add_row(["Height", self._height])
+        about.add_row(["Node Radius", self._radius])
+        about.add_row(["Font Size", self._fontSize])
+        about.add_row(["Font Bold", self._fontBold])
+        about.add_row(["Font Italic", self._fontItalic])
+        about.add_row(["Node Color", self._nodeColor])
+        about.add_row(["Goal Color", self._goalColor])
+        about.add_row(["Line Thickness", self._lineThickness])
+        about.add_row(["Arrow Shape", self._arrowShape])
+        about.add_row(["Button Background Color", self._buttonBgColor])
+        about.add_row(["Button Foreground Color", self._buttonFgColor])
+        about.add_row(["Text Font", self._textFont])
+        about.add_row(["Text Size", self._textSize])
+        about.add_row(["Text Weight", self._textWeight])
+        about.add_row(["Button Text", self._buttonText])
+        return str(about)
+
+    def summary(self):
+        """
+        Generates a summary of the world.
+
+        Returns:
+            str: The summary of the world.
+        """
+        summary = PrettyTable()
+        summary.field_names = ['Node ID', 'Number of Visits'] 
+        for nodeId, node in self.nodeMap.items():
+            summary.add_row([nodeId, node._heatMapValue])
+        return str(summary)
 
     def _generateGraphDS(self, adj, rootId, parentId=None, edges=None, values=None, visited={}):
         if rootId not in adj:
@@ -638,26 +790,42 @@ class CreateGraphWorld:
         """
         if nodeId in self._nodeObj:
             self._canvas.itemconfig(self._nodeObj[nodeId], fill=color)
+        else:
+            raise ValueError(f"Node ID {nodeId} not found in the graph world!")
 
     def changeNodeText(self, nodeId, newText):
         if nodeId in self._nodeTextObj:
             self._canvas.itemconfig(self._nodeTextObj[nodeId], text=newText)
+        else:
+            raise ValueError(f"Node ID {nodeId} not found in the graph world!")
+    
+    def getNode(self, nodeId):
+        """
+        Returns the pointer to the node with the given nodeId.
+
+        Parameters:
+            nodeId: The ID of the node to retrieve the pointer for.
+
+        Returns:
+            Node: The pointer to the node with the given nodeId.
+        """
+        if nodeId not in self.nodeMap:
+            raise ValueError(f"Node ID {nodeId} not found in the graph world!")
+        return self.nodeMap[nodeId]
     
     def setAgent(self, agent):
         """
         Set the agent for the world.
 
         Parameters:
-        agent (Agent): The agent to be set.
+            agent (Agent): The agent to be set.
 
         Returns:
-        None
+            None
         """
         self._agent = agent
     
     def _startAgent(self):
-        """
-        """
         self._startButton.configure(state=DISABLED)
         self._root.update()
         if(self._agent is None):
