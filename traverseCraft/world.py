@@ -6,6 +6,7 @@ from .dataStructures import TreeNode, GraphNode
 import threading
 import platform
 import math
+import os
 import subprocess
 from prettytable import PrettyTable
 
@@ -60,13 +61,20 @@ class CreateGridWorld:
     setOfCoordinates = List[List[int]]
     coordinate = List[int]
     worldID = "GRIDWORLD"
-    def __init__(self, worldName:str, rows:int, cols:int, cellSize:int=10, pathColor:str="gray", blockColor:str="red", goalColor:str="green", cellPadding:int=2, borderWidth:int=1, buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent"):
+    def __init__(self, worldName:str, rows:int, cols:int, cellSize:int=10, pathColor:str="gray", blockColor:str="red", goalColor:str="green", cellPadding:int=2, borderWidth:int=1, buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent", logoPath:str=None):
         # ~~~~~ World Attributes ~~~~~ #
         self._worldName = worldName
         self._rows = rows
         self._cols = cols
         self._world = None
         self._blockCells = None
+        self._logoPath = logoPath
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        full_path = os.path.join(script_dir, "icons")
+        full_path = os.path.join(full_path, "logo")
+        full_path = os.path.join(full_path, "design 1.png")
+        if self._logoPath is None:
+            self._logoPath = full_path
         # ~~~~~ Cell Attributes ~~~~~ #
         self._cellSize = cellSize
         self._pathColor = pathColor
@@ -91,6 +99,7 @@ class CreateGridWorld:
         # ~~~~~ World Construction ~~~~~ #
         self._root = Tk()
         self._root.title(self._worldName)
+        self._setWindowIcon(self._logoPath)
         self._root.geometry(f"{(self._rows) * (self._cellSize + 2*self._cellPadding)}x{(self._cols + 1) * (self._cellSize + 2*self._cellPadding)}")
         self._world = [[0 for i in range(self._cols)] for j in range(self._rows)]
         self._cells = [[None for j in range(self._cols)] for i in range(self._rows)]
@@ -99,6 +108,10 @@ class CreateGridWorld:
     def __str__(self):
         return self.aboutWorld()
 
+    def _setWindowIcon(self, logoPath):
+        icon = PhotoImage(file=logoPath)
+        self._root.iconphoto(False, icon)
+    
     def aboutWorld(self):
         """
         Generates a summary of the world.
@@ -308,7 +321,7 @@ class CreateTreeWorld:
         - buttonText (str): The text displayed on the buttons. Default is "Start Agent".
         """
     worldID = "TREEWORLD"
-    def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5), buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent"):
+    def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5), buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent", logoPath:str=None):
         self._worldName = worldName
         # check important parameters in world info #
         if "root" not in worldInfo:
@@ -335,8 +348,16 @@ class CreateTreeWorld:
         self._fontItalic = fontItalic
         self._lineThickness = lineThickness
         self._arrowShape = arrowShape
+        self._logoPath = logoPath
+        if self._logoPath is None:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            full_path = os.path.join(script_dir, "icons")
+            full_path = os.path.join(full_path, "logo")
+            full_path = os.path.join(full_path, "design 1.png")
+            self._logoPath = full_path
         self._root = Tk()
         self._root.title(self._worldName)
+        self._setWindowIcon(self._logoPath)
         self._canvas = Canvas(self._root, width=self._width, height=self._height, bg="white")
         self._canvas.pack()
         self.root = None
@@ -362,6 +383,10 @@ class CreateTreeWorld:
     def __str__(self):
         return self.aboutWorld()
 
+    def _setWindowIcon(self, logoPath):
+        icon = PhotoImage(file=logoPath)
+        self._root.iconphoto(False, icon)
+    
     def aboutWorld(self):
         """
         Generates a summary of the world.
@@ -580,7 +605,7 @@ class CreateGraphWorld:
         - buttonText (str): The text displayed on the buttons. Default is "Start Agent".
         """
     worldID = "GRAPHWORLD"
-    def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5), buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent"):
+    def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5), buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent", logoPath:str=None):
         self._worldName = worldName
         # check important parameters in world info #
         if "goals" not in worldInfo:
@@ -604,8 +629,16 @@ class CreateGraphWorld:
         self._fontItalic = fontItalic
         self._lineThickness = lineThickness
         self._arrowShape = arrowShape
+        self._logoPath = logoPath
+        if self._logoPath is None:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            full_path = os.path.join(script_dir, "icons")
+            full_path = os.path.join(full_path, "logo")
+            full_path = os.path.join(full_path, "design 1.png")
+            self._logoPath = full_path
         self._root = Tk()
         self._root.title(self._worldName)
+        self._setWindowIcon(self._logoPath)
         self._canvas = Canvas(self._root, width=self._width, height=self._height, bg="white")
         self._canvas.pack()
         self.nodeMap = {}
@@ -630,6 +663,10 @@ class CreateGraphWorld:
 
     def __str__(self):
         return self.aboutWorld()
+
+    def _setWindowIcon(self, logoPath):
+        icon = PhotoImage(file=logoPath)
+        self._root.iconphoto(False, icon)
 
     def aboutWorld(self):
         """
