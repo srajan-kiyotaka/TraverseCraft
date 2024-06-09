@@ -30,7 +30,6 @@ class CreateGridWorld:
         self._goalColor = goalColor
         self._goalCells = None
         self._goalCode = goalCode
-
         # ~~~~~ Button Attributes ~~~~~ #
         self._buttonBgColor = buttonBgColor
         self._buttonFgColor = buttonFgColor
