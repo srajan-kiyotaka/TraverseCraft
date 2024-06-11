@@ -493,7 +493,7 @@ class CreateTreeWorld:
             script_dir = os.path.dirname(os.path.abspath(__file__))
             full_path = os.path.join(script_dir, "icons")
             full_path = os.path.join(full_path, "logo")
-            full_path = os.path.join(full_path, "design 1.png")
+            full_path = os.path.join(full_path, "traverseCraftTransparentLogo.png")
             self._logoPath = full_path
         self._root = Tk()
         self._root.title(self._worldName)
@@ -990,7 +990,7 @@ class CreateGraphWorld:
             script_dir = os.path.dirname(os.path.abspath(__file__))
             full_path = os.path.join(script_dir, "icons")
             full_path = os.path.join(full_path, "logo")
-            full_path = os.path.join(full_path, "design 1.png")
+            full_path = os.path.join(full_path, "traverseCraftTransparentLogo.png")
             self._logoPath = full_path
         self._root = Tk()
         self._root.title(self._worldName)
@@ -1078,6 +1078,7 @@ class CreateGraphWorld:
                     return False, "All elements in adjacency lists must be strings."
         
         return True, "Valid input format"
+    
         # Check 'position' key
         position = graphWorldInfo['position']
         if not isinstance(position, dict):
