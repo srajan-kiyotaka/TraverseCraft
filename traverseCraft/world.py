@@ -89,12 +89,17 @@ class CreateGridWorld:
 
         self._worldName = worldName
         self._rows = rows
-        if self._rows < 0 or self._rows > 50:
-            raise ValueError("Rows should be between 0 and 50")
+
+        if self._rows <= 0 or self._rows > 1000:
+            raise ValueError("Rows should be between 1 and 1000")
+        
         self._cols = cols
 
-        if self._cols < 0 or self._cols > 50:
-            raise ValueError("Columns should be less than 100")
+        if self._cols <= 0 or self._cols > 1000:
+            raise ValueError("Columns should be between 1 and 1000")
+        
+        if self._rows*self._cols > 2500:
+            raise ValueError("The number of cells should be less than 2000 for fast rendering.")
 
         self._world = None
         self._blockCells = None
@@ -110,15 +115,19 @@ class CreateGridWorld:
         self._cellSize = cellSize
         if self._cellSize < 2:
             raise ValueError("Cell size should be greater than 10")
-        if self._cellSize > 60:
-            raise ValueError("Cell size should be less than 60")
-
+        if self._cellSize > 50:
+            raise ValueError("Cell size should be less than 50")
         self._pathColor = pathColor
         self._cellPadding = cellPadding
         self._blockColor = blockColor
         self._borderWidth = borderWidth
         self._goalColor = goalColor
         self._goalCells = None
+
+        # ~~~~~ Window Attributes ~~~~~ #
+        self._windowHeight = ((self._rows + 2) * (self._cellSize + 2*self._cellPadding))
+        self._windowWidth = (int)(self._cols + 0.75) * (self._cellSize + 2*self._cellPadding)
+        
         # ~~~~~ Button Attributes ~~~~~ #
         self._buttonBgColor = buttonBgColor
         self._buttonFgColor = buttonFgColor
@@ -126,17 +135,20 @@ class CreateGridWorld:
         self._textFont = textFont
         self._textSize = textSize
         self._textWeight = textWeight
+
         # ~~~~~ Agent Info ~~~~~ #
         self._agent = None
+
         # ~~~~~ Cell Styles ~~~~~ #
         # self._cellStyles = ttk.Style()
         # self._cellStyles.configure("Path.TFrame", background="green") #, borderwidth=self._borderWidth)
         # self._cellStyles.configure("Block.TFrame", background="red") #, borderwidth=self._borderWidth)
+
         # ~~~~~ World Construction ~~~~~ #
         self._root = Tk()
         self._root.title(self._worldName)
         self._setWindowIcon(self._logoPath)
-        self._root.geometry(f"{(self._rows) * (self._cellSize + 2*self._cellPadding)}x{(self._cols + 1) * (self._cellSize + 2*self._cellPadding)}")
+        self._root.geometry(f"{self._windowWidth}x{self._windowHeight}")
         self._world = [[0 for i in range(self._cols)] for j in range(self._rows)]
         self._cells = [[None for j in range(self._cols)] for i in range(self._rows)]
         self._heatMapValueGrid = [[0 for _ in range(self._cols)] for _ in range(self._rows)]
@@ -175,7 +187,7 @@ class CreateGridWorld:
         about.add_row(["Columns", self._cols])
         about.add_row(["Cell Size", self._cellSize])
         about.add_row(["Cell Padding", self._cellPadding])
-        about.add_row(["Window Size", f"{(self._rows) * (self._cellSize + 2*self._cellPadding)}x{(self._cols + 1) * (self._cellSize + 2*self._cellPadding)}"])
+        about.add_row(["Window Size", f"{self._windowWidth}x{self._windowHeight}"])
         about.add_row(["Path Color", self._pathColor])
         about.add_row(["Block Color", self._blockColor])
         about.add_row(["Goal Color", self._goalColor])
@@ -226,6 +238,12 @@ class CreateGridWorld:
             self._cells[self._rows - 1][self._cols - 1].grid(row=self._rows - 1, column=self._cols - 1, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
             self._root.update()
             self._world[self._rows - 1][self._cols - 1] = 1
+        else:
+            for i, j in self._goalCells:
+                self._cells[i][j] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._goalColor, borderwidth=self._borderWidth)
+                self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
+                self._root.update()
+                self._world[i][j] = 1
 
         for i in range(self._rows):
             for j in range(self._cols):
@@ -470,8 +488,8 @@ class CreateTreeWorld:
             raise ValueError("World info is missing 'position' key")
         ############################################
         self._worldInfo = worldInfo
-        if not self._check_tree_format(self._worldInfo):
-            check, message = self._check_tree_format(self._worldInfo)
+        check, message = self._check_tree_format(self._worldInfo)
+        if not check:
             raise ValueError(message)
 
         self._treeRootId = worldInfo["root"]
@@ -545,66 +563,63 @@ class CreateTreeWorld:
         icon = PhotoImage(file=logoPath)
         self._root.iconphoto(False, icon)
     
-    def _check_tree_format(self,graphWorldInfo):
+    def _check_tree_format(self,treeWorldInfo):
         """
         Checks if the input format of the graph world is valid.
 
         Parameters:
-            graphWorldInfo (dict): A dictionary containing information about the world.
+            treeWorldInfo (dict): A dictionary containing information about the world.
         
         Returns:
             bool: True if the input format is valid, False otherwise.
             str: A message indicating the result of the check.
         """
         # top-level keys checking
-        required_keys = {'adj', 'position', 'goals'}
-        if not isinstance(graphWorldInfo, dict):
+        required_keys = {'adj', 'position', 'goals', 'root'}
+        if not isinstance(treeWorldInfo, dict):
             return False, "The top-level structure must be a dictionary."
         
-        if set(graphWorldInfo.keys()) != required_keys:
-            return False, f"The dictionary must contain keys: {required_keys}"
+        for key in required_keys:
+            if key not in treeWorldInfo:
+                return False, f"Key '{key}' is missing in the dictionary."
         
         # Check 'adj'
-        adj = graphWorldInfo['adj']
+        adj = treeWorldInfo['adj']
         if not isinstance(adj, dict):
             return False, "'adj' must be a dictionary."
         
         for node, neighbors in adj.items():
-            if not isinstance(node, str):
-                return False, "All keys in 'adj' must be strings."
             if not isinstance(neighbors, list):
                 return False, "All values in 'adj' must be lists."
-            for neighbor in neighbors:
-                if not isinstance(neighbor, str):
-                    return False, "All elements in adjacency lists must be strings."
 
         # Check 'position'
-        position = graphWorldInfo['position']
+        position = treeWorldInfo['position']
         if not isinstance(position, dict):
             return False, "'position' must be a dictionary."
         
         for node, coord in position.items():
-            if not isinstance(node, str):
-                return False, "All keys in 'position' must be strings."
             if not (isinstance(coord, tuple) and len(coord) == 2 and all(isinstance(x, int) for x in coord)):
                 return False, "All values in 'position' must be tuples of two integers."
 
         # Check 'goals'
-        goals = graphWorldInfo['goals']
+        goals = treeWorldInfo['goals']
         if not isinstance(goals, list):
             return False, "'goals' must be a list."
         
-        for goal in goals:
-            if not isinstance(goal, str):
-                return False, "All elements in 'goals' must be strings."
-
         # Ensure all nodes in 'adj' and 'goals' are in 'position'
         position_keys = set(position.keys())
         adj_keys = set(adj.keys())
+        root_key = set(treeWorldInfo['root'])
         goals_set = set(goals)
+        
+        if not root_key.issubset(position_keys):
+            return False, "Root node must be key in 'position'."
         
         if not adj_keys.issubset(position_keys):
             return False, "All nodes in 'adj' must be keys in 'position'."
+        
+        if not position_keys.issubset(adj_keys):
+            return False, "All nodes in 'position' must be keys in 'adj'."
         
         if not goals_set.issubset(position_keys):
             return False, "All nodes in 'goals' must be keys in 'position'."
@@ -969,8 +984,8 @@ class CreateGraphWorld:
             raise ValueError("World info is missing 'position' key")
         ############################################
         self._worldInfo = worldInfo
-        if not self._check_graph_format(self._worldInfo):
-            check, message = self._check_graph_format(self._worldInfo)
+        check, message = self._check_graph_format(self._worldInfo)
+        if not check:
             raise ValueError(message)
         self._graphRootId = list(worldInfo["position"].keys())[0]
         self._goalIds = worldInfo["goals"]
@@ -1060,8 +1075,9 @@ class CreateGraphWorld:
         required_keys = {'adj', 'position', 'goals'}
         
         # Check if all required keys are present
-        if set(graphWorldInfo.keys()) != required_keys:
-            return False, f"The dictionary must contain keys: {required_keys}"
+        for key in required_keys:
+            if key not in graphWorldInfo:
+                return False, f"Key '{key}' is missing in the dictionary."
 
         # Check 'adj' key
         adj = graphWorldInfo['adj']
@@ -1069,13 +1085,8 @@ class CreateGraphWorld:
             return False, "'adj' must be a dictionary."
 
         for node, neighbors in adj.items():
-            if not isinstance(node, str):
-                return False, "All keys in 'adj' must be strings."
             if not isinstance(neighbors, list):
                 return False, "All values in 'adj' must be lists."
-            for neighbor in neighbors:
-                if not isinstance(neighbor, str):
-                    return False, "All elements in adjacency lists must be strings."
     
         # Check 'position' key
         position = graphWorldInfo['position']
@@ -1083,8 +1094,6 @@ class CreateGraphWorld:
             return False, "'position' must be a dictionary."
 
         for node, coord in position.items():
-            if not isinstance(node, str):
-                return False, "All keys in 'position' must be strings."
             if not (isinstance(coord, tuple) and len(coord) == 2 and all(isinstance(x, int) for x in coord)):
                 return False, "All values in 'position' must be tuples of two integers."
 
@@ -1092,10 +1101,6 @@ class CreateGraphWorld:
         goals = graphWorldInfo['goals']
         if not isinstance(goals, list):
             return False, "'goals' must be a list."
-        
-        for goal in goals:
-            if not isinstance(goal, str):
-                return False, "All elements in 'goals' must be strings."
 
         # Ensure all nodes in 'adj' and 'goals' are in 'position'
         position_keys = set(position.keys())
@@ -1104,6 +1109,9 @@ class CreateGraphWorld:
         
         if not adj_keys.issubset(position_keys):
             return False, "All nodes in 'adj' must be keys in 'position'."
+        
+        if not position_keys.issubset(adj_keys):
+            return False, "All nodes in 'position' must be keys in 'adj'."
         
         if not goals_set.issubset(position_keys):
             return False, "All nodes in 'goals' must be keys in 'position'."
@@ -1114,6 +1122,7 @@ class CreateGraphWorld:
                     return False, "All nodes in adjacency lists must be keys in 'position'."
                     
         return True, "Valid input format"
+    
     def aboutWorld(self):
         """
         Describes the attributes of the world.
