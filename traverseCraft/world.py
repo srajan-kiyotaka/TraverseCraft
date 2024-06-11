@@ -65,7 +65,13 @@ class CreateGridWorld:
         # ~~~~~ World Attributes ~~~~~ #
         self._worldName = worldName
         self._rows = rows
+        if self._rows < 0 or self._rows > 50:
+            raise ValueError("Rows should be between 0 and 50")
         self._cols = cols
+
+        if self._cols < 0 or self._cols > 50:
+            raise ValueError("Columns should be less than 100")
+
         self._world = None
         self._blockCells = None
         self._logoPath = logoPath
@@ -77,6 +83,11 @@ class CreateGridWorld:
             self._logoPath = full_path
         # ~~~~~ Cell Attributes ~~~~~ #
         self._cellSize = cellSize
+        if self._cellSize < 2:
+            raise ValueError("Cell size should be greater than 10")
+        if self._cellSize > 60:
+            raise ValueError("Cell size should be less than 60")
+
         self._pathColor = pathColor
         self._cellPadding = cellPadding
         self._blockColor = blockColor
@@ -334,6 +345,10 @@ class CreateTreeWorld:
             raise ValueError("World info is missing 'position' key")
         ############################################
         self._worldInfo = worldInfo
+        if not self._check_tree_format(self._worldInfo):
+            check, message = self._check_tree_format(self._worldInfo)
+            raise ValueError(message)
+
         self._treeRootId = worldInfo["root"]
         self._goalIds = worldInfo["goals"]
         self._position = worldInfo["position"]
@@ -387,6 +402,67 @@ class CreateTreeWorld:
         icon = PhotoImage(file=logoPath)
         self._root.iconphoto(False, icon)
     
+    def _check_tree_format(self,graphWorldInfo):
+        # top-level keys checking
+        required_keys = {'adj', 'position', 'goals'}
+        if not isinstance(graphWorldInfo, dict):
+            return False, "The top-level structure must be a dictionary."
+        
+        if set(graphWorldInfo.keys()) != required_keys:
+            return False, f"The dictionary must contain keys: {required_keys}"
+        
+        # Check 'adj'
+        adj = graphWorldInfo['adj']
+        if not isinstance(adj, dict):
+            return False, "'adj' must be a dictionary."
+        
+        for node, neighbors in adj.items():
+            if not isinstance(node, str):
+                return False, "All keys in 'adj' must be strings."
+            if not isinstance(neighbors, list):
+                return False, "All values in 'adj' must be lists."
+            for neighbor in neighbors:
+                if not isinstance(neighbor, str):
+                    return False, "All elements in adjacency lists must be strings."
+
+        # Check 'position'
+        position = graphWorldInfo['position']
+        if not isinstance(position, dict):
+            return False, "'position' must be a dictionary."
+        
+        for node, coord in position.items():
+            if not isinstance(node, str):
+                return False, "All keys in 'position' must be strings."
+            if not (isinstance(coord, tuple) and len(coord) == 2 and all(isinstance(x, int) for x in coord)):
+                return False, "All values in 'position' must be tuples of two integers."
+
+        # Check 'goals'
+        goals = graphWorldInfo['goals']
+        if not isinstance(goals, list):
+            return False, "'goals' must be a list."
+        
+        for goal in goals:
+            if not isinstance(goal, str):
+                return False, "All elements in 'goals' must be strings."
+
+        # Ensure all nodes in 'adj' and 'goals' are in 'position'
+        position_keys = set(position.keys())
+        adj_keys = set(adj.keys())
+        goals_set = set(goals)
+        
+        if not adj_keys.issubset(position_keys):
+            return False, "All nodes in 'adj' must be keys in 'position'."
+        
+        if not goals_set.issubset(position_keys):
+            return False, "All nodes in 'goals' must be keys in 'position'."
+        
+        for neighbors in adj.values():
+            for neighbor in neighbors:
+                if neighbor not in position_keys:
+                    return False, "All nodes in adjacency lists must be keys in 'position'."
+        
+        return True, "Valid input format."
+
     def aboutWorld(self):
         """
         Generates a summary of the world.
@@ -630,6 +706,9 @@ class CreateGraphWorld:
             raise ValueError("World info is missing 'position' key")
         ############################################
         self._worldInfo = worldInfo
+        if not self._check_graph_format(self._worldInfo):
+            check, message = self._check_graph_format(self._worldInfo)
+            raise ValueError(message)
         self._graphRootId = list(worldInfo["position"].keys())[0]
         self._goalIds = worldInfo["goals"]
         self._position = worldInfo["position"]
@@ -681,6 +760,68 @@ class CreateGraphWorld:
     def _setWindowIcon(self, logoPath):
         icon = PhotoImage(file=logoPath)
         self._root.iconphoto(False, icon)
+
+    def _check_graph_format(self,graphWorldInfo):
+        # Check top-level keys
+        if not isinstance(graphWorldInfo, dict):
+            return False, "The top-level structure must be a dictionary."
+        # Required top-level keys
+        required_keys = {'adj', 'position', 'goals'}
+        
+        # Check if all required keys are present
+        if set(graphWorldInfo.keys()) != required_keys:
+            return False, f"The dictionary must contain keys: {required_keys}"
+
+        # Check 'adj' key
+        adj = graphWorldInfo['adj']
+        if not isinstance(adj, dict):
+            return False, "'adj' must be a dictionary."
+
+        for node, neighbors in adj.items():
+            if not isinstance(node, str):
+                return False, "All keys in 'adj' must be strings."
+            if not isinstance(neighbors, list):
+                return False, "All values in 'adj' must be lists."
+            for neighbor in neighbors:
+                if not isinstance(neighbor, str):
+                    return False, "All elements in adjacency lists must be strings."
+        
+        return True, "Valid input format"
+        # Check 'position' key
+        position = graphWorldInfo['position']
+        if not isinstance(position, dict):
+            return False, "'position' must be a dictionary."
+
+        for node, coord in position.items():
+            if not isinstance(node, str):
+                return False, "All keys in 'position' must be strings."
+            if not (isinstance(coord, tuple) and len(coord) == 2 and all(isinstance(x, int) for x in coord)):
+                return False, "All values in 'position' must be tuples of two integers."
+
+        # Check 'goals' key
+        goals = graphWorldInfo['goals']
+        if not isinstance(goals, list):
+            return False, "'goals' must be a list."
+        
+        for goal in goals:
+            if not isinstance(goal, str):
+                return False, "All elements in 'goals' must be strings."
+
+        # Ensure all nodes in 'adj' and 'goals' are in 'position'
+        position_keys = set(position.keys())
+        adj_keys = set(adj.keys())
+        goals_set = set(goals)
+        
+        if not adj_keys.issubset(position_keys):
+            return False, "All nodes in 'adj' must be keys in 'position'."
+        
+        if not goals_set.issubset(position_keys):
+            return False, "All nodes in 'goals' must be keys in 'position'."
+        
+        for neighbors in adj.values():
+            for neighbor in neighbors:
+                if neighbor not in position_keys:
+                    return False, "All nodes in adjacency lists must be keys in 'position'."
 
     def aboutWorld(self):
         """
