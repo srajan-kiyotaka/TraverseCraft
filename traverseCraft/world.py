@@ -1076,8 +1076,6 @@ class CreateGraphWorld:
             for neighbor in neighbors:
                 if not isinstance(neighbor, str):
                     return False, "All elements in adjacency lists must be strings."
-        
-        return True, "Valid input format"
     
         # Check 'position' key
         position = graphWorldInfo['position']
@@ -1114,7 +1112,8 @@ class CreateGraphWorld:
             for neighbor in neighbors:
                 if neighbor not in position_keys:
                     return False, "All nodes in adjacency lists must be keys in 'position'."
-
+                    
+        return True, "Valid input format"
     def aboutWorld(self):
         """
         Describes the attributes of the world.
