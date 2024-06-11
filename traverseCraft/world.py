@@ -13,6 +13,15 @@ from prettytable import PrettyTable
 
 # Get Screen Size according to the OS
 def getScreenSize():
+    """
+    Returns the screen size of the current operating system.
+
+    Raises:
+        NotImplementedError: If the operating system is not supported.
+
+    Returns:
+        tuple: A tuple containing the width and height of the screen.
+    """
     try:
         os_type = platform.system()
         print(f"OS Type: {os_type}")
@@ -68,6 +77,7 @@ class CreateGridWorld:
     setOfCoordinates = List[List[int]]
     coordinate = List[int]
     worldID = "GRIDWORLD"
+    
     def __init__(self, worldName:str, rows:int, cols:int, cellSize:int=10, pathColor:str="gray", blockColor:str="red", goalColor:str="green", cellPadding:int=2, borderWidth:int=1, buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent", logoPath:str=None):
         
         """
