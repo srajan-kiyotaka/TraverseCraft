@@ -226,6 +226,12 @@ class CreateGridWorld:
             self._cells[self._rows - 1][self._cols - 1].grid(row=self._rows - 1, column=self._cols - 1, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
             self._root.update()
             self._world[self._rows - 1][self._cols - 1] = 1
+        else:
+            for i, j in self._goalCells:
+                self._cells[i][j] = Frame(self._root, width=self._cellSize, height=self._cellSize, bg=self._goalColor, borderwidth=self._borderWidth)
+                self._cells[i][j].grid(row=i, column=j, sticky="nsew", padx=self._cellPadding, pady=self._cellPadding)
+                self._root.update()
+                self._world[i][j] = 1
 
         for i in range(self._rows):
             for j in range(self._cols):
