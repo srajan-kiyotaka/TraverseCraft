@@ -11,6 +11,7 @@ import subprocess
 from prettytable import PrettyTable
 
 
+# Get Screen Size according to the OS
 def getScreenSize():
     try:
         os_type = platform.system()
@@ -34,7 +35,7 @@ SCREEN_WIDTH, SCREEN_HEIGHT = getScreenSize()
 
 class CreateGridWorld:
     """
-    Class representing a grid world.
+    Class representing the world created using Grids.
 
     Attributes:
         setOfCoordinates (List[List[int]]): A list of coordinates.
@@ -42,27 +43,40 @@ class CreateGridWorld:
         worldID (str): The ID of the world.
 
     Args:
-        worldName (str): The name of the world.
-        rows (int): The number of rows in the world.
-        cols (int): The number of columns in the world.
-        cellSize (int, optional): The size of each cell in pixels. Defaults to 10.
-        pathColor (str, optional): The color of the path cells. Defaults to "gray".
-        blockColor (str, optional): The color of the block cells. Defaults to "red".
-        goalColor (str, optional): The color of the goal cells. Defaults to "green".
-        cellPadding (int, optional): The padding around each cell in pixels. Defaults to 2.
-        borderWidth (int, optional): The width of the cell borders in pixels. Defaults to 1.
-        buttonBgColor (str, optional): The background color of the button. Defaults to "#7FC7D9".
-        buttonFgColor (str, optional): The foreground color of the button. Defaults to "#332941".
-        textFont (str, optional): The font of the button text. Defaults to "Helvetica".
-        textSize (int, optional): The size of the button text. Defaults to 24.
-        textWeight (str, optional): The weight of the button text. Defaults to "bold".
-        buttonText (str, optional): The text displayed on the button. Defaults to "Start Agent".
+        _worldName (str): The name of the world.
+        _rows (int): The number of rows in the world. (Between 0 and 50)
+        _cols (int): The number of columns in the world. (Between 0 and 50)
+        _logoPath (str): The path to the logo image.
+        _world (List[List[int]]): A 2D list representing the world.
+        _blockCells (setOfCoordinates): A set of coordinates representing the block cells.
+        _cellSize (int): The size of each cell in pixels.Defaults to 10. (Between 10 and 60)
+        _pathColor (str): The color of the path cells. Defaults to "gray".
+        _cellPadding (int): The padding around each cell in pixels. Defaults to 2.
+        _blockColor (str): The color of the block cells. Defaults to "red".
+        _borderWidth (int): The width of the cell borders in pixels. Defaults to 1.
+        _goalColor (str): The color of the goal cells. Defaults to "green".
+        _goalCells (setOfCoordinates): A set of coordinates representing the goal cells.
+        _buttonBgColor (str): The background color of the button. Defaults to "#7FC7D9".
+        _buttonFgColor (str): The foreground color of the button. Defaults to "#332941".
+        _textFont (str): The font of the button text. Defaults to "Helvetica".
+        _textSize (int): The size of the button text. Defaults to 24.
+        _textWeight (str): The weight of the button text. Defaults to "bold".
+        _buttonText (str): The text displayed on the button. Defaults to "Start Agent".
+        _root (Tk): The root window of the world.
+        _agent (Agent): The agent object.
     """
     setOfCoordinates = List[List[int]]
     coordinate = List[int]
     worldID = "GRIDWORLD"
     def __init__(self, worldName:str, rows:int, cols:int, cellSize:int=10, pathColor:str="gray", blockColor:str="red", goalColor:str="green", cellPadding:int=2, borderWidth:int=1, buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent", logoPath:str=None):
+        
+        """
+        Initializes the Grid World.
+        
+        """
         # ~~~~~ World Attributes ~~~~~ #
+
+
         self._worldName = worldName
         self._rows = rows
         if self._rows < 0 or self._rows > 50:
@@ -78,9 +92,10 @@ class CreateGridWorld:
         script_dir = os.path.dirname(os.path.abspath(__file__))
         full_path = os.path.join(script_dir, "icons")
         full_path = os.path.join(full_path, "logo")
-        full_path = os.path.join(full_path, "traverseCraftTransparentLogo.png")
+        full_path = os.path.join(full_path, "design 1.png")
         if self._logoPath is None:
             self._logoPath = full_path
+
         # ~~~~~ Cell Attributes ~~~~~ #
         self._cellSize = cellSize
         if self._cellSize < 2:
@@ -117,6 +132,16 @@ class CreateGridWorld:
         self._heatMapValueGrid = [[0 for _ in range(self._cols)] for _ in range(self._rows)]
 
     def __str__(self):
+        """
+        Describes the attributes of the world.
+
+        Parameters:
+            None
+
+        Returns:
+            function(): The attributes of the world.
+        """
+
         return self.aboutWorld()
 
     def _setWindowIcon(self, logoPath):
@@ -125,10 +150,13 @@ class CreateGridWorld:
     
     def aboutWorld(self):
         """
-        Generates a summary of the world.
+        Describes the attributes of the world.
+        
+        Parameters:
+            None
 
         Returns:
-        - str: The summary of the world.
+            str: The attributes of the world.
         """
         about = PrettyTable()
         about.field_names = ["Attribute", "Value"]
@@ -154,8 +182,11 @@ class CreateGridWorld:
         """
         Generates a summary of the world.
 
+        Parameters:
+            None
+        
         Returns:
-        - str: The summary of the world.
+            str: The summary of the world.
         """
         summary = PrettyTable()
         columns = ['Cell'] + [f"{i}" for i in range(self._cols)]
@@ -202,6 +233,15 @@ class CreateGridWorld:
         self._root.update()
 
     def _startAgent(self):
+        """
+        Starts the agent to run the algorithm.
+
+        Parameters:
+            None
+        
+        Returns:
+            None
+        """
         self._startButton.configure(state=DISABLED)
         self._root.update()
         if(self._agent is None):
@@ -215,10 +255,10 @@ class CreateGridWorld:
         Adds block cells to the world grid.
 
         Parameters:
-        - blockCells (setOfCoordinates): A set of coordinates representing the block cells.
+            blockCells (setOfCoordinates): A set of coordinates representing the block cells.
 
         Returns:
-        - None
+            None
 
         """
         self._blockCells = blockCells
@@ -235,10 +275,10 @@ class CreateGridWorld:
         Adds the goal state to the world grid.
 
         Parameters:
-        - goalState (setOfCoordinates): A set of coordinates representing the goal state.
+            goalState (setOfCoordinates): A set of coordinates representing the goal state.
 
         Returns:
-        None
+            None
         """
         self._goalCells = goalState
         for i, j in self._goalCells:
@@ -252,10 +292,10 @@ class CreateGridWorld:
         Set the agent for the world.
 
         Parameters:
-        agent (Agent): The agent object to set.
+            agent (Agent): The agent object to set.
 
         Returns:
-        None
+            None
         """
         self._agent = agent
  
@@ -271,8 +311,10 @@ class CreateGridWorld:
         - The `sticky` parameter is set to "nsew" to make the cells stick to all sides of their respective grid cells.
         - The `padx` and `pady` parameters specify the padding around each cell.
 
+        Parameters:
+            None
         Returns:
-        None
+            None
         """
         for i in range(self._rows):
             for j in range(self._cols):
@@ -281,6 +323,16 @@ class CreateGridWorld:
     
     def _toggleCell(self, event, i, j):
         """
+        Toggles the color of a cell in the world grid.
+
+        Parameters:
+            event (Event): The event object.
+            i (int): The row index of the cell.
+            j (int): The column index of the cell.
+
+        Returns:
+            None
+
         """
         if self._world[i][j] == 0:
             self._cells[i][j].configure(bg=self._blockColor)
@@ -293,6 +345,18 @@ class CreateGridWorld:
 
 
     def _disableCellToggle(self):
+        """
+        Disables the cell toggle functionality.
+
+        This method unbinds the left-click event from each cell in the world grid, effectively disabling the cell toggle functionality.
+
+        Parameters:
+            None
+        
+        Returns:
+            None
+        """
+
         for i in range(self._rows):
             for j in range(self._cols):
                 self._cells[i][j].unbind("<Button-1>")
@@ -300,6 +364,12 @@ class CreateGridWorld:
     def showWorld(self):
         """
         Displays the world.
+
+        Parameters:
+            None
+        
+        Returns:
+            None
         """
         self._root.mainloop()
 
@@ -311,28 +381,73 @@ class CreateTreeWorld:
         Class representing a tree world.
 
         Parameters:
-        - worldName (str): The name of the world.
-        - worldInfo (dict): A dictionary containing information about the world.
-        - radius (int): The radius of the nodes in the world visualization. Default is 20.
-        - fontSize (int): The font size of the node labels. Default is 12.
-        - fontBold (bool): Whether to use bold font for the node labels. Default is True.
-        - fontItalic (bool): Whether to use italic font for the node labels. Default is True.
-        - nodeColor (str): The color of the nodes. Default is "gray".
-        - rootColor (str): The color of the root node. Default is "red".
-        - goalColor (str): The color of the goal nodes. Default is "green".
-        - width (int): The width of the world visualization canvas. Default is SCREEN_WIDTH.
-        - height (int): The height of the world visualization canvas. Default is SCREEN_HEIGHT.
-        - lineThickness (int): The thickness of the lines connecting the nodes. Default is 2.
-        - arrowShape (tuple): The shape of the arrows indicating the direction of the edges. Default is (10, 12, 5).
-        - buttonBgColor (str): The background color of the buttons. Default is "#7FC7D9".
-        - buttonFgColor (str): The foreground color of the buttons. Default is "#332941".
-        - textFont (str): The font family of the button text. Default is "Helvetica".
-        - textSize (int): The font size of the button text. Default is 24.
-        - textWeight (str): The font weight of the button text. Default is "bold".
-        - buttonText (str): The text displayed on the buttons. Default is "Start Agent".
-        """
+            - worldName (str): The name of the world.
+            - worldInfo (dict): A dictionary containing information about the world.
+                - 'root' (str): The ID of the root node.
+                - 'goals' (list): List of goal node IDs.
+                - 'adj' (dict): Adjacency list representing tree connections.
+                - 'position' (dict): Dictionary of node positions with node IDs as keys.
+                - 'edges' (dict, optional): Dictionary of edge information. Default is None.
+                - 'vals' (dict, optional): Dictionary of node values. Default is None.
+            - radius (int): The radius of the nodes in the world visualization. Default is 20.
+            - fontSize (int): The font size of the node labels. Default is 12.
+            - fontBold (bool): Whether to use bold font for the node labels. Default is True.
+            - fontItalic (bool): Whether to use italic font for the node labels. Default is True.
+            - nodeColor (str): The color of the nodes. Default is "gray".
+            - rootColor (str): The color of the root node. Default is "red".
+            - goalColor (str): The color of the goal nodes. Default is "green".
+            - width (int): The width of the world visualization canvas. Default is SCREEN_WIDTH.
+            - height (int): The height of the world visualization canvas. Default is SCREEN_HEIGHT.
+            - lineThickness (int): The thickness of the lines connecting the nodes. Default is 2.
+            - arrowShape (tuple): The shape of the arrows indicating the direction of the edges. Default is (10, 12, 5).
+            - buttonBgColor (str): The background color of the buttons. Default is "#7FC7D9".
+            - buttonFgColor (str): The foreground color of the buttons. Default is "#332941".
+            - textFont (str): The font family of the button text. Default is "Helvetica".
+            - textSize (int): The font size of the button text. Default is 24.
+            - textWeight (str): The font weight of the button text. Default is "bold".
+            - buttonText (str): The text displayed on the buttons. Default is "Start Agent".
+            - logoPath (str, optional): The file path to the logo image. Default is "design 1.png".
+
+        Attributes:
+            - worldID (str): Class identifier for the tree world.
+            - _worldName (str): The name of the world.
+            - _worldInfo (dict): Dictionary containing the world's information.
+            - _treeRootId (str): The ID of the root node.
+            - _goalIds (list): List of goal node IDs.
+            - _position (dict): Dictionary of node positions.
+            - _width (int): The width of the visualization canvas.
+            - _height (int): The height of the visualization canvas.
+            - _radius (int): The radius of the nodes.
+            - _nodeColor (str): The color of the nodes.
+            - _rootColor (str): The color of the root node.
+            - _goalColor (str): The color of the goal nodes.
+            - _fontSize (int): The font size of the node labels.
+            - _fontBold (bool): Whether the node labels are bold.
+            - _fontItalic (bool): Whether the node labels are italic.
+            - _lineThickness (int): The thickness of the lines connecting the nodes.
+            - _arrowShape (tuple): The shape of the arrows indicating the direction of the edges.
+            - _logoPath (str): The file path to the logo image.
+            - _root (Tk): The root Tkinter object.
+            - _canvas (Canvas): The canvas object for drawing the world.
+            - nodeMap (dict): Dictionary mapping node IDs to canvas objects.
+            - root: The root of the tree data structure.
+            - _agent: The agent in the world.
+            - _nodeObj (dict): Dictionary mapping node IDs to node objects.
+            - _nodeTextObj (dict): Dictionary mapping node IDs to node label objects.
+            - _buttonBgColor (str): The background color of the buttons.
+            - _buttonFgColor (str): The foreground color of the buttons.
+            - _buttonText (str): The text displayed on the buttons.
+            - _textFont (str): The font family of the button text.
+            - _textSize (int): The font size of the button text.
+            - _textWeight (str): The font weight of the button text.
+    """
     worldID = "TREEWORLD"
     def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5), buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent", logoPath:str=None):
+        
+        """
+        Initializes the Tree World.
+        """
+        
         self._worldName = worldName
         # check important parameters in world info #
         if "root" not in worldInfo:
@@ -368,7 +483,7 @@ class CreateTreeWorld:
             script_dir = os.path.dirname(os.path.abspath(__file__))
             full_path = os.path.join(script_dir, "icons")
             full_path = os.path.join(full_path, "logo")
-            full_path = os.path.join(full_path, "traverseCraftTransparentLogo.png")
+            full_path = os.path.join(full_path, "design 1.png")
             self._logoPath = full_path
         self._root = Tk()
         self._root.title(self._worldName)
@@ -396,13 +511,41 @@ class CreateTreeWorld:
         self._textWeight = textWeight
 
     def __str__(self):
+        """
+        Describes the attributes of the world.
+
+        Parameters:
+            None
+
+        Returns:
+            str: The attributes of the world.
+        """
         return self.aboutWorld()
 
     def _setWindowIcon(self, logoPath):
+        """
+        Sets the window icon for the world.
+
+        Parameters:
+            logoPath (str): The path to the logo image.
+        Returns:
+            None
+        """
+
         icon = PhotoImage(file=logoPath)
         self._root.iconphoto(False, icon)
     
     def _check_tree_format(self,graphWorldInfo):
+        """
+        Checks if the input format of the graph world is valid.
+
+        Parameters:
+            graphWorldInfo (dict): A dictionary containing information about the world.
+        
+        Returns:
+            bool: True if the input format is valid, False otherwise.
+            str: A message indicating the result of the check.
+        """
         # top-level keys checking
         required_keys = {'adj', 'position', 'goals'}
         if not isinstance(graphWorldInfo, dict):
@@ -465,10 +608,13 @@ class CreateTreeWorld:
 
     def aboutWorld(self):
         """
-        Generates a summary of the world.
+        Describes the attributes of the world.
+
+        Parameters:
+            None
 
         Returns:
-            str: The summary of the world.
+            str: The attributes of the world.
         """
         about = PrettyTable()
         about.field_names = ["Attribute", "Value"]
@@ -496,7 +642,10 @@ class CreateTreeWorld:
     def summary(self):
         """
         Generates a summary of the world.
-
+        
+        Parameters:
+            None
+            
         Returns:
             str: The summary of the world.
         """
@@ -543,11 +692,30 @@ class CreateTreeWorld:
         self._constructWorld()
 
     def _constructWorld(self):
+        """
+        Constructs the tree world.
+
+        Parameters:
+            self (World): The World instance.
+        
+        Returns:
+            None
+        """
+
         self._drawEdges(self.root)
         self._drawNodes(self.root)
         self._addStartButton()
 
     def _drawNodes(self, node):
+        """
+        Draw the nodes in the tree.
+
+        Parameters:
+            node (TreeNode): The node to draw.
+        Returns:
+            None
+        """
+
         if node is None:
             return
         
@@ -574,6 +742,14 @@ class CreateTreeWorld:
             self._drawNodes(child)
 
     def _drawEdges(self, node):
+        """
+        Draw the edges in the tree.
+
+        Parameters:
+            node (TreeNode): The node to draw the edges for.
+        Returns:
+            None
+        """
         if node is None:
             return
         
@@ -600,6 +776,15 @@ class CreateTreeWorld:
 
 
     def _addStartButton(self):
+        """
+        Add the "Start Agent" button to the tree world.
+
+        Parameters:
+            None
+        
+        Returns:
+            None
+        """
         # Find the bottommost point of the tree
         button_y = 100 + max(y for _, y in self._position.values())
         button_x = (min(x for x, _ in self._position.values()) + max(x for x, _ in self._position.values())) // 2
@@ -613,7 +798,7 @@ class CreateTreeWorld:
         """
         Changes the color of a node in the tree.
 
-        Args:
+        Parameters:
             nodeId (int): The ID of the node to change the color of.
             color (str): The new color to set for the node.
 
@@ -624,6 +809,16 @@ class CreateTreeWorld:
             self._canvas.itemconfig(self._nodeObj[nodeId], fill=color)
 
     def changeNodeText(self, nodeId, newText):
+        """
+        Changes the text of a node in the tree.
+
+        Parameters:
+            nodeId (int): The ID of the node to change the text of.
+            newText (str): The new text to set for the node.
+        
+        Returns:
+            
+        """
         if nodeId in self._nodeTextObj:
             self._canvas.itemconfig(self._nodeTextObj[nodeId], text=newText)
     
@@ -644,15 +839,21 @@ class CreateTreeWorld:
         Set the agent for the world.
 
         Parameters:
-        agent (Agent): The agent to be set.
+            agent (Agent): The agent to be set.
 
         Returns:
-        None
+            None
         """
         self._agent = agent
     
     def _startAgent(self):
         """
+        Starts the agent to run the algorithm.
+
+        Parameters:
+            None
+        Returns:
+            None
         """
         self._startButton.configure(state=DISABLED)
         self._root.update()
@@ -664,6 +865,11 @@ class CreateTreeWorld:
     def showWorld(self):
         """
         Displays the world.
+ 
+        Parameters:
+            None
+        Returns:
+            None
         """
         self._root.mainloop()
     
@@ -673,30 +879,77 @@ class CreateGraphWorld:
     """
         Class representing a graph world.
 
+        
         Parameters:
-        - worldName (str): The name of the world.
-        - worldInfo (dict): A dictionary containing information about the world.
-        - radius (int): The radius of the nodes in the world visualization. Default is 20.
-        - fontSize (int): The font size of the node labels. Default is 12.
-        - fontBold (bool): Whether to use bold font for the node labels. Default is True.
-        - fontItalic (bool): Whether to use italic font for the node labels. Default is True.
-        - nodeColor (str): The color of the nodes. Default is "gray".
-        - rootColor (str): The color of the root node. Default is "red".
-        - goalColor (str): The color of the goal nodes. Default is "green".
-        - width (int): The width of the world visualization canvas. Default is SCREEN_WIDTH.
-        - height (int): The height of the world visualization canvas. Default is SCREEN_HEIGHT.
-        - lineThickness (int): The thickness of the lines connecting the nodes. Default is 2.
-        - arrowShape (tuple): The shape of the arrows indicating the direction of the edges. Default is (10, 12, 5).
-        - buttonBgColor (str): The background color of the buttons. Default is "#7FC7D9".
-        - buttonFgColor (str): The foreground color of the buttons. Default is "#332941".
-        - textFont (str): The font family of the button text. Default is "Helvetica".
-        - textSize (int): The font size of the button text. Default is 24.
-        - textWeight (str): The font weight of the button text. Default is "bold".
-        - buttonText (str): The text displayed on the buttons. Default is "Start Agent".
+            - worldName (str): The name of the world.
+            - _worldInfo (dict): A dictionary containing information about the world.
+                - 'goals' (list): List of goal node IDs.
+                - 'adj' (dict): Adjacency list representing graph connections.
+                - 'position' (dict): Dictionary of node positions with node IDs as keys.
+                - 'edges' (dict, optional): Dictionary of edge information. Default is None.
+                - 'vals' (dict, optional): Dictionary of node values. Default is None.
+            - radius (int): The radius of the nodes in the world visualization. Default is 20.
+            - fontSize (int): The font size of the node labels. Default is 12.
+            - fontBold (bool): Whether to use bold font for the node labels. Default is True.
+            - fontItalic (bool): Whether to use italic font for the node labels. Default is True.
+            - nodeColor (str): The color of the nodes. Default is "gray".
+            - rootColor (str): The color of the root node. Default is "red".
+            - goalColor (str): The color of the goal nodes. Default is "green".
+            - width (int): The width of the world visualization canvas. Default is SCREEN_WIDTH.
+            - height (int): The height of the world visualization canvas. Default is SCREEN_HEIGHT.
+            - lineThickness (int): The thickness of the lines connecting the nodes. Default is 2.
+            - arrowShape (tuple): The shape of the arrows indicating the direction of the edges. Default is (10, 12, 5).
+            - buttonBgColor (str): The background color of the buttons. Default is "#7FC7D9".
+            - buttonFgColor (str): The foreground color of the buttons. Default is "#332941".
+            - textFont (str): The font family of the button text. Default is "Helvetica".
+            - textSize (int): The font size of the button text. Default is 24.
+            - textWeight (str): The font weight of the button text. Default is "bold".
+            - buttonText (str): The text displayed on the buttons. Default is "Start Agent".
+            - logoPath (str, optional): The file path to the logo image. Default is "design 1.png".
+
+        Attributes:
+            - worldID (str): Class identifier for the graph world.
+            - _worldName (str): The name of the world.
+            - _worldInfo (dict): Dictionary containing the world's information.
+            - _graphRootId (str): The ID of the root node.
+            - _goalIds (list): List of goal node IDs.
+            - _position (dict): Dictionary of node positions.
+            - _width (int): The width of the visualization canvas.
+            - _height (int): The height of the visualization canvas.
+            - _radius (int): The radius of the nodes.
+            - _nodeColor (str): The color of the nodes.
+            - _goalColor (str): The color of the goal nodes.
+            - _fontSize (int): The font size of the node labels.
+            - _fontBold (bool): Whether the node labels are bold.
+            - _fontItalic (bool): Whether the node labels are italic.
+            - _lineThickness (int): The thickness of the lines connecting the nodes.
+            - _arrowShape (tuple): The shape of the arrows indicating the direction of the edges.
+            - _logoPath (str): The file path to the logo image.
+            - _root (Tk): The root Tkinter object.
+            - _canvas (Canvas): The canvas object for drawing the world.
+            - nodeMap (dict): Dictionary mapping node IDs to canvas objects.
+            - _visited (dict): Dictionary tracking visited nodes.
+            - root: The root of the tree data structure.
+            - _agent: The agent in the world.
+            - _nodeObj (dict): Dictionary mapping node IDs to node objects.
+            - _nodeTextObj (dict): Dictionary mapping node IDs to node label objects.
+            - _buttonBgColor (str): The background color of the buttons.
+            - _buttonFgColor (str): The foreground color of the buttons.
+            - _buttonText (str): The text displayed on the buttons.
+            - _textFont (str): The font family of the button text.
+            - _textSize (int): The font size of the button text.
+            - _textWeight (str): The font weight of the button text.
         """
     worldID = "GRAPHWORLD"
     def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5), buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent", logoPath:str=None):
+        
+        """
+        Initializes the Graph World.
+
+        """
+
         self._worldName = worldName
+        
         # check important parameters in world info #
         if "goals" not in worldInfo:
             raise ValueError("World info is missing 'goals' key")
@@ -727,7 +980,7 @@ class CreateGraphWorld:
             script_dir = os.path.dirname(os.path.abspath(__file__))
             full_path = os.path.join(script_dir, "icons")
             full_path = os.path.join(full_path, "logo")
-            full_path = os.path.join(full_path, "traverseCraftTransparentLogo.png")
+            full_path = os.path.join(full_path, "design 1.png")
             self._logoPath = full_path
         self._root = Tk()
         self._root.title(self._worldName)
@@ -755,13 +1008,41 @@ class CreateGraphWorld:
         self._textWeight = textWeight
 
     def __str__(self):
+        """
+        Describes the attributes of the world.
+
+        Parameters:
+            None
+        
+        Returns:
+            str: The attributes of the world.
+
+        """
         return self.aboutWorld()
 
     def _setWindowIcon(self, logoPath):
+        """
+        Sets the window icon for the world.
+
+        Parameters:
+            logoPath (str): The path to the logo image.
+        Returns:
+            None
+        """
         icon = PhotoImage(file=logoPath)
         self._root.iconphoto(False, icon)
 
     def _check_graph_format(self,graphWorldInfo):
+        """
+        Checks if the input format of the graph world is valid.
+
+        Parameters:
+            graphWorldInfo (dict): A dictionary containing information about the world.
+        
+        Returns:
+            bool: True if the input format is valid, False otherwise.
+            str: A message indicating the result of the check.
+        """
         # Check top-level keys
         if not isinstance(graphWorldInfo, dict):
             return False, "The top-level structure must be a dictionary."
@@ -825,10 +1106,12 @@ class CreateGraphWorld:
 
     def aboutWorld(self):
         """
-        Generates a summary of the world.
+        Describes the attributes of the world.
 
+        Parameters: 
+            None
         Returns:
-            str: The summary of the world.
+            str: The attributes of the world.
         """
         about = PrettyTable()
         about.field_names = ["Attribute", "Value"]
@@ -855,7 +1138,9 @@ class CreateGraphWorld:
     def summary(self):
         """
         Generates a summary of the world.
-
+        
+        Parameters:
+            None
         Returns:
             str: The summary of the world.
         """
@@ -949,6 +1234,14 @@ class CreateGraphWorld:
                 self._drawEdges(neigh)
 
     def _drawNodes(self, node):
+        """
+        Draw the nodes in the tree.
+
+        Parameters:
+            node (TreeNode): The node to draw.
+        Returns:
+            None
+        """
         if node is None:
             return
         
@@ -982,6 +1275,15 @@ class CreateGraphWorld:
                 self._drawNodes(neigh)
 
     def _addStartButton(self):
+        """
+        Add the "Start Agent" button to the tree world.
+
+        Parameters:
+            None
+        
+        Returns:
+            None
+        """
         # Find the bottommost point of the tree
         button_y = 100 + max(y for _, y in self._position.values())
         button_x = (min(x for x, _ in self._position.values()) + max(x for x, _ in self._position.values())) // 2
@@ -1008,6 +1310,15 @@ class CreateGraphWorld:
             raise ValueError(f"Node ID {nodeId} not found in the graph world!")
 
     def changeNodeText(self, nodeId, newText):
+        """
+        Changes the text of a node in the tree.
+
+        Parameters:
+            nodeId (int): The ID of the node to change the text of.
+            newText (str): The new text to set for the node.
+        
+        Returns:
+        """
         if nodeId in self._nodeTextObj:
             self._canvas.itemconfig(self._nodeTextObj[nodeId], text=newText)
         else:
@@ -1040,6 +1351,14 @@ class CreateGraphWorld:
         self._agent = agent
     
     def _startAgent(self):
+        """
+        Starts the agent to run the algorithm.
+
+        Parameters:
+            None
+        Returns:
+            None
+        """
         self._startButton.configure(state=DISABLED)
         self._root.update()
         if(self._agent is None):
@@ -1050,5 +1369,10 @@ class CreateGraphWorld:
     def showWorld(self):
         """
         Displays the world.
+ 
+        Parameters:
+            None
+        Returns:
+            None
         """
         self._root.mainloop()
