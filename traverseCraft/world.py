@@ -467,10 +467,11 @@ class CreateTreeWorld:
         self._constructWorld()
 
     def _constructWorld(self):
-        self._drawNodeEdges(self.root)
+        self._drawEdges(self.root)
+        self._drawNodes(self.root)
         self._addStartButton()
 
-    def _drawNodeEdges(self, node):
+    def _drawNodes(self, node):
         if node is None:
             return
         
@@ -491,7 +492,19 @@ class CreateTreeWorld:
         font_style = ("Helvetica", self._fontSize, "bold italic" if self._fontBold and self._fontItalic else "bold" if self._fontBold else "italic" if self._fontItalic else "normal")
         self._nodeTextObj[nodeId] = self._canvas.create_text(x, y, text=str(nodeId), font=font_style, fill="black")
 
-        # Draw the edges and recursively draw the children nodes
+        # Recursively draw the children nodes
+        for i, child in enumerate(node.children):
+            # Recursively draw the child node
+            self._drawNodes(child)
+
+    def _drawEdges(self, node):
+        if node is None:
+            return
+        
+        nodeId = node.id
+        x, y = self._position[nodeId]
+
+        # Draw the edges and recursively draw the children edges
         for i, child in enumerate(node.children):
             child_id = child.id
             child_x, child_y = self._position[child_id]
@@ -507,7 +520,8 @@ class CreateTreeWorld:
             self._canvas.create_line(start_x, start_y, end_x, end_y, width=self._lineThickness, arrow=LAST, arrowshape=self._arrowShape)
 
             # Recursively draw the child node
-            self._drawNodeEdges(child)
+            self._drawEdges(child)
+
 
     def _addStartButton(self):
         # Find the bottommost point of the tree
@@ -755,10 +769,11 @@ class CreateGraphWorld:
         self._constructWorld()
 
     def _constructWorld(self):
-        self._drawNodeEdges(self.root)
+        self._drawEdges(self.root)
+        self._drawNodes(self.root)
         self._addStartButton()
 
-    def _drawNodeEdges(self, node):
+    def _drawEdges(self, node):
         if node is None:
             return
         
@@ -773,19 +788,7 @@ class CreateGraphWorld:
 
         x, y = self._position[nodeId]
 
-        # Determine the color based on the node type
-        color = self._nodeColor
-        if nodeId in self._goalIds:
-            color = self._goalColor
-
-        # Draw the node
-        self._nodeObj[nodeId] = self._canvas.create_oval(x - self._radius, y - self._radius, x + self._radius, y + self._radius, fill=color)
-
-        # Draw the node value
-        font_style = ("Helvetica", self._fontSize, "bold italic" if self._fontBold and self._fontItalic else "bold" if self._fontBold else "italic" if self._fontItalic else "normal")
-        self._nodeTextObj[nodeId] = self._canvas.create_text(x, y, text=str(nodeId), font=font_style, fill="black")
-
-        # Draw the edges and recursively draw the children nodes
+        # Draw the edges and recursively draw the children edges
         for i, neigh in enumerate(node.neighbors):
             neighId = neigh.id
             neigh_x, neigh_y = self._position[neighId]
@@ -802,7 +805,40 @@ class CreateGraphWorld:
 
             # Recursively draw the neigh node
             if self._visited[neighId]:
-                self._drawNodeEdges(neigh)
+                self._drawEdges(neigh)
+
+    def _drawNodes(self, node):
+        if node is None:
+            return
+        
+        if self._visited[node.id]:
+            return
+        
+        nodeId = node.id
+        
+        self._visited[nodeId] = True
+
+        x, y = self._position[nodeId]
+
+        # Determine the color based on the node type
+        color = self._nodeColor
+        if nodeId in self._goalIds:
+            color = self._goalColor
+
+        # Draw the node
+        self._nodeObj[nodeId] = self._canvas.create_oval(x - self._radius, y - self._radius, x + self._radius, y + self._radius, fill=color)
+
+        # Draw the node value
+        font_style = ("Helvetica", self._fontSize, "bold italic" if self._fontBold and self._fontItalic else "bold" if self._fontBold else "italic" if self._fontItalic else "normal")
+        self._nodeTextObj[nodeId] = self._canvas.create_text(x, y, text=str(nodeId), font=font_style, fill="black")
+
+        # Recursively draw the children nodes
+        for i, neigh in enumerate(node.neighbors):
+            neighId = neigh.id
+
+            # Recursively draw the neigh node
+            if not self._visited[neighId]:
+                self._drawNodes(neigh)
 
     def _addStartButton(self):
         # Find the bottommost point of the tree

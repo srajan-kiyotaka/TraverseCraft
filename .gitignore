@@ -2,3 +2,6 @@ venv
 *.ipynb
 test.py
 traverseCraft/__pycache__
+test_grid.py
+test_tree.py
+test_graph.py
