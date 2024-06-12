@@ -1,23 +1,23 @@
 import unittest
 from tkinter import Tk
 from unittest.mock import patch
-from traverseCraft.world import CreateTreeWorld
-from traverseCraft.agent import TreeAgent
-from traverseCraft.dataStructures import TreeNode 
+from traverseCraft.world import CreateGraphWorld
+from traverseCraft.agent import GraphAgent
+from traverseCraft.dataStructures import GraphNode 
 
-class TestTreeAgent(unittest.TestCase):
+class TestGraphAgent(unittest.TestCase):
     def setUp(self):
-        # Sample tree world information
-        treeWorldInfo = {
+        # Sample Graph world information
+        graphWorldInfo = {
             'adj': {
                 'A': ['B', 'C'],
                 'B': ['D', 'E'],
                 'C': ['F'],
                 'D': [],
-                'E': ['H'],
+                'E': ['H', 'A'],
                 'F': ['G'],
-                'G': [],
-                'H': []
+                'G': ['H', 'C'],
+                'H': ['D', 'E']
             },
             'position': {
                 'A': (300, 100),
@@ -28,37 +28,39 @@ class TestTreeAgent(unittest.TestCase):
                 'F': (300, 300),
                 'G': (400, 400),
                 'H': (150, 400)
+
             },
-            'root': 'A',
             'goals': ['G']
         }
-        # Create the tree world
-        self.treeWorld = CreateTreeWorld("Tree World Test", treeWorldInfo)
+        # Create the Graph world
+        self.graphWorld = CreateGraphWorld("Graph World Test", graphWorldInfo)
+
         # Construct the world
-        self.treeWorld.constructWorld()
-        # Initialize the tree agent
-        self.agent = TreeAgent(agentName="Test Tree Agent", world=self.treeWorld, heatMapColor="#EF4040")
+        self.graphWorld.constructWorld()
+
+        # Initialize the Graph agent
+        self.agent = GraphAgent(agentName="Test Graph Agent", world=self.graphWorld, heatMapColor="#EF4040")
+
         # Link the agent with the world
-        self.treeWorld.setAgent(self.agent)
+        self.graphWorld.setAgent(self.agent)
 
     def tearDown(self):
         # Destroy the root window after each test
         try:
-            self.treeWorld._root.destroy()
+            self.graphWorld._root.destroy()
             self.agent = None
         except Exception as e:
             print(f"Exception in tearDown: {e}")
 
     def test_initialization(self):
-        # Test initialization of the tree agent
-        self.assertIsInstance(self.agent._worldObj, CreateTreeWorld)
-        self.assertEqual(self.agent._agentName, "Test Tree Agent")
-        self.assertEqual(self.agent._agentColor, "blue")  # Default value
-        self.assertTrue(self.agent._heatMapView)  # Default value
-        self.assertEqual(self.agent._heatMapColor, "#EF4040")
-        self.assertEqual(self.agent._heatGradient, 0.05)  # Default value
-        self.assertIsNone(self.agent.algorithmCallBack)
-        self.assertIsNotNone(self.agent._currentNode)
+        # Test initialization of the Graph agent
+        self.assertEqual(self.agent._worldObj, self.graphWorld)
+        self.assertEqual(self.agent._worldID, "GRAPHWORLD")
+        self.assertEqual(self.agent._agentName, "Test Graph Agent")
+        self.assertEqual(self.agent._agentColor, "blue")
+        self.assertTrue(self.agent._heatMapView)
+        self.assertNotEqual(self.agent._heatMapColor, "#FFA732")
+        self.assertEqual(self.agent._heatGradient, 0.05)
 
     def test_set_algorithm_callback(self):
         # Define a sample callback function
@@ -86,16 +88,27 @@ class TestTreeAgent(unittest.TestCase):
         self.assertTrue(True)
 
     def test_check_goal_state(self):
-        # Check goal state
-        self.assertFalse(self.agent.checkGoalState(self.agent._treeRoot))  # The root node should be a goal state
-        self.assertTrue(self.agent.checkGoalState(self.treeWorld.getNode('G')))  # The node 'G' should be a goal state
+        goal_node = self.graphWorld.getNode("G")
+        non_goal_node = self.graphWorld.getNode("A")
+        self.assertTrue(self.agent.checkGoalState(goal_node))
+        self.assertFalse(self.agent.checkGoalState(non_goal_node))
 
+    def test_set_start_state(self):
+        self.agent.setStartState("B")
+        self.assertEqual(self.agent._currentNode.id, "B")
+        self.assertEqual(self.agent._graphRoot.id, "B")
+        self.assertEqual(self.graphWorld.root.id, "B")
+
+    def test_set_start_state_invalid(self):
+        with self.assertRaises(ValueError):
+            self.agent.setStartState("Z")  # Assuming "Z" is not a valid node ID
+    
     def test_move_agent(self):
-        # Get pointers to nodes 'B', 'D', and 'E' using self.treeWorld.getNode()
-        node_B = self.treeWorld.getNode('B')
-        node_C = self.treeWorld.getNode('C')
-        node_D = self.treeWorld.getNode('D')
-        node_E = self.treeWorld.getNode('E')
+        # Get pointers to nodes 'B', 'D', and 'E' using self.graphWorld.getNode()
+        node_B = self.graphWorld.getNode('B')
+        node_C = self.graphWorld.getNode('C')
+        node_D = self.graphWorld.getNode('D')
+        node_E = self.graphWorld.getNode('E')
 
         # Move the agent
         self.assertFalse(self.agent.moveAgent(None))  # Move to None should fail

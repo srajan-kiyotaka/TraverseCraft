@@ -918,7 +918,6 @@ class CreateGraphWorld:
             - fontBold (bool): Whether to use bold font for the node labels. Default is True.
             - fontItalic (bool): Whether to use italic font for the node labels. Default is True.
             - nodeColor (str): The color of the nodes. Default is "gray".
-            - rootColor (str): The color of the root node. Default is "red".
             - goalColor (str): The color of the goal nodes. Default is "green".
             - width (int): The width of the world visualization canvas. Default is SCREEN_WIDTH.
             - height (int): The height of the world visualization canvas. Default is SCREEN_HEIGHT.
@@ -954,7 +953,7 @@ class CreateGraphWorld:
             - _canvas (Canvas): The canvas object for drawing the world.
             - nodeMap (dict): Dictionary mapping node IDs to canvas objects.
             - _visited (dict): Dictionary tracking visited nodes.
-            - root: The root of the tree data structure.
+            - root: The root of the Graph data structure(used to populate the graph).
             - _agent: The agent in the world.
             - _nodeObj (dict): Dictionary mapping node IDs to node objects.
             - _nodeTextObj (dict): Dictionary mapping node IDs to node label objects.
@@ -966,7 +965,7 @@ class CreateGraphWorld:
             - _textWeight (str): The font weight of the button text.
         """
     worldID = "GRAPHWORLD"
-    def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", rootColor: str="red", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5), buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent", logoPath:str=None):
+    def __init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize:int=12, fontBold:bool = True, fontItalic:bool = True, nodeColor: str = "gray", goalColor: str="green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int =2, arrowShape: tuple = (10, 12, 5), buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent", logoPath:str=None):
         
         """
         Initializes the Graph World.
