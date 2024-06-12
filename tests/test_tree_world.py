@@ -160,9 +160,8 @@ class TestTreeWorld(unittest.TestCase):
             'root': 'A',
             'goals': ['G']
         }
-        for info in missing_keys:
-            with self.assertRaises(ValueError):
-                CreateTreeWorld("Tree World Test", info)
+        with self.assertRaises(ValueError):
+            CreateTreeWorld("Tree World Test", missing_keys)
 
 
     def test_invalid_node_coordinates(self):
