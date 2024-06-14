@@ -80,7 +80,7 @@ For detailed installation instructions, refer to our installation guide.
 
 If you are new to Traverse Craft, start with the [tutorial]() available in our online documentation. The documentation includes a [tutorial](), [example gallery](), [API reference](), FAQ, and other useful information.
 
-To build the documentation locally, please refer to [doc/README.md](doc/README.md).
+To build the documentation locally, please refer to [docs/ReadMe.md](docs/ReadMe.md).
 
 Explore the source code for deeper insights, or reach out to our community for help. For further assistance, visit our online documentation.
 
