@@ -3,10 +3,10 @@
   <img alt="Traverse Craft Logo" src="traverseCraft/icons/logo/traverseCraftLandscapeLogo.png">
 </picture>
 
-![Build Status](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/.github/workflows/python-app.yml/badge.svg)
+<!-- ![Build Status](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/.github/workflows/python-app.yml/badge.svg) -->
 [![Built with Python](https://img.shields.io/badge/Built%20with-Python-blue.svg)](https://www.python.org/)
 [![Made with Python](https://img.shields.io/badge/Python->=3.6-blue?logo=python&logoColor=white)](https://python.org "Go to Python homepage")
-![Project Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Library Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![PyPI version](https://badge.fury.io/py/traverse-craft.svg)
 ![Conda Version](https://img.shields.io/conda/v/conda-forge/traverse-craft)
 ![Supported OS](https://img.shields.io/badge/OS-Windows%20%7C%20MacOS%20%7C%20Linux-0078D6.svg)
@@ -14,10 +14,10 @@
 ![Supported OS: macOS](https://img.shields.io/badge/macOS-%23000000.svg?logo=apple&logoColor=white)
 ![Supported OS: Linux](https://img.shields.io/badge/Linux-%23FCC624.svg?logo=linux&logoColor=black)
 [![view - Documentation](https://img.shields.io/badge/view-Documentation-blue)](/docs/ "Go to library documentation")
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-![Last Commit](https://img.shields.io/github/last-commit/yourusername/your-repo.svg)
-[![GitHub Repo Stars](https://img.shields.io/github/stars/yourusername/yourepo.svg?style=social)](https://github.com/srajan-kiyotaka/Pothole-Mapping-Project)
-[![GitHub Forks](https://img.shields.io/github/forks/yourusername/your-repo.svg?style=social)](https://github.com/yourusername/your-repo)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/LICENCE)
+![Last Commit](https://img.shields.io/github/last-commit/srajan-kiyotaka/TraverseCraft.svg)
+[![GitHub Repo Stars](https://img.shields.io/github/stars/srajan-kiyotaka/TraverseCraft.svg?style=social)](https://github.com/srajan-kiyotaka/Pothole-Mapping-Project)
+[![GitHub Forks](https://img.shields.io/github/forks/srajan-kiyotaka/TraverseCraft.svg?style=social)](https://github.com/srajan-kiyotaka/TraverseCraft)
 ![Algorithm Simulation](https://img.shields.io/badge/Algorithm%20Simulation-%2300aaff.svg)
 ![AI/ML Simulation](https://img.shields.io/badge/AI/ML%20Simulation-%23ff4081.svg)
 ![Reinforcement Learning Simulation](https://img.shields.io/badge/Reinforcement%20Learning%20Simulation-%23ffca28.svg)
