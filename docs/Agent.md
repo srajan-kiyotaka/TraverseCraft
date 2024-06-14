@@ -11,3 +11,7 @@ The Agent module provides implementations for different types of agents that ope
 - **TreeAgent**: Represents an agent specifically designed to navigate and manipulate tree structures. For detailed information on the `TreeAgent` class and its methods, refer to [TreeAgent Documentation](./treeAgent.md).
 
 - **GraphAgent**: Represents an agent specialized in navigating and interacting with graph-based environments. For detailed information on the `GraphAgent` class and its methods, refer to [GraphAgent Documentation](graphAgent.md).
+
+---
+
+**Note**: For detailed documentation on each class, click on the respective links above.
