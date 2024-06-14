@@ -73,6 +73,7 @@ class CreateGridWorld:
         _buttonText (str): The text displayed on the button. Defaults to "Start Agent".
         _root (Tk): The root window of the world.
         _agent (Agent): The agent object.
+        _logoPath (str): The path to the logo image.
     """
     setOfCoordinates = List[List[int]]
     coordinate = List[int]
