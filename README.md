@@ -3,7 +3,7 @@
   <img alt="Traverse Craft Logo" src="traverseCraft/icons/logo/traverseCraftLandscapeLogo.png">
 </picture>
 
-<!-- ![Build Status](https://github.com/your-username/TraverseCraft/actions/workflows/main.yml/badge.svg) -->
+![Build Status](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/.github/workflows/python-app.yml/badge.svg)
 [![Built with Python](https://img.shields.io/badge/Built%20with-Python-blue.svg)](https://www.python.org/)
 [![Made with Python](https://img.shields.io/badge/Python->=3.6-blue?logo=python&logoColor=white)](https://python.org "Go to Python homepage")
 ![Project Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
