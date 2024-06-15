@@ -8,13 +8,7 @@ Class representing the world created using grids.
 - `coordinate`: `List[int]`
 - `worldID`: `"GRIDWORLD"`
 
-## Constructor
-
-### `__init__(self, worldName:str, rows:int, cols:int, cellSize:int=10, pathColor:str="gray", blockColor:str="red", goalColor:str="green", cellPadding:int=2, borderWidth:int=1, buttonBgColor:str="#7FC7D9", buttonFgColor:str="#332941", textFont:str="Helvetica", textSize:int=24, textWeight:str="bold", buttonText:str="Start Agent", logoPath:str=None)`
-
-The constructor initializes an instance of the CreateGridWorld class, setting up various attributes that define the world. It takes parameters such as worldName (the name of the world), rows (number of rows in the grid), cols (number of columns in the grid), and optional parameters for visual aspects like cell size, colors for paths, blocks, and goals, button appearance, and a logo image path. The constructor also validates input parameters to ensure they fall within acceptable ranges or have sensible defaults.
-
-#### Parameters
+## Parameters
 
 - `worldName` (`str`): The name of the world.
 - `rows` (`int`): The number of rows in the world (between 1 and 1000).

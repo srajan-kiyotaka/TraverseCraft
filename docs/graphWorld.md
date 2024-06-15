@@ -2,13 +2,7 @@
 
 Class representing a graph world.
 
-## Constructor
-
-### `__init__(self, worldName: str, worldInfo: dict, radius: int = 20, fontSize: int = 12, fontBold: bool = True, fontItalic: bool = True, nodeColor: str = "gray", goalColor: str = "green", width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT, lineThickness: int = 2, arrowShape: tuple = (10, 12, 5), buttonBgColor: str = "#7FC7D9", buttonFgColor: str = "#332941", textFont: str = "Helvetica", textSize: int = 24, textWeight: str = "bold", buttonText: str = "Start Agent", logoPath: str = None)`
-
-The constructor method for CreateGraphWorld, which initializes an instance of the class representing a graph world. It takes various parameters such as worldName, worldInfo, and optional parameters for visualization settings like radius, fontSize, and nodeColor. It sets up the graphical representation of the world using Tkinter for visualization and constructs the graph data structure based on the provided worldInfo.
-
-#### Parameters
+## Parameters
 
 - `worldName` (str): The name of the world.
 - `worldInfo` (dict): Dictionary containing information about the world.
