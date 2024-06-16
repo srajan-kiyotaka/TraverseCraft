@@ -2,7 +2,13 @@
 
 The `GridAgent` class represents an agent that operates within a grid world environment.
 
-## Parameters
+## Initialization
+
+### `__init__(self, world, agentName:str, agentColor:str="blue", heatMapView:bool=True, heatMapColor:str="#FFA732", agentPos:tuple=(0,0), heatGradient:float=0.05):`
+
+The constructor initializes an instance of the `GridAgent` class, which represents an agent operating within a grid-based world.
+
+- **Parameters**:
 
 - `world` (CreateGridWorld): The grid world object in which the agent operates.
 - `agentName` (str): The name of the agent.

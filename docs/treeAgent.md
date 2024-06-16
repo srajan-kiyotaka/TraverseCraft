@@ -3,7 +3,14 @@
 ## Class: `TreeAgent`
 The `TreeAgent` class represents an agent that operates within a tree-structured environment. The agent can traverse the tree, track its movement, and visualize its path using a heat map.
 
-### Parameters
+
+## Initialization
+
+### `__init__(self, world, agentName:str, agentColor:str="blue", heatMapView:bool=True, heatMapColor:str="#FFA732", heatGradient:float=0.05):`
+
+The constructor initializes an instance of the `TreeAgent` class, which represents an agent operating within a tree-based world.
+
+- **Parameters**:
 - **world** (`CreateTreeWorld`): The world object that the agent belongs to.
 - **agentName** (`str`): The name of the agent.
 - **agentColor** (`str`, optional): The color of the agent. Defaults to "blue".
