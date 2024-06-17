@@ -1,9 +1,9 @@
 import unittest
 from tkinter import Tk
 from unittest.mock import patch
-from traverseCraft.world import CreateTreeWorld
-from traverseCraft.agent import TreeAgent
-from traverseCraft.dataStructures import TreeNode 
+from src.traverseCraft.world import CreateTreeWorld
+from src.traverseCraft.agent import TreeAgent
+from src.traverseCraft.dataStructures import TreeNode 
 
 class TestTreeAgent(unittest.TestCase):
     def setUp(self):

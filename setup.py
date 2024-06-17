@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name='TraverseCraft',
-    version='0.4.5',
+    version='0.5.0',
     author='Srajan Chourasia, Varun Patrikar',
     author_email='srajanstark.ash@gmail.com, patrikarvarun@gmail.com',
     maintainer='Srajan Chourasia, Varun Patrikar',
@@ -20,8 +20,8 @@ setup(
         'Tracker': 'https://github.com/srajan-kiyotaka/TraverseCraft/tree/main/issues',
         'Reference': 'https://reference.traverseCraft.com',
     },
-    package_dir={'': 'traverseCraft'},
-    packages=find_packages(where='traverseCraft'),
+    package_dir={'': 'src'},
+    packages=find_packages(where='src'),
     python_requires='>=3.6',
     install_requires=[
         'prettytable',
