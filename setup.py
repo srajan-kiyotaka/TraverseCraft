@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name='TraverseCraft',
-    version='0.6.0',
+    version='0.7.0',
     author='Srajan Chourasia, Varun Patrikar',
     author_email='srajanstark.ash@gmail.com, patrikarvarun@gmail.com',
     maintainer='Srajan Chourasia, Varun Patrikar',
@@ -22,6 +22,7 @@ setup(
     },
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
+    include_package_data=True,
     python_requires='>=3.6',
     install_requires=[
         'prettytable',
