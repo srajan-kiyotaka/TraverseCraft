@@ -1,8 +1,8 @@
 import unittest
 from tkinter import Tk
 from unittest.mock import patch
-from traverseCraft.world import CreateGridWorld
-from traverseCraft.agent import GridAgent
+from src.traverseCraft.world import CreateGridWorld
+from src.traverseCraft.agent import GridAgent
 
 class TestGridAgent(unittest.TestCase):
     def setUp(self):

@@ -1,8 +1,8 @@
 import unittest
 from tkinter import Tk
 from unittest.mock import patch
-from traverseCraft.world import CreateGraphWorld
-from traverseCraft.dataStructures import GraphNode 
+from src.traverseCraft.world import CreateGraphWorld
+from src.traverseCraft.dataStructures import GraphNode 
 
 class TestGraphWorld(unittest.TestCase):
 
