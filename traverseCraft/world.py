@@ -435,7 +435,7 @@ class CreateTreeWorld:
             - textSize (int): The font size of the button text. Default is 24.
             - textWeight (str): The font weight of the button text. Default is "bold".
             - buttonText (str): The text displayed on the buttons. Default is "Start Agent".
-            - logoPath (str, optional): The file path to the logo image. Default is "design 1.png".
+            - logoPath (str, optional): The file path to the logo image. Default is traverseCraft logo.
 
         Attributes:
             - worldID (str): Class identifier for the tree world.
@@ -930,7 +930,7 @@ class CreateGraphWorld:
             - textSize (int): The font size of the button text. Default is 24.
             - textWeight (str): The font weight of the button text. Default is "bold".
             - buttonText (str): The text displayed on the buttons. Default is "Start Agent".
-            - logoPath (str, optional): The file path to the logo image. Default is "design 1.png".
+            - logoPath (str, optional): The file path to the logo image. Default is traverseCraft logo.
 
         Attributes:
             - worldID (str): Class identifier for the graph world.
@@ -1013,7 +1013,7 @@ class CreateGraphWorld:
         self._canvas = Canvas(self._root, width=self._width, height=self._height, bg="white")
         self._canvas.pack()
         self.nodeMap = {}
-        ## Construct Tree Data Structure ##
+        ## Construct Graph Data Structure ##
         if("edges" not in self._worldInfo):
             self._worldInfo['edges'] = None
         if("vals" not in self._worldInfo):
@@ -1203,7 +1203,7 @@ class CreateGraphWorld:
 
     def constructWorld(self):
         """
-        Constructs the tree world.
+        Constructs the graph world.
 
         Parameters:
             self (World): The World instance.
@@ -1254,10 +1254,10 @@ class CreateGraphWorld:
 
     def _drawNodes(self, node):
         """
-        Draw the nodes in the tree.
+        Draw the nodes in the graph.
 
         Parameters:
-            node (TreeNode): The node to draw.
+            node (GraphNode): The node to draw.
         Returns:
             None
         """
@@ -1295,7 +1295,7 @@ class CreateGraphWorld:
 
     def _addStartButton(self):
         """
-        Add the "Start Agent" button to the tree world.
+        Add the "Start Agent" button to the graph world.
 
         Parameters:
             None
@@ -1303,7 +1303,7 @@ class CreateGraphWorld:
         Returns:
             None
         """
-        # Find the bottommost point of the tree
+        # Find the bottommost point of the graph
         button_y = 100 + max(y for _, y in self._position.values())
         button_x = (min(x for x, _ in self._position.values()) + max(x for x, _ in self._position.values())) // 2
 
@@ -1314,7 +1314,7 @@ class CreateGraphWorld:
     
     def changeNodeColor(self, nodeId, color):
         """
-        Changes the color of a node in the tree.
+        Changes the color of a node in the graph.
 
         Args:
             nodeId (int): The ID of the node to change the color of.
@@ -1330,7 +1330,7 @@ class CreateGraphWorld:
 
     def changeNodeText(self, nodeId, newText):
         """
-        Changes the text of a node in the tree.
+        Changes the text of a node in the graph.
 
         Parameters:
             nodeId (int): The ID of the node to change the text of.
