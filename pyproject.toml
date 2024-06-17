@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "traverseCraft"
+version = "0.5.2"
+authors = [
+    {name = "Srajan Chourasia", email = "srajanstark.ash@gmail.com"},
+    {name = "Varun Patrikar", email = "patrikarvarun@gmail.com"},
+]
+maintainers = [
+    {name = "Srajan Chourasia", email = "srajanstark.ash@gmail.com"},
+    {name = "Varun Patrikar", email = "patrikarvarun@gmail.com"},
+]
+description = "TraverseCraft: Cross-Platform Real-Time Algorithm Simulation Tool"
+readme = "README.md"
+dependencies = ['prettytable',]
+license = { text = "MIT" }
+keywords = ["simulation", "real-time", "algorithm", "visualization", "education", "research", "AI", "ML", "reinforcement learning"]
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    'Topic :: Education',
+    'Topic :: Software Development :: Libraries',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    'Topic :: Scientific/Engineering :: Artificial Intelligence',
+    'Topic :: Scientific/Engineering :: Visualization',
+    'Development Status :: 4 - Beta',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Education',
+]
+
+[project.urls]
+"Documentation" = "https://docs.traverseCraft.com"
+"Source" = "https://github.com/srajan-kiyotaka/TraverseCraft/tree/main"
+"Tracker" = "https://github.com/srajan-kiyotaka/TraverseCraft/tree/main/issues"
+"Reference" = "https://reference.traverseCraft.com"
+"Official website" = "https://official-website.com"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+include = ["traverseCraft"]
+
