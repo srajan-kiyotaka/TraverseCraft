@@ -29,11 +29,11 @@ Class representing a graph world.
 - `buttonText` (str): Text displayed on buttons. Default is "Start Agent".
 - `logoPath` (str, optional): File path to the logo image. Default is None.
 
-#### Attributes
+## Attributes
 
-- `worldID` (str): Class identifier for the graph world.
-- `nodeMap` (dict): Dictionary mapping node IDs to canvas objects.
-- `root` (TreeNode): The root of the graph data structure.
+- **worldID (str)**: Class identifier for the tree world.
+- **nodeMap (dict)**: Dictionary mapping node IDs to canvas objects.
+- **_agent**: The agent in the world.
 
 ## Methods
 
