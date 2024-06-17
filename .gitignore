@@ -1,7 +1,8 @@
 venv
 envs
 *.ipynb
-traverseCraft/__pycache__
+*/*/__pycache__
+src/traverseCraft/__pycache__
 tests/__pycache__
 test_grid.py
 test_tree.py

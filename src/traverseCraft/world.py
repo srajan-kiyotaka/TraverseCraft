@@ -126,8 +126,8 @@ class CreateGridWorld:
         self._goalCells = None
 
         # ~~~~~ Window Attributes ~~~~~ #
-        self._windowHeight = ((self._rows + 2) * (self._cellSize + 2*self._cellPadding))
-        self._windowWidth = (int)(self._cols + 0.75) * (self._cellSize + 2*self._cellPadding)
+        self._windowHeight = (int)((self._rows + 0.5) * (self._cellSize + 2*self._cellPadding)) + 45
+        self._windowWidth = max((int)((self._cols + 0.5) * (self._cellSize + 2*self._cellPadding)), 200)
         
         # ~~~~~ Button Attributes ~~~~~ #
         self._buttonBgColor = buttonBgColor
@@ -188,7 +188,7 @@ class CreateGridWorld:
         about.add_row(["Columns", self._cols])
         about.add_row(["Cell Size", self._cellSize])
         about.add_row(["Cell Padding", self._cellPadding])
-        about.add_row(["Window Size", f"{self._windowWidth}x{self._windowHeight}"])
+        about.add_row(["Window Size", f"{self._windowHeight}x{self._windowWidth}"])
         about.add_row(["Path Color", self._pathColor])
         about.add_row(["Block Color", self._blockColor])
         about.add_row(["Goal Color", self._goalColor])
