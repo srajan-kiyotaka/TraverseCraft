@@ -5,9 +5,11 @@ with open("README.md", "r") as f:
 
 setup(
     name='TraverseCraft',
-    version='0.3.1',
+    version='0.4.5',
     author='Srajan Chourasia, Varun Patrikar',
     author_email='srajanstark.ash@gmail.com, patrikarvarun@gmail.com',
+    maintainer='Srajan Chourasia, Varun Patrikar',
+    maintainer_email='srajanstark.ash@gmail.com, patrikarvarun@gmail.com',
     description='TraverseCraft: Cross-Platform Real-Time Algorithm Simulation Tool',
     long_description=long_description,
     long_description_content_type='text/markdown',

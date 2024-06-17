@@ -126,7 +126,7 @@ If you use Traverse Craft in your research or publications, please cite our libr
 
 ```bibtex
 @misc{traversecrafthq2024,
-  author = {Srajan Chourasia, Varun},
+  author = {Srajan Chourasia, Varun Patrikar},
   title = {Traverse Craft: A Cross-Platform Simulation Tool},
   year = {2024},
   url = {https://github.com/srajan-kiyotaka/TraverseCraft},
