@@ -1,6 +1,6 @@
 venv
 envs
-*.ipynb
+test.ipynb
 */*/__pycache__
 src/traverseCraft/__pycache__
 tests/__pycache__
