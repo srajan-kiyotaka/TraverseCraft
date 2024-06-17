@@ -8,3 +8,6 @@ test_tree.py
 test_graph.py
 test_unit.py
 test.py
+build
+dist
+*.egg-info

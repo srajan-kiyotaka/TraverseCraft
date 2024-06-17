@@ -1,6 +1,5 @@
 <picture align="center">
-  <!-- <source media="(prefers-color-scheme: dark)" srcset="traverseCraft/icons/logo/traverseCraftExtentedLogo.png"> -->
-  <img alt="Traverse Craft Logo" src="traverseCraft/icons/logo/traverseCraftLandscapeLogo.png">
+  <img alt="Traverse Craft Logo" src="https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/traverseCraft/icons/logo/traverseCraftLandscapeLogo.png">
 </picture>
 
 <!-- ![Build Status](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/.github/workflows/python-app.yml/badge.svg) -->
@@ -13,7 +12,7 @@
 ![Supported OS: Windows](https://img.shields.io/badge/Windows-%234285F4.svg?logo=windows&logoColor=white)
 ![Supported OS: macOS](https://img.shields.io/badge/macOS-%23000000.svg?logo=apple&logoColor=white)
 ![Supported OS: Linux](https://img.shields.io/badge/Linux-%23FCC624.svg?logo=linux&logoColor=black)
-[![view - Documentation](https://img.shields.io/badge/view-Documentation-blue)](/docs/ "Go to library documentation")
+[![view - Documentation](https://img.shields.io/badge/view-Documentation-blue)](/docs/ReadMe.md "Go to library documentation")
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/LICENCE)
 ![Last Commit](https://img.shields.io/github/last-commit/srajan-kiyotaka/TraverseCraft.svg)
 [![GitHub Repo Stars](https://img.shields.io/github/stars/srajan-kiyotaka/TraverseCraft.svg?style=social)](https://github.com/srajan-kiyotaka/Pothole-Mapping-Project)
@@ -30,9 +29,9 @@
   </h1>
 </center>
 
-TraverseCraft is a cross-platform simulation tool written in Python, designed as a library for simulating various algorithms in real time. TraverseCraft allows users to create custom worlds, populate them with agents, and observe how different algorithms operate within these environments. The library leverages the [tkinter](https://docs.python.org/3/library/tkinter.html#module-tkinter) library for fast and responsive simulations. Whether you're a student, educator, or researcher, TraverseCraft provides an intuitive framework to create, visualize, and interact with different world type using their respective agents. 
+TraverseCraft is a ***cross-platform simulation tool*** written in Python, designed as a library for simulating various algorithms in real time. TraverseCraft allows users to create custom worlds, populate them with agents, and observe how different algorithms operate within these environments. The library leverages the [tkinter](https://docs.python.org/3/library/tkinter.html#module-tkinter) library for ***fast and responsive simulations***. Whether you're a student, educator, or researcher, TraverseCraft provides an intuitive framework to create, visualize, and interact with different world type using their respective agents. 
 
-Please visit the our official [website]() for more information.
+Please visit the our official [website](https://github.com/srajan-kiyotaka/TraverseCraft/tree/main) for more information.
 
 ## Features
 
@@ -74,7 +73,7 @@ pip install traversecraft
 conda install -c conda-forge traverse-craft
 ```
 
-For detailed installation instructions, refer to our installation guide.
+For detailed installation instructions, refer to our [installation guide]().
 
 ## Getting Started
 
@@ -127,7 +126,7 @@ If you use Traverse Craft in your research or publications, please cite our libr
 
 ```bibtex
 @misc{traversecrafthq2024,
-  author = {Srajan Chourasia, Varun},
+  author = {Srajan Chourasia, Varun Patrikar},
   title = {Traverse Craft: A Cross-Platform Simulation Tool},
   year = {2024},
   url = {https://github.com/srajan-kiyotaka/TraverseCraft},

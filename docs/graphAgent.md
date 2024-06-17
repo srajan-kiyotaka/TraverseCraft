@@ -2,11 +2,7 @@
 
 The `GraphAgent` class represents an agent that operates within a graph world. This agent can move between nodes, execute algorithms, and update a heat map to visualize the agent's path.
 
-## Initialization
-
-### `__init__(self, world, agentName:str, agentColor:str="blue", startNodeId=None, heatMapView:bool=True, heatMapColor:str="#FFA732", heatGradient:float=0.05)`
-
-The constructor initializes an instance of the `GraphAgent` class, which represents an agent operating within a graph-based world.
+## Parameters
 
 - **Parameters**:
   - `world` (`CreateGraphWorld`): The graph world object that the agent belongs to.
