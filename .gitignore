@@ -1,6 +1,6 @@
 venv
 envs
-*.ipynb
+test.ipynb
 */*/__pycache__
 src/traverseCraft/__pycache__
 tests/__pycache__
@@ -12,3 +12,4 @@ test.py
 build
 dist
 *.egg-info
+*.in
