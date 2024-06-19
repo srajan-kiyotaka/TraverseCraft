@@ -29,4 +29,5 @@ class GraphNode:
         self._heatMapValue = 0
 
     def __str__(self) -> str:
-        return f"Graph Node Id: {self.id} \nNeighbors: {self.neighbors} \nValue: {self.val} \nGoal State: {self.isGoalState} \nEdges: {self.edges} \nHeat Map Value: {self._heatMapValue}"
+        neighbors = [neighbor.id for neighbor in self.neighbors]
+        return f"Graph Node Id: {self.id} \nNeighbors: {neighbors} \nValue: {self.val} \nGoal State: {self.isGoalState} \nEdges: {self.edges} \nHeat Map Value: {self._heatMapValue}"
