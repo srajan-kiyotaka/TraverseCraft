@@ -9,8 +9,8 @@ Class representing a graph world.
   - 'goals' (list): List of goal node IDs.
   - 'adj' (dict): Adjacency list representing graph connections.
   - 'position' (dict): Dictionary of node positions with node IDs as keys.
-  - 'edges' (dict, optional): Dictionary of edge information. Default is None.
-  - 'vals' (dict, optional): Dictionary of node values. Default is None.
+  - 'edges' (dict, optional): Dictionary of edge value. Default each edge is assigned a value of 1.
+  - 'vals' (dict, optional): Dictionary of node values. Default each node is assigned the value same as its ID.
 - `radius` (int): Radius of nodes in the visualization. Default is 20.
 - `fontSize` (int): Font size for node labels. Default is 12.
 - `fontBold` (bool): Whether node labels are bold. Default is True.
