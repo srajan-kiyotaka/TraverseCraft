@@ -77,20 +77,20 @@ This method returns the color corresponding to a given value on a heat map. It u
 - **Returns**:
   - `tuple`: The RGB color value for the given value on the heat map.
 
-#### `checkGoalState(self, node)`
+#### `checkGoalState(self, nodeId)`
 This method checks if the specified node is a goal state.
 
 - **Parameters**:
-  - `node` (`TreeNode`): The node to be checked.
+  - `nodeId`: The ID of the node to be checked.
 
 - **Returns**:
   - `bool`: True if the node is a goal state, False otherwise.
 
-#### `moveAgent(self, node, delay:int=1)`
+#### `moveAgent(self, nodeId, delay:int=1)`
 This method moves the agent to the specified node after a given delay. It updates the heat map and the agent's current position.
 
 - **Parameters**:
-  - `node` (`TreeNode`): The node to which the agent should be moved.
+  - `nodeId`: The ID of the node to which the agent should be moved.
   - `delay` (`int`, optional): The delay (in seconds) before moving to the next node. Defaults to 1 second.
 
 - **Returns**:

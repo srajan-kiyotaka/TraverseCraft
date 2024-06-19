@@ -498,34 +498,39 @@ class TreeAgent():
         self._worldObj.changeNodeColor(node.id, color)
         self._root.update()
 
-    def checkGoalState(self, node):
+    def checkGoalState(self, nodeId):
         """
         Check if the given node is a goal state.
 
         Parameters:
-        - node: The node to be checked.
+        - nodeId: The node Id to be checked.
 
         Returns:
         - True if the node is a goal state, False otherwise.
         """
-        if(node.isGoalState):
-            return True
+        if(nodeId in self._worldObj.nodeMap.keys()):
+            node = self._worldObj.getNode(nodeId)
+            if(node.isGoalState):
+                return True
+            else:
+                return False
         else:
             return False
 
 
-    def moveAgent(self, node, delay:int=1):
+    def moveAgent(self, nodeId, delay:int=1):
         """
         Moves the agent to the specified node.
 
         Args:
-            node: The node to which the agent should be moved.
+            nodeId: The node Id to which the agent should be moved.
             delay (optional): The delay (in seconds) before moving to the next node. Default is 1 second.
 
         Returns:
             bool: True if the agent was successfully moved to the node, False otherwise.
         """
-        if(node is not None):
+        if(nodeId in self._worldObj.nodeMap.keys()):
+            node = self._worldObj.nodeMap[nodeId]
             time.sleep(delay)
             parent = self._currentNode
             self._updateHeatMap(parent)
@@ -753,34 +758,39 @@ class GraphAgent():
         self._worldObj.changeNodeColor(node.id, color)
         self._root.update()
 
-    def checkGoalState(self, node):
+    def checkGoalState(self, nodeId):
         """
         Check if the given node is a goal state.
 
         Parameters:
-            node: The node to be checked.
+            node: The ID of the node to be checked.
 
         Returns:
             bool: True if the node is a goal state, False otherwise.
         """
-        if(node.isGoalState):
-            return True
+        if(nodeId in self._worldObj.nodeMap.keys()):
+            node = self._worldObj.getNode(nodeId)
+            if(node.isGoalState):
+                return True
+            else:
+                return False
         else:
             return False
 
 
-    def moveAgent(self, node, delay:int=1):
+    def moveAgent(self, nodeId, delay:int=1):
         """
         Moves the agent to the specified node.
 
         Args:
-            node: The node to which the agent should be moved.
+            nodeId: The ID of the node to which the agent should be moved.
             delay (optional): The delay (in seconds) before moving to the next node. Default is 1 second.
 
         Returns:
             bool: True if the agent was successfully moved to the node, False otherwise.
         """
-        if(node is not None):
+        if(nodeId in self._worldObj.nodeMap.keys()):
+            node = self._worldObj.nodeMap[nodeId]
             time.sleep(delay)
             parent = self._currentNode
             self._updateHeatMap(parent)
