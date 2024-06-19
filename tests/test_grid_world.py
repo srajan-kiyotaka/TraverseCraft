@@ -50,13 +50,13 @@ class TestGridWorld(unittest.TestCase):
         block_path = [[1, 1], [2, 2], [3, 3], [2, 7], [8, 5], [6, 1]]
         
         # Add the block path to the grid world
-        self.grid_world.addBlockPath(block_path)
+        self.grid_world.setBlockPath(block_path)
 
         # Define the goal state to be added
         goal_state = [[5, 5], [6, 9], [8, 8]]
         
         # Add the goal state to the grid world
-        self.grid_world.addGoalState(goal_state)
+        self.grid_world.setGoalState(goal_state)
 
         # Construct the grid world
         self.grid_world.constructWorld()
@@ -80,7 +80,7 @@ class TestGridWorld(unittest.TestCase):
         block_path = [[1, 1], [2, 2], [3, 3], [2, 7], [8, 5], [6, 1]]
         
         # Add the block path to the grid world
-        self.grid_world.addBlockPath(block_path)
+        self.grid_world.setBlockPath(block_path)
         
         # Verify that the cells corresponding to the block path are set correctly
         for coordinate in block_path:
@@ -98,7 +98,7 @@ class TestGridWorld(unittest.TestCase):
         goal_state = [[5, 5], [6, 9], [8, 8]]
         
         # Add the goal state to the grid world
-        self.grid_world.addGoalState(goal_state)
+        self.grid_world.setGoalState(goal_state)
         
         # Verify that the cells corresponding to the goal state are set correctly
         for coordinate in goal_state:

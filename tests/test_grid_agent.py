@@ -10,10 +10,10 @@ class TestGridAgent(unittest.TestCase):
         self.grid_world = CreateGridWorld(worldName='Test Grid', rows=10, cols=10, cellSize=20, pathColor="black", blockColor="pink", goalColor="aqua", cellPadding=4, borderWidth=2, buttonBgColor="#7FC8D9", buttonFgColor="#332942", textFont="Helvetica", textSize=20, textWeight="bold", buttonText="Test Start Agent", logoPath=None)
         
         # Set goal state
-        self.grid_world.addGoalState([[5, 5], [6, 9], [8, 8]])
+        self.grid_world.setGoalState([[5, 5], [6, 9], [8, 8]])
 
         # Set block state
-        self.grid_world.addBlockPath([[1, 1], [2, 2], [3, 3], [2, 7], [8, 5], [6, 1]])
+        self.grid_world.setBlockPath([[1, 1], [2, 2], [3, 3], [2, 7], [8, 5], [6, 1]])
 
         # Construct the grid world
         self.grid_world.constructWorld()

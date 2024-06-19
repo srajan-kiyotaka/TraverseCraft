@@ -279,7 +279,7 @@ class CreateGridWorld:
         agentThread.start()
 
 
-    def addBlockPath(self, blockCells:setOfCoordinates):
+    def setBlockPath(self, blockCells:setOfCoordinates):
         """
         Adds block cells to the world grid.
 
@@ -299,7 +299,7 @@ class CreateGridWorld:
             self._world[i][j] = -1
 
 
-    def addGoalState(self, goalState:setOfCoordinates):
+    def setGoalState(self, goalState:setOfCoordinates):
         """
         Adds the goal state to the world grid.
 

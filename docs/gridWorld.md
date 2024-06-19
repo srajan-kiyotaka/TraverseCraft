@@ -69,9 +69,9 @@ This method constructs the graphical user interface (GUI) representation of the 
 
 - `None`
 
-### `addBlockPath(self, blockCells:setOfCoordinates)`
+### `setBlockPath(self, blockCells:setOfCoordinates)`
 
-Adds block cells to the world grid, which are cells that cannot be traversed by an agent. It takes a set of coordinates representing the block cells and visually updates the grid to reflect these changes by coloring the corresponding cells in red.
+sets block cells to the world grid, which are cells that cannot be traversed by an agent. It takes a set of coordinates representing the block cells and visually updates the grid to reflect these changes by coloring the corresponding cells in red.
 
 #### Parameters
 
@@ -81,9 +81,9 @@ Adds block cells to the world grid, which are cells that cannot be traversed by 
 
 - `None`
 
-### `addGoalState(self, goalState:setOfCoordinates)`
+### `setGoalState(self, goalState:setOfCoordinates)`
 
-Adds goal cells to the world grid, which represents the target states an agent aims to reach. It takes a set of coordinates representing the goal cells and updates the grid by coloring these cells in green to visually differentiate them from other cells.
+sets goal cells to the world grid, which represents the target states an agent aims to reach. It takes a set of coordinates representing the goal cells and updates the grid by coloring these cells in green to visually differentiate them from other cells.
 
 #### Parameters
 
