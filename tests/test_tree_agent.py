@@ -87,22 +87,16 @@ class TestTreeAgent(unittest.TestCase):
 
     def test_check_goal_state(self):
         # Check goal state
-        self.assertFalse(self.agent.checkGoalState(self.agent._treeRoot))  # The root node should be a goal state
-        self.assertTrue(self.agent.checkGoalState(self.treeWorld.getNode('G')))  # The node 'G' should be a goal state
+        self.assertFalse(self.agent.checkGoalState(self.agent._treeRoot.id))  # The root node should be a goal state
+        self.assertTrue(self.agent.checkGoalState("G"))  # The node 'G' should be a goal state
 
     def test_move_agent(self):
-        # Get pointers to nodes 'B', 'D', and 'E' using self.treeWorld.getNode()
-        node_B = self.treeWorld.getNode('B')
-        node_C = self.treeWorld.getNode('C')
-        node_D = self.treeWorld.getNode('D')
-        node_E = self.treeWorld.getNode('E')
-
         # Move the agent
         self.assertFalse(self.agent.moveAgent(None))  # Move to None should fail
-        self.assertTrue(self.agent.moveAgent(node_B))  # Move to node 'B' should succeed
-        self.assertTrue(self.agent.moveAgent(node_C))  # Move to node 'C' should succeed
-        self.assertTrue(self.agent.moveAgent(node_D))  # Move to node 'D' should succeed
-        self.assertTrue(self.agent.moveAgent(node_E))  # Move to node 'E' should succeed
+        self.assertTrue(self.agent.moveAgent("B"))  # Move to node 'B' should succeed
+        self.assertTrue(self.agent.moveAgent("C"))  # Move to node 'C' should succeed
+        self.assertTrue(self.agent.moveAgent("D"))  # Move to node 'D' should succeed
+        self.assertTrue(self.agent.moveAgent("E"))  # Move to node 'E' should succeed
 
 if __name__ == '__main__':
     unittest.main()

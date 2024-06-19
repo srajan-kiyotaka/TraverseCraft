@@ -88,10 +88,8 @@ class TestGraphAgent(unittest.TestCase):
         self.assertTrue(True)
 
     def test_check_goal_state(self):
-        goal_node = self.graphWorld.getNode("G")
-        non_goal_node = self.graphWorld.getNode("A")
-        self.assertTrue(self.agent.checkGoalState(goal_node))
-        self.assertFalse(self.agent.checkGoalState(non_goal_node))
+        self.assertTrue(self.agent.checkGoalState("G"))
+        self.assertFalse(self.agent.checkGoalState("A"))
 
     def test_set_start_state(self):
         self.agent.setStartState("B")
@@ -104,18 +102,12 @@ class TestGraphAgent(unittest.TestCase):
             self.agent.setStartState("Z")  # Assuming "Z" is not a valid node ID
     
     def test_move_agent(self):
-        # Get pointers to nodes 'B', 'D', and 'E' using self.graphWorld.getNode()
-        node_B = self.graphWorld.getNode('B')
-        node_C = self.graphWorld.getNode('C')
-        node_D = self.graphWorld.getNode('D')
-        node_E = self.graphWorld.getNode('E')
-
         # Move the agent
         self.assertFalse(self.agent.moveAgent(None))  # Move to None should fail
-        self.assertTrue(self.agent.moveAgent(node_B))  # Move to node 'B' should succeed
-        self.assertTrue(self.agent.moveAgent(node_C))  # Move to node 'C' should succeed
-        self.assertTrue(self.agent.moveAgent(node_D))  # Move to node 'D' should succeed
-        self.assertTrue(self.agent.moveAgent(node_E))  # Move to node 'E' should succeed
+        self.assertTrue(self.agent.moveAgent("B"))  # Move to node 'B' should succeed
+        self.assertTrue(self.agent.moveAgent("C"))  # Move to node 'C' should succeed
+        self.assertTrue(self.agent.moveAgent("D"))  # Move to node 'D' should succeed
+        self.assertTrue(self.agent.moveAgent("E"))  # Move to node 'E' should succeed
 
 if __name__ == '__main__':
     unittest.main()
