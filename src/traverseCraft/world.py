@@ -189,6 +189,8 @@ class CreateGridWorld:
         about.add_row(["Cell Size", self._cellSize])
         about.add_row(["Cell Padding", self._cellPadding])
         about.add_row(["Window Size", f"{self._windowHeight}x{self._windowWidth}"])
+        about.add_row(["Goal Cells", self._goalCells])
+        about.add_row(["Block Cells", self._blockCells])
         about.add_row(["Path Color", self._pathColor])
         about.add_row(["Block Color", self._blockColor])
         about.add_row(["Goal Color", self._goalColor])

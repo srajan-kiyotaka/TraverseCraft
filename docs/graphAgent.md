@@ -73,23 +73,23 @@ The getHeatMapColor method determines and returns the color representation corre
 - **Returns**:
   - `tuple`: The RGB color value for the given value on the heat map.
 
-### `checkGoalState(self, node)`
+### `checkGoalState(self, nodeId)`
 
-This method checks whether a given node within the graph represents a goal state for the agent. It takes a GraphNode object as its parameter and evaluates whether the node's isGoalState attribute is True. If the node is identified as a goal state, the method returns True; otherwise, it returns False. This check allows the agent to assess its progress towards predefined objectives within the graph.
+This method checks whether a given node within the graph represents a goal state for the agent.
 
 - **Parameters**:
-  - `node` (`GraphNode`): The node to be checked.
+  - `nodeId`: The ID of the node to be checked.
 
 - **Returns**:
   - `bool`: True if the node is a goal state, False otherwise.
 
-### `moveAgent(self, node, delay:int=1)`
+### `moveAgent(self, nodeId, delay:int=1)`
 
 The moveAgent method directs the agent to navigate from its current node to a specified node within the graph. It includes an optional delay parameter that introduces a pause (in seconds) before the agent proceeds to the next node. During the movement process, the method updates the heat map visualization to reflect the agent's path and increments the heat map value of the current node. If successful, the method returns True; otherwise, it returns False if the specified node is None, indicating a failed attempt to move.
 
 - **Parameters**:
-  - `node` (`GraphNode`): The node to which the agent should be moved.
-  - `delay` (`int`, optional): The delay (in seconds) before moving to the next node. Defaults to 1 second.
+  - `nodeId`: The ID of the node to which the agent should be moved.
+  - `delay` (`float`, optional): The delay (in seconds) before moving to the next node. Defaults to 1 second.
 
 - **Returns**:
   - `bool`: True if the agent was successfully moved to the node, False otherwise.
