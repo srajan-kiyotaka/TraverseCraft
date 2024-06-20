@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name='TraverseCraft',
-    version='0.8.5',
+    version='0.9.5',
     author='Srajan Chourasia, Varun Patrikar',
     author_email='srajanstark.ash@gmail.com, patrikarvarun@gmail.com',
     maintainer='Srajan Chourasia, Varun Patrikar',

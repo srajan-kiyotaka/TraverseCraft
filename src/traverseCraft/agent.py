@@ -568,7 +568,7 @@ class GraphAgent():
         _heatMapBaseColor (str): The base color of the heat map.
         _heatGradient (float): The gradient value for the heat map.
         _currentNode (GraphNode): The current node the agent is on.
-        _graphRoot (GraphNode): The root node of the graph.
+        _startState (GraphNode): The start node of the graph.
         algorithmCallBack (function): Callback function for the agent's algorithm.
         _startTime (float): The start time of the agent.
         _endTime (float): The end time of the agent.
@@ -590,8 +590,8 @@ class GraphAgent():
             self._currentNode = self._worldObj.getNode(startNodeId)
         else:
             self._currentNode = self._worldObj.nodeMap[list(self._worldObj.nodeMap.keys())[0]]
-        self._graphRoot = self._currentNode
-        self._worldObj.changeNodeColor(self._graphRoot.id, self._agentColor)
+        self._startState = self._currentNode
+        self._worldObj.changeNodeColor(self._startState.id, self._agentColor)
         # ~~~~~~~~~~ Base Heat Map Color ~~~~~~~~~~ #
         if self._heatMapView:
             BR, BG, BB = int(self._heatMapColor[1:3], 16), int(self._heatMapColor[3:5], 16), int(self._heatMapColor[5:7], 16)
@@ -635,7 +635,7 @@ class GraphAgent():
         about.add_row(["Agent Color", self._agentColor])
         about.add_row(["World Name", self._worldObj._worldName])
         about.add_row(["World ID", self._worldID])
-        about.add_row(["Start Node ID", self._graphRoot.id])
+        about.add_row(["Start Node ID", self._startState.id])
         return str(about)
 
     def summary(self):
@@ -666,10 +666,13 @@ class GraphAgent():
 
         """
         if nodeId in self._worldObj._position.keys():
-            self._worldObj.changeNodeColor(self._graphRoot.id, self._worldObj._nodeColor)
+            if self._startState.isGoalState:
+                self._worldObj.changeNodeColor(self._startState.id, self._worldObj._goalColor)
+            else:
+                self._worldObj.changeNodeColor(self._startState.id, self._worldObj._nodeColor)
             self._currentNode = self._worldObj.getNode(nodeId)
-            self._graphRoot = self._currentNode
-            self._worldObj.root = self._graphRoot
+            self._startState = self._currentNode
+            self._worldObj.root = self._startState
             self._worldObj.changeNodeColor(nodeId, self._agentColor)
         else:
             raise ValueError("Invalid start state!")
@@ -695,7 +698,7 @@ class GraphAgent():
         """
         if self.algorithmCallBack is None:
             raise ValueError("Algorithm Call Back Function not set!")
-        self._graphRoot._heatMapValue = 1
+        self._startState._heatMapValue = 1
         self._startTime = time.time()
         self.algorithmCallBack()
         self._endTime = time.time()
