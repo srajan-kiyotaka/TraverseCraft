@@ -29,14 +29,16 @@
   </h1>
 </center>
 
-TraverseCraft is a ***cross-platform simulation tool*** written in Python, designed as a library for simulating various algorithms in real time. TraverseCraft allows users to create custom worlds, populate them with agents, and observe how different algorithms operate within these environments. The library leverages the [tkinter](https://docs.python.org/3/library/tkinter.html#module-tkinter) library for ***fast and responsive simulations***. Whether you're a student, educator, or researcher, TraverseCraft provides an intuitive framework to create, visualize, and interact with different world type using their respective agents. 
+**TraverseCraft** is a ***versatile***, ***cross-platform*** library written in Python for creating *static*, *animated*, and *interactive visualizations*. Designed as a *robust simulation tool*, **TraverseCraft** allows users to build custom virtual worlds, populate them with agents, and observe real-time behaviors of various algorithms, including those in artificial intelligence (AI), reinforcement learning (RL), and machine learning (ML).
 
-Please visit the our official [website](https://github.com/srajan-kiyotaka/TraverseCraft/tree/main) for more information.
+Powered by the ***[tkinter](https://docs.python.org/3/library/tkinter.html#module-tkinter)*** library, **TraverseCraft** ensures *fast and responsive simulations*, making it ideal for students, educators, and researchers. Its intuitive framework enables users to easily generate, visualize, and interact with diverse world types and their respective agents, facilitating the study and development of advanced AI, RL, and ML algorithms.
+
+Please visit the our official ***[website](https://github.com/srajan-kiyotaka/TraverseCraft/tree/main)*** for more information.
 
 ## Features
 
 - **Cross-Platform:** TraverseCraft operates seamlessly on various operating systems, ensuring a consistent experience for all users.
-- **High Performance**: Built on the [Tkinter](https://docs.python.org/3/library/tkinter.html#module-tkinter) library for fast and responsive simulations.
+- **High Performance**: Built on the ***[Tkinter](https://docs.python.org/3/library/tkinter.html#module-tkinter)*** library for fast and responsive simulations.
 - **Real-Time Algorithm Simulation:** Test and visualize the workings of your algorithms, such as search algorithms, in real time.
 - **Dynamic Summaries and Heatmap:** Automatically generate summaries and heatmap to track agent movements and node visits dynamically.
 - **Customizable World Generation:** Create and customize diverse worlds to suit your simulation needs.
