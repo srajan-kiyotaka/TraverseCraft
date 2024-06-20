@@ -589,7 +589,7 @@ class GraphAgent():
         if startNodeId is not None:
             self._currentNode = self._worldObj.getNode(startNodeId)
         else:
-            self._currentNode = self._worldObj.root
+            self._currentNode = self._worldObj.nodeMap[list(self._worldObj.nodeMap.keys())[0]]
         self._graphRoot = self._currentNode
         self._worldObj.changeNodeColor(self._graphRoot.id, self._agentColor)
         # ~~~~~~~~~~ Base Heat Map Color ~~~~~~~~~~ #
