@@ -94,7 +94,7 @@ class TestGraphAgent(unittest.TestCase):
     def test_set_start_state(self):
         self.agent.setStartState("B")
         self.assertEqual(self.agent._currentNode.id, "B")
-        self.assertEqual(self.agent._graphRoot.id, "B")
+        self.assertEqual(self.agent._startState.id, "B")
         self.assertEqual(self.graphWorld.root.id, "B")
 
     def test_set_start_state_invalid(self):
