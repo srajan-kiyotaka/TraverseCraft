@@ -22,10 +22,6 @@ jobs:
         os: [ubuntu-latest]
         python-version: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
         exclude:
-          - os: macos-latest
-            python-version: "3.6"
-          - os: windows-latest
-            python-version: "3.6"
           - os: ubuntu-latest
             python-version: "3.6"
 
@@ -56,11 +52,3 @@ jobs:
         run: |
           sudo apt-get install -y xvfb
           xvfb-run -a python -m unittest discover -s tests
-
-      - name: Run tests on macOS
-        if: runner.os == 'macOS'
-        run: python -m unittest discover -s tests
-
-      - name: Run tests on Windows
-        if: runner.os == 'Windows'
-        run: python -m unittest discover -s tests
