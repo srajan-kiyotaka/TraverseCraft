@@ -1,8 +1,8 @@
 # Contributing to TraverseCraft
 
-We welcome you to get more involved with the TraverseCraft project! If you are new to contributing, we recommend that you first read our [contributing guide](). If you are contributing code or documentation, please follow our guides for setting up and managing a development environment and workflow. For code, documentation, or triage, please follow the corresponding [contribution guidelines]().
+We welcome you to get more involved with the TraverseCraft project! If you are new to contributing, we recommend that you first read our [contributing guide](https://harrionparrix.github.io/traversecraft/contribute/contribution-guide.html). If you are contributing code or documentation, please follow our guides for setting up and managing a development environment and workflow. For code, documentation, or triage, please follow the corresponding [contribution guidelines](https://harrionparrix.github.io/traversecraft/contribute/index.html).
 
-## [Ways to Contribute to TraverseCraft]()
+## [Ways to Contribute to TraverseCraft](https://harrionparrix.github.io/traversecraft/contribute/ways-to-contribute.html)
 
 ### 1. Optimizing and Refactoring Code
 Improve the performance and maintainability of TraverseCraft.
@@ -19,18 +19,18 @@ Identify and resolve issues to improve TraverseCraft stability.
 ### 5. Requesting and Implementing New Features
 Suggest and add new functionalities to the project.
 
-## [Contribution Types]()
+## [Contribution Types](https://harrionparrix.github.io/traversecraft/contribute/index.html)
 
-### [Bug Reports]()
+### [Bug Reports](https://github.com/srajan-kiyotaka/TraverseCraft/issues/new?assignees=&labels=bug&projects=&template=bug_report.md&title=%5BBUG%5D)
 Report bugs to help us improve TraverseCraft. Please provide detailed information about the issue and steps to reproduce it.
 
-### [New Feature Requests]()
+### [New Feature Requests](https://github.com/srajan-kiyotaka/TraverseCraft/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.md&title=%5BFEATURE%5D)
 Suggest new features to enhance TraverseCraft. Provide a clear description and potential use cases.
 
-### [Documentation Updates]()
+### [Documentation Updates](https://github.com/srajan-kiyotaka/TraverseCraft/issues/new?assignees=&labels=documentation&projects=&template=documentation-template.md&title=%5BDOCUMENTATION%5D)
 Help us keep the documentation up-to-date and clear. Report any issues or submit changes directly.
 
-## Setting Up the Environment
+## [Setting Up the Environment for Development](https://harrionparrix.github.io/traversecraft/contribute/dev-setup.html)
 
 ### Manually
 
@@ -91,7 +91,7 @@ Help us keep the documentation up-to-date and clear. Report any issues or submit
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     ```
 
-## Testing Guidelines
+## [Testing Guidelines](https://harrionparrix.github.io/traversecraft/contribute/testing.html)
 
 1. **Setting Up the Testing Environment**
    - Ensure all necessary dependencies are installed and the testing framework is configured.
@@ -114,7 +114,7 @@ Help us keep the documentation up-to-date and clear. Report any issues or submit
 7. **Best Practices**
    - Write atomic, repeatable tests with clear assertions to maintain code quality.
 
-## Write Documentation
+## [Write Documentation](https://harrionparrix.github.io/traversecraft/contribute/documentation.html)
 
 1. **Method or Feature Docstring Update**
    - Whenever a new method or feature is added, ensure that the corresponding docstring is updated. This maintains the readability and reliability of the codebase.
@@ -128,7 +128,7 @@ Help us keep the documentation up-to-date and clear. Report any issues or submit
 4. **Requesting Website Update**
    - Whenever a new method or feature is added, ensure that a request is made to update the project's website with the new feature.
 
-## Pull Request Guidelines
+## [Pull Request Guidelines](https://harrionparrix.github.io/traversecraft/contribute/pull-requests.html)
 
 1. **Title and Description**
    - Ensure that the pull request has a clear and concise title, along with a detailed description of the changes being made. This helps reviewers understand the context and purpose of the pull request.
@@ -160,7 +160,7 @@ Help us keep the documentation up-to-date and clear. Report any issues or submit
   - We encourage all community members to engage actively in discussions, provide feedback, and support fellow contributors and users.
 
 - **Discussion**
-  - Join our [Discussions](LINK_TO_DISCUSSIONS_PAGE) page to ask questions, share ideas, and stay updated on project announcements.
+  - Join our [Discussions](https://github.com/srajan-kiyotaka/TraverseCraft/discussions) page to ask questions, share ideas, and stay updated on project announcements.
 
 - **Announcements**
   - Important project updates, releases, and news are shared on our Discussions page. Stay informed and participate in discussions.
@@ -175,8 +175,10 @@ Help us keep the documentation up-to-date and clear. Report any issues or submit
 
 For more information on how to contribute to TraverseCraft, please see the following sections:
 
-- **[Contributing Guidelines](LINK_TO_CONTRIBUTING_GUIDELINES)**
-- **[Setting Up for Development](LINK_TO_SETUP_GUIDE)**
-- **[Testing Guidelines](LINK_TO_TESTING_GUIDELINES)**
-- **[Write Documentation](LINK_TO_DOCUMENTATION_GUIDE)**
-- **[Pull Request Guidelines](LINK_TO_PULL_REQUEST_GUIDELINES)**
+- **[Contributing Guidelines](https://harrionparrix.github.io/traversecraft/contribute/contribution-guide.html)**
+- **[Setting Up for Development](https://harrionparrix.github.io/traversecraft/contribute/dev-setup.html)**
+- **[Testing Guidelines](https://harrionparrix.github.io/traversecraft/contribute/testing.html)**
+- **[Write Documentation](https://harrionparrix.github.io/traversecraft/contribute/documentation.html)**
+- **[Pull Request Guidelines](https://harrionparrix.github.io/traversecraft/contribute/pull-requests.html)**
+- **[Contribute](https://harrionparrix.github.io/traversecraft/contribute/index.html)**
+- **[Ways to Contribute](https://harrionparrix.github.io/traversecraft/contribute/ways-to-contribute.html)**
