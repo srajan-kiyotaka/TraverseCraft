@@ -25,7 +25,7 @@
 
 <center>
   <h1>
-  Traverse Craft
+    Traverse Craft
   </h1>
 </center>
 
@@ -33,7 +33,7 @@
 
 Powered by the ***[tkinter](https://docs.python.org/3/library/tkinter.html#module-tkinter)*** library, **TraverseCraft** ensures *fast and responsive simulations*, making it ideal for students, educators, and researchers. Its intuitive framework enables users to easily generate, visualize, and interact with diverse world types and their respective agents, facilitating the study and development of advanced AI, RL, and ML algorithms.
 
-Please visit the our official ***[website](https://github.com/srajan-kiyotaka/TraverseCraft/tree/main)*** for more information.
+Please visit the our official ***[website](https://harrionparrix.github.io/traversecraft/index.html)*** for more information.
 
 ## Features
 
@@ -57,7 +57,11 @@ TraverseCraft currently supports the creation and simulation of three distinct w
 | Tree World  | A hierarchical tree structure, perfect for visualizing tree traversal algorithms.     |
 | Graph World | A versatile graph structure allowing for complex network simulations and algorithm testing. |
 
-Each world type is equipped with specialized agents designed to interact within these environments, enabling comprehensive testing and visualization of algorithms.
+Each world type is equipped with specialized agents designed to interact within these environments, enabling comprehensive testing and visualization of algorithms. For more information about each class and methods please refer to [API Reference](https://harrionparrix.github.io/traversecraft/references/world/World.html) section.
+
+## Feature Snippets
+
+<!-- Include the gifs for our library features. -->
 
 ## Installation
 
@@ -66,61 +70,74 @@ To install Traverse Craft, simply run:
 ### Using pip
 
 ```bash
-pip install traversecraft
+pip install TraverseCraft
 ```
 
 ### Using conda
 
 ```bash
-conda install -c conda-forge traverse-craft
+conda install -c conda-forge TraverseCraft
 ```
 
-For detailed installation instructions, refer to our [installation guide]().
+For detailed installation instructions, refer to our [installation guide](https://harrionparrix.github.io/traversecraft/getting-started/index.html).
 
 ## Getting Started
 
-If you are new to Traverse Craft, start with the [tutorial]() available in our online documentation. The documentation includes a [tutorial](), [example gallery](), [API reference](), FAQ, and other useful information.
+If you are new to Traverse Craft, start with the [Quick Start](https://harrionparrix.github.io/traversecraft/getting-started/quick-start.html) available in our website. For more detailed information and learning please refer to the [Tutorials](https://harrionparrix.github.io/traversecraft/user-guide/index.html), [API reference](https://harrionparrix.github.io/traversecraft/references/world/World.html), [FAQ](https://harrionparrix.github.io/traversecraft/user-guide/faq/index.html), and view [Release](https://harrionparrix.github.io/traversecraft/releases/release-1.html) for more information.
 
-To build the documentation locally, please refer to [docs/ReadMe.md](docs/ReadMe.md).
+To build and see the documentation locally, please refer to [docs/ReadMe.md](docs/ReadMe.md).
 
-Explore the source code for deeper insights, or reach out to our community for help. For further assistance, visit our online documentation.
+Explore the source code for deeper insights, or reach out to our [community](https://github.com/srajan-kiyotaka/TraverseCraft/discussions) for help. For further assistance, visit our official [website](https://harrionparrix.github.io/traversecraft/index.html).
 
-## Discussion and Development
+## Development
 
-Most development discussions take place on GitHub in this repository via the [GitHub issue tracker](https://github.com/srajan-kiyotaka/TraverseCraft/issues).
+All the details related to contributing to the library are [**Contributor's Toolkit**](https://harrionparrix.github.io/traversecraft/contribute/index.html). Please refer to this section as this section contains information about [Ways to Contribute](https://harrionparrix.github.io/traversecraft/contribute/ways-to-contribute.html), [Development Setup](https://harrionparrix.github.io/traversecraft/contribute/dev-setup.html), [Testing Guidelines](https://harrionparrix.github.io/traversecraft/contribute/testing.html), [Write Documentation](https://harrionparrix.github.io/traversecraft/contribute/documentation.html), [Pull Request Guidelines](https://harrionparrix.github.io/traversecraft/contribute/pull-requests.html), and [Code of Conduct](https://harrionparrix.github.io/traversecraft/contribute/code-of-conduct.html). If you are unable to access the above links you can also refer to the [Contribution Guide](./CONTRIBUTING.md) locally.
 
-We also have a [discussion page]() for quick development-related questions, and regular community meetings open to all contributors.
+Most development discussions take place on GitHub in this library via the [Discussion Page](https://github.com/srajan-kiyotaka/TraverseCraft/discussions).
 
-For more detailed information on communication channels, please visit our [contributor community page]().
+
+### Development Setup
+
+#### Manual Installation
+
+You can manually set up the development environment using the following steps:
+
+1. Fork the repository.
+2. Clone your repository into your local machine.
+3. Change the directory to the cloned repository.
+  ```bash
+    cd TraverseCraft
+  ```
+4. Create a virtual environment.
+5. Activate the virtual environment.
+6. Install the dependencies:
+  ```bash
+    pip install prettytable
+  ```
 
 To set up a development environment using Docker, follow these steps:
 
-1. Clone the repository:
+1. Build the Docker image:
 
 ```sh
-git clone https://github.com/your-repo-link
-cd traverse-craft
+  docker build -t traverse-craft:latest .
 ```
 
-2. Build the Docker image:
+2. Run the Docker container:
 
 ```sh
-docker build -t traverse-craft:latest .
+  docker run -it --rm traverse-craft:latest
 ```
 
-3. Run the Docker container:
-
-```sh
-docker run -it --rm traverse-craft:latest
-```
+3. Follow step 1 to 5 of manual installation.
 
 ## Contributing to Traverse Craft
 
-We welcome all contributions, including bug reports, bug fixes, documentation improvements, enhancements, and ideas.
+We welcome all contributions, including [bug reports](https://github.com/srajan-kiyotaka/TraverseCraft/issues/new?assignees=&labels=bug&projects=&template=bug_report.md&title=%5BBUG%5D), [bug fixes](https://github.com/srajan-kiyotaka/TraverseCraft/issues), [documentation improvements](https://github.com/srajan-kiyotaka/TraverseCraft/issues/new?assignees=&labels=documentation&projects=&template=documentation-template.md&title=%5BDOCUMENTATION%5D), [enhancements](https://github.com/srajan-kiyotaka/TraverseCraft/issues), and [ideas](https://github.com/srajan-kiyotaka/TraverseCraft/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.md&title=%5BFEATURE%5D).
 
-Start by reading our [contributing guide]().
+Start by reading our [contributing guide](https://harrionparrix.github.io/traversecraft/contribute/contribution-guide.html).
 
-If you have discovered a bug or have a feature request, please submit an issue on GitHub. For more detailed contribution instructions, visit our [contribution page]().
+If you have discovered a bug or have a feature request, please submit an issue on GitHub. For more detailed contribution instructions, visit our [contribution page](https://harrionparrix.github.io/traversecraft/contribute/index.html).
 
 ## Citing Traverse Craft
 
