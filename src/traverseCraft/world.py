@@ -613,7 +613,7 @@ class CreateTreeWorld:
         # Ensure all nodes in 'adj' and 'goals' are in 'position'
         position_keys = set(position.keys())
         adj_keys = set(adj.keys())
-        root_key = set(treeWorldInfo['root'])
+        root_key = set([treeWorldInfo['root']])
         goals_set = set(goals)
         
         if not root_key.issubset(position_keys):
