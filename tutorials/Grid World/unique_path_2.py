@@ -26,10 +26,11 @@ def uniquePaths(m:int, n:int, agent:GridAgent)->int:
     return solver(m, n, 0, 0, agent)
 
 if __name__ == "__main__":
-    m = 3
+    m = 4
     n = 7
-    world = CreateGridWorld(worldName = "Leetcode Unique Paths", rows = m, cols = n, cellSize = 36)
+    world = CreateGridWorld(worldName = "Unique Paths 2", rows = m, cols = n, cellSize = 36)
     world.constructWorld()
+    world.setBlockPath([[0,5], [2,2], [1,4], [3,5]])
     agent = GridAgent(world, agentName = "Robot")
     def sim():
         print("Starting the simulation!")

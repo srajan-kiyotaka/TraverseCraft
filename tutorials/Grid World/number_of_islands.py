@@ -49,7 +49,7 @@ if __name__ == "__main__":
             else:
                 land.append([i, j])
 
-    world = CreateGridWorld(worldName = "Leetcode Number of Islands", rows = n, cols = m, cellSize = 36)
+    world = CreateGridWorld(worldName = "Number of Islands", rows = n, cols = m, cellSize = 36)
     world.constructWorld()
     world.setBlockPath(water)
     world.setGoalState(land)

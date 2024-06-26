@@ -48,7 +48,7 @@ if __name__ == "__main__":
         },
         'goals': [7, 9]
     }
-    world = CreateTreeWorld(worldName = "Leetcode Lowest Common Ancestor of a Binary Tree", worldInfo = treeInfo, radius = 30)
+    world = CreateTreeWorld(worldName = "Lowest Common Ancestor of a Binary Tree", worldInfo = treeInfo, radius = 30)
     world.constructWorld()
     agent = TreeAgent(world, agentName = "Robot")
     world.setAgent(agent)
