@@ -53,9 +53,9 @@ TraverseCraft currently supports the creation and simulation of three distinct w
 
 | World Type  | Description                                                                           |
 |-------------|---------------------------------------------------------------------------------------|
-| Grid World  | A structured grid layout where agents can navigate based on grid coordinates.         |
-| Tree World  | A hierarchical tree structure, perfect for visualizing tree traversal algorithms.     |
-| Graph World | A versatile graph structure allowing for complex network simulations and algorithm testing. |
+| Grid World  |A customizable simulation of a grid environment for testing algorithms and agent navigation, with options for path, goal, and block states to mimic various grid scenarios.  |
+| Tree World  | A visualized tree data structure, perfect for experimenting with various tree-based algorithms. It offers customizable weights, positions, and appearance for flexible and detailed tree like simulations.     |
+| Graph World | A visualized graph data structure, perfect for experimenting with various graph-based algorithms. It offers customizable weights, edges, positions, and appearance for flexible and detailed graph like simulations.  |
 
 Each world type is equipped with specialized agents designed to interact within these environments, enabling comprehensive testing and visualization of algorithms. For more information about each class and methods please refer to [API Reference](https://harrionparrix.github.io/traversecraft/references/world/World.html) section.
 
