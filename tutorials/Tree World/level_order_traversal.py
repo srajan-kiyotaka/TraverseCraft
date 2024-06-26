@@ -52,7 +52,7 @@ if __name__ == "__main__":
         },
         'goals': []
     }
-    world = CreateTreeWorld(worldName="Leetcode Binary Tree Level Order Traversal", worldInfo=treeInfo, radius=30)
+    world = CreateTreeWorld(worldName="Binary Tree Level Order Traversal", worldInfo=treeInfo, radius=30)
     world.constructWorld()
     agent = TreeAgent(world, agentName="TraversalAgent")
     world.setAgent(agent)
