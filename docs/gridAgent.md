@@ -46,19 +46,25 @@ Sets the start state of the agent to the specified position (i, j) on the grid w
 
 Sets the callback function for the agent's algorithm.
 
-### `runAlgorithm()`
+### `checkGoalState(i: int, j: int)`
 
-Executes the callback function set by `setAlgorithmCallBack()`. Raises `ValueError` if the callback function is not set.
-
-### `getHeatMapColor(value: float)`
-
-Maps a numeric value to a color on the heat map.
+Checks if the specified position (i, j) on the grid world is a goal state.
 
 - Args:
-  - `value` (float): The value to be mapped.
-
+  - `i` (int): The row index of the target position.
+  - `j` (int): The column index of the target position.
 - Returns:
-  - `str`: The RGB color string representing the mapped value on the heat map.
+  - `bool`: True if the position is a goal state, False otherwise.
+
+### `checkBlockState(i: int, j: int)`
+
+Checks if the specified position (i, j) on the grid world is a block state.
+
+- Args:
+  - `i` (int): The row index of the target position.
+  - `j` (int): The column index of the target position.
+- Returns:
+  - `bool`: True if the position is a block state, False otherwise.
 
 ### `moveAgent(i: int, j: int, delay: float=0.5)`
 
@@ -77,8 +83,13 @@ Moves the agent to the specified position (i, j) on the grid world.
 These methods are not intended to be directly called by users but support the functionality of the class:
 
 - `_warmerColor(color: str, sValue: float)`: Generates a warmer color from the given color based on saturation value.
-- `checkGoalState(i: int, j: int)`: Checks if the specified position (i, j) on the grid world is a goal state.
-- `checkBlockState(i: int, j: int)`: Checks if the specified position (i, j) on the grid world is blocked or empty.
+- `runAlgorithm()`: Executes the callback function set by `setAlgorithmCallBack()`. Raises `ValueError` if the callback function is not set.
+
+- `getHeatMapColor(value: float)`: Maps a numeric value to a color on the heat map.
+- Args:
+  - `value` (float): The value to be mapped.
+- Returns:
+  - `str`: The RGB color string representing the mapped value on the heat map.
 
 
 ## Usage

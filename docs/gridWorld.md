@@ -13,7 +13,7 @@ Class representing the world created using grids.
 - `worldName` (`str`): The name of the world.
 - `rows` (`int`): The number of rows in the world (between 1 and 1000).
 - `cols` (`int`): The number of columns in the world (between 1 and 1000).
-- `cellSize` (`int`, optional): Size of each cell in pixels (default: 10, between 10 and 50).
+- `cellSize` (`int`, optional): Size of each cell in pixels (default: 20, between 10 and 50).
 - `pathColor` (`str`, optional): Color of path cells (default: "gray").
 - `blockColor` (`str`, optional): Color of block cells (default: "red").
 - `goalColor` (`str`, optional): Color of goal cells (default: "green").
