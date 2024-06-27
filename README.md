@@ -1,21 +1,21 @@
 <picture align="center">
-  <img alt="Traverse Craft Logo" src="https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/src/traverseCraft/icons/logo/traverseCraftLandscapeLogo.png">
+  <img alt="Traverse Craft Logo" src="src/traverseCraft/icons/logo/traverseCraftLandscapeLogo.png">
 </picture>
 
 <!-- ![Build Status](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/.github/workflows/python-app.yml/badge.svg) -->
 [![Built with Python](https://img.shields.io/badge/Built%20with-Python-blue.svg)](https://www.python.org/)
 [![Made with Python](https://img.shields.io/badge/Python->=3.6-blue?logo=python&logoColor=white)](https://python.org "Go to Python homepage")
 ![Library Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![PyPI version](https://badge.fury.io/py/traverse-craft.svg)
-![Conda Version](https://img.shields.io/conda/v/conda-forge/traverse-craft)
+![PyPI version](https://badge.fury.io/py/TraverseCraft.svg)
+![Conda Version](https://img.shields.io/conda/v/conda-forge/TraverseCraft)
 ![Supported OS](https://img.shields.io/badge/OS-Windows%20%7C%20MacOS%20%7C%20Linux-0078D6.svg)
 ![Supported OS: Windows](https://img.shields.io/badge/Windows-%234285F4.svg?logo=windows&logoColor=white)
 ![Supported OS: macOS](https://img.shields.io/badge/macOS-%23000000.svg?logo=apple&logoColor=white)
 ![Supported OS: Linux](https://img.shields.io/badge/Linux-%23FCC624.svg?logo=linux&logoColor=black)
-[![view - Documentation](https://img.shields.io/badge/view-Documentation-blue)](/docs/ReadMe.md "Go to library documentation")
+[![view - Documentation](https://img.shields.io/badge/view-Documentation-blue)](https://harrionparrix.github.io/traversecraft/references/world/World.html "Go to library documentation")
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/LICENCE)
 ![Last Commit](https://img.shields.io/github/last-commit/srajan-kiyotaka/TraverseCraft.svg)
-[![GitHub Repo Stars](https://img.shields.io/github/stars/srajan-kiyotaka/TraverseCraft.svg?style=social)](https://github.com/srajan-kiyotaka/Pothole-Mapping-Project)
+[![GitHub Repo Stars](https://img.shields.io/github/stars/srajan-kiyotaka/TraverseCraft.svg?style=social)](https://github.com/srajan-kiyotaka/TraverseCraft)
 [![GitHub Forks](https://img.shields.io/github/forks/srajan-kiyotaka/TraverseCraft.svg?style=social)](https://github.com/srajan-kiyotaka/TraverseCraft)
 ![Algorithm Simulation](https://img.shields.io/badge/Algorithm%20Simulation-%2300aaff.svg)
 ![AI/ML Simulation](https://img.shields.io/badge/AI/ML%20Simulation-%23ff4081.svg)
@@ -29,9 +29,9 @@
   </h1>
 </center>
 
-**TraverseCraft** is a ***versatile***, ***cross-platform*** library written in Python for creating *static*, *animated*, and *interactive visualizations*. Designed as a *robust simulation tool*, **TraverseCraft** allows users to build custom virtual worlds, populate them with agents, and observe real-time behaviors of various algorithms, including those in artificial intelligence (AI), reinforcement learning (RL), and machine learning (ML).
+[**TraverseCraft**](https://github.com/srajan-kiyotaka/TraverseCraft) is a ***versatile***, ***cross-platform*** library written in Python for creating *static*, *animated*, and *interactive visualizations*. Designed as a *robust simulation tool*, [**TraverseCraft**](https://github.com/srajan-kiyotaka/TraverseCraft) allows users to build custom virtual worlds, populate them with agents, and observe real-time behaviors of various algorithms, including those in artificial intelligence (AI), reinforcement learning (RL), and machine learning (ML).
 
-Powered by the ***[tkinter](https://docs.python.org/3/library/tkinter.html#module-tkinter)*** library, **TraverseCraft** ensures *fast and responsive simulations*, making it ideal for students, educators, and researchers. Its intuitive framework enables users to easily generate, visualize, and interact with diverse world types and their respective agents, facilitating the study and development of advanced AI, RL, and ML algorithms.
+Powered by the ***[tkinter](https://docs.python.org/3/library/tkinter.html#module-tkinter)*** library, [**TraverseCraft**](https://github.com/srajan-kiyotaka/TraverseCraft) ensures *fast and responsive simulations*, making it ideal for students, educators, and researchers. Its intuitive framework enables users to easily generate, visualize, and interact with diverse world types and their respective agents, facilitating the study and development of advanced AI, RL, and ML algorithms.
 
 Please visit the our official ***[website](https://harrionparrix.github.io/traversecraft/index.html)*** for more information.
 
