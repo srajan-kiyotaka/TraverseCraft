@@ -2,13 +2,13 @@
   <img alt="Traverse Craft Logo" src="https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/src/traverseCraft/icons/logo/traverseCraftLandscapeLogo.png">
 </picture> -->
 
-![Traverse Craft Logo](https://github.com/srajan-kiyotaka/TraverseCraft/blob/sracho/src/traverseCraft/icons/logo/traverseCraftLandscapeLogo.png)
+[![Traverse Craft Logo](https://github.com/srajan-kiyotaka/TraverseCraft/blob/sracho/src/traverseCraft/icons/logo/traverseCraftLandscapeLogo.png)](https://harrionparrix.github.io/traversecraft/index.html)
 
 <!-- ![Build Status](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/.github/workflows/python-app.yml/badge.svg) -->
 [![Built with Python](https://img.shields.io/badge/Built%20with-Python-blue.svg)](https://www.python.org/)
 [![Made with Python](https://img.shields.io/badge/Python->=3.6-blue?logo=python&logoColor=white)](https://python.org "Go to Python homepage")
-![Library Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![PyPI version](https://badge.fury.io/py/TraverseCraft.svg)
+![Library Version](https://img.shields.io/badge/version-1.0.1-blue.svg)
+[![PyPI version](https://badge.fury.io/py/TraverseCraft.svg)](https://badge.fury.io/py/TraverseCraft)
 <!-- ![Conda Version](https://img.shields.io/conda/v/conda-forge/TraverseCraft) -->
 ![Supported OS](https://img.shields.io/badge/OS-Windows%20%7C%20MacOS%20%7C%20Linux-0078D6.svg)
 ![Supported OS: Windows](https://img.shields.io/badge/Windows-%234285F4.svg?logo=windows&logoColor=white)
