@@ -1,5 +1,5 @@
 <picture align="center">
-  <img alt="Traverse Craft Logo" src="src/traverseCraft/icons/logo/traverseCraftLandscapeLogo.png">
+  <img alt="Traverse Craft Logo" src="https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/src/traverseCraft/icons/logo/traverseCraftLandscapeLogo.png">
 </picture>
 
 <!-- ![Build Status](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/.github/workflows/python-app.yml/badge.svg) -->

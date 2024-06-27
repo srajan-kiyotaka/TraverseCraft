@@ -5,20 +5,20 @@ with open("README.md", "r") as f:
 
 setup(
     name='TraverseCraft',
-    version='1.1.0',
+    version='1.2.1',
     author='Srajan Chourasia, Varun Patrikar',
     author_email='srajanstark.ash@gmail.com, patrikarvarun@gmail.com',
-    maintainer='Srajan Chourasia, Varun Patrikar',
-    maintainer_email='srajanstark.ash@gmail.com, patrikarvarun@gmail.com',
-    description='TraverseCraft: Cross-Platform Real-Time Algorithm Simulation Tool',
+    maintainer='Varun Patrikar, Srajan Chourasia',
+    maintainer_email='patrikarvarun@gmail.com, srajanstark.ash@gmail.com',
+    description='A Cross-Platform Real-Time Algorithm Simulation Tool',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://official-website.com',  # Official website
+    url='https://harrionparrix.github.io/traversecraft/',  # Official website
     project_urls={
-        'Documentation': 'https://docs.traverseCraft.com',
+        'Documentation': 'https://harrionparrix.github.io/traversecraft/user-guide/index.html',
         'Source': 'https://github.com/srajan-kiyotaka/TraverseCraft/tree/main',
-        'Tracker': 'https://github.com/srajan-kiyotaka/TraverseCraft/tree/main/issues',
-        'Reference': 'https://reference.traverseCraft.com',
+        'Tracker': 'https://github.com/srajan-kiyotaka/TraverseCraft/issues',
+        'Reference': 'https://harrionparrix.github.io/traversecraft/references/world/World.html',
     },
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
