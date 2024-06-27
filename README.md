@@ -64,10 +64,10 @@ Each world type is equipped with specialized agents designed to interact within 
 | <center> <a href='tutorials/Graph World/dijkstra.py'>Dijkstra Algorithm</a> </center> | <center> <a href='tutorials/Tree World/level_order_traversal.py'> Level Order Traversal Algorithm </a> </center> |
 |-|-|
 | <img src='resources/dijkstra.gif' alt='Dijkstra Algorithm'> |<img src='resources/level_order.gif' alt='Level Order Traversal Algorithm'>|
-| <center> <a href='tutorials/Grid World/number_of_islands.py'>A Star Algorithm</a> </center> | <center> <a href='tutorials/Grid World/unique_path.py'> Unique Path Traversal Algorithm </a> </center> |
+| <center> <a href='tutorials/Grid World/a_star.py'>A Star Algorithm</a> </center> | <center> <a href='tutorials/Grid World/unique_path.py'> Unique Path Traversal Algorithm </a> </center> |
 | <img src='resources/AStar.gif' alt='A Star Algorithm'> |<img src='resources/unique_paths.gif' alt='Unique Paths Algorithm'>|
 
-Check out more in our [**Example**](https://harrionparrix.github.io/traversecraft/user-guide/examples/index.html) section!
+Check out more in our [**Example**](https://harrionparrix.github.io/traversecraft/user-guide/examples/index.html) section on our [website](https://harrionparrix.github.io/traversecraft/index.html)!
 
 
 
