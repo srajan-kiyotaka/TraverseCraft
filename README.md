@@ -7,7 +7,7 @@
 <!-- ![Build Status](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/.github/workflows/python-app.yml/badge.svg) -->
 [![Built with Python](https://img.shields.io/badge/Built%20with-Python-blue.svg)](https://www.python.org/)
 [![Made with Python](https://img.shields.io/badge/Python->=3.6-blue?logo=python&logoColor=white)](https://python.org "Go to Python homepage")
-![Library Version](https://img.shields.io/badge/version-1.0.1-blue.svg)
+![Library Version](https://img.shields.io/badge/version-1.0.3-blue.svg)
 [![PyPI version](https://badge.fury.io/py/TraverseCraft.svg)](https://badge.fury.io/py/TraverseCraft)
 ![Supported OS](https://img.shields.io/badge/OS-Windows%20%7C%20MacOS%20%7C%20Linux-0078D6.svg)
 ![Supported OS: Windows](https://img.shields.io/badge/Windows-%234285F4.svg?logo=windows&logoColor=white)
