@@ -1,11 +1,15 @@
 from setuptools import setup, find_packages
+from pathlib import Path
 
-with open("README.md", "r") as f:
-    long_description = f.read()
+# with open("README.md", "r") as f:
+#     long_description = f.read()
+
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='TraverseCraft',
-    version='1.0.1',
+    version='1.0.3',
     author='Srajan Chourasia, Varun Patrikar',
     author_email='srajanstark.ash@gmail.com, patrikarvarun@gmail.com',
     maintainer='Varun Patrikar, Srajan Chourasia',
