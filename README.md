@@ -81,12 +81,6 @@ To install Traverse Craft, simply run:
 pip install TraverseCraft
 ```
 
-### Using conda
-
-```bash
-conda install -c conda-forge TraverseCraft
-```
-
 For detailed installation instructions, refer to our [installation guide](https://harrionparrix.github.io/traversecraft/getting-started/index.html).
 
 ## Getting Started
