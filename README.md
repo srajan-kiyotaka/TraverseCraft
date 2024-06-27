@@ -61,11 +61,11 @@ Each world type is equipped with specialized agents designed to interact within 
 
 ## Examples
 
-| <center> <a href='tutorials/Graph World/dijkstra.py'>Dijkstra Algorithm</a> </center> | <center> <a href='tutorials/Tree World/level_order_traversal.py'> Level Order Traversal Algorithm </a> </center> |
+| <center> <a href='https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/tutorials/Graph%20World/dijkstra.py'>Dijkstra Algorithm</a> </center> | <center> <a href='https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/tutorials/Tree%20World/level_order_traversal.py'> Level Order Traversal Algorithm </a> </center> |
 |-|-|
-| <img src='resources/dijkstra.gif' alt='Dijkstra Algorithm'> |<img src='resources/level_order.gif' alt='Level Order Traversal Algorithm'>|
-| <center> <a href='tutorials/Grid World/a_star.py'>A Star Algorithm</a> </center> | <center> <a href='tutorials/Grid World/unique_path.py'> Unique Path Traversal Algorithm </a> </center> |
-| <img src='resources/AStar.gif' alt='A Star Algorithm'> |<img src='resources/unique_paths.gif' alt='Unique Paths Algorithm'>|
+| <img src='https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/resources/dijkstra.gif' alt='Dijkstra Algorithm'> |<img src='https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/resources/level_order.gif' alt='Level Order Traversal Algorithm'>|
+| <center> <a href='https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/tutorials/Grid%20World/a_star.py'>A Star Algorithm</a> </center> | <center> <a href='https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/tutorials/Grid%20World/unique_path.py'> Unique Path Traversal Algorithm </a> </center> |
+| <img src='https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/resources/AStar.gif' alt='A Star Algorithm'> |<img src='https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/resources/unique_paths.gif' alt='Unique Paths Algorithm'>|
 
 Check out more in our [**Example**](https://harrionparrix.github.io/traversecraft/user-guide/examples/index.html) section on our [website](https://harrionparrix.github.io/traversecraft/index.html)!
 
