@@ -1,5 +1,5 @@
 <picture align="center">
-  <img alt="Traverse Craft Logo" src="src/traverseCraft/icons/logo/traverseCraftLandscapeLogo.png">
+  <img alt="Traverse Craft Logo" src="https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/src/traverseCraft/icons/logo/traverseCraftLandscapeLogo.png">
 </picture>
 
 <!-- ![Build Status](https://github.com/srajan-kiyotaka/TraverseCraft/blob/main/.github/workflows/python-app.yml/badge.svg) -->
@@ -125,19 +125,24 @@ You can manually set up the development environment using the following steps:
 
 To set up a development environment using Docker, follow these steps:
 
-1. Build the Docker image:
+1. Pull the Docker image from Docker Hub:
 
 ```sh
-  docker build -t traverse-craft:latest .
+  docker pull your-username/traversecraf-dev:latest
 ```
 
 2. Run the Docker container:
 
 ```sh
-  docker run -it --rm traverse-craft:latest
+  docker run -it --name traversecraft-dev-container -v $(pwd):/workspace your-username/traversecraf-dev:latest
 ```
 
 3. Follow step 1 to 5 of manual installation.
+
+> Note: To Access the running container:
+> ```sh
+> docker exec -it traversecraft-dev-container /bin/bash
+> ```
 
 ## Contributing to Traverse Craft
 

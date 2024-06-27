@@ -1,0 +1,15 @@
+cff-version: 1.0.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Chourasia"
+    given-names: "Srajan"
+    orcid: "https://orcid.org/0009-0000-1440-3554"
+  - family-names: "Patrikar"
+    given-names: "Varun"
+    # orcid: "https://orcid.org/0000-0001-2345-6789" # Replace with actual ORCID if available
+title: "Traverse Craft: A Cross-Platform Simulation Tool"
+version: "1.0.0"
+date-released: "2024-06-27"
+url: "https://github.com/srajan-kiyotaka/TraverseCraft"
+abstract: "TraverseCraft is a versatile, cross-platform library written in Python for creating static, animated, and interactive visualizations. Designed as a robust simulation tool, TraverseCraft allows users to build custom virtual worlds, populate them with agents, and observe real-time behaviors of various algorithms, including those in artificial intelligence (AI), reinforcement learning (RL), and machine learning (ML)."
+keywords: ["simulation", "visualization", "Algorithm", "AI", "ML", "RL"]
